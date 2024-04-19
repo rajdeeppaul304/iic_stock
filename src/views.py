@@ -1,7 +1,7 @@
 from flask import Blueprint, send_file, request, render_template
 
 routes = Blueprint("views", __name__)
-
+ServerStartStop = False #dhruv dekh lio kya karna hai, isko implement kardio
 
 @routes.route("/")
 def index():
@@ -13,4 +13,4 @@ def login():
 
 @routes.route("/admin")
 def admin():
-    return render_template("admin.html")
+    return render_template("admin.html", ServerStartStop=ServerStartStop)

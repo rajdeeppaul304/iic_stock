@@ -10,3 +10,7 @@ def index():
 @routes.route("/login")
 def login():
     return render_template("login.html")
+
+@routes.route("/admin")
+def admin():
+    return render_template("admin.html")

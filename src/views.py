@@ -2,10 +2,16 @@ from flask import Blueprint, send_file, request, render_template, jsonify
 
 routes = Blueprint("views", __name__)
 ServerStartStop = False #dhruv dekh lio kya karna hai, isko implement kardio
+name= "Rajdeep" #dhruv dekh lio kya karna hai, isko implement kardio
+current_balance = 1000.10 #dhruv dekh lio kya karna hai, isko implement kardio
+
 
 @routes.route("/")
 def index():
-    return render_template("index.html")
+    items = [f'Item {i + 1}' for i in range(20)]
+    return render_template('index.html', items=items, current_balance=current_balance, name=name)
+
+    # return render_template("index.html")
 
 @routes.route("/login")
 def login():

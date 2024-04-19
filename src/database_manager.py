@@ -10,7 +10,7 @@ class Database():
     # whats hashing?
     def add_user(self, name:str, email:str, password:str, intial_balance:float):
         with open(self.file, "r") as database:
-            user_data_dict = json.load(database)["Users"]
+            user_data_dict = json.load(database)
 
         if not user_data_dict.get(email):
             user_data_dict[email] = {"name":name, "password":password, "balance":intial_balance}

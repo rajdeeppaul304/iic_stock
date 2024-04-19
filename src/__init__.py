@@ -4,9 +4,12 @@ from .database_manager import Database
 
 manager = Database("database.json")
 manager.add_user("rajdeep", "rajdeep@gmail.com", "password", 10000)
+
 # siquirity
 admin_pass = "password"
 
+manager.buy_stocks("dhruvdubey32@gmail.com", 104, 10)
+manager.dump_data()
 
 def start():
     app = Flask(__name__)

@@ -1,8 +1,12 @@
-from flask import Blueprint, send_file, request
+from flask import Blueprint, send_file, request, render_template
 
 routes = Blueprint("views", __name__)
 
 
 @routes.route("/")
 def index():
-    return "I hate my life"
+    return render_template("index.html")
+
+@routes.route("/login")
+def login():
+    return render_template("login.html")

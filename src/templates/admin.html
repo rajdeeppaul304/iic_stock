@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,50 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
+
 <body>
     <section class="w-full flex justify-center bg-[#111827] h-12 m-0 p-0">
         <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if ServerStartStop %}checked{% endif %}>
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if ServerStartStop %}checked{%
+                endif %}>
+            <div
+                class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start Server</span>
         </label>
     </section>
-    <script>
-        document.getElementById('serverCheckbox').addEventListener('change', function() {
+
+    <section class="bg-[#111827] text-white">
+        <div class="flex justify-center mb-4">
+            <input id="searchInput" type="text" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 text-black" placeholder="Search">
+            <button id="searchButton" class="px-4 py-2 ml-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Search</button>
+        </div>
+        {% for user in data %}
+        <form action="/update-user-balance" method="POST" class="myForm block items-center flex-col md:flex md:flex-row md:space-x-4 px-10 py-2">
+            <!-- Gmail icon -->
+            <div class="flex justify-center ">
+                {{ user.email }}
+                <input type="hidden" name="email" value="{{ user.email }}">
+            </div>
+        
+            <!-- Name -->
+            <div class="flex justify-center m-0 md:flex-1 md:block name-div">{{ user.name }}</div>
+        
+            <!-- Number input field -->
+            <div class="flex justify-center space-x-4">
+                <input type="number" name="number"
+                    class="numberInput w-24 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 text-black"
+                    placeholder="Add">
+                <!-- Button -->
+                <button type="submit"
+                    class="submitButton px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Confirm</button>
+            </div>
+        </form>
+        {% endfor %}
+            </section>
+
+<script>
+        document.getElementById('serverCheckbox').addEventListener('change', function () {
             const serverState = this.checked;
             fetch('/update-server', {
                 method: 'POST',
@@ -25,14 +60,62 @@
                 },
                 body: JSON.stringify({ ServerStartStop: serverState })
             })
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => console.log('Success:', data))
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         });
     </script>
-</body>
+<script>
+    // Select all forms with the class "myForm"
+    const forms = document.querySelectorAll('.myForm');
 
+    // Loop through each form and attach the submit event listener
+    forms.forEach(form => {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // Send form data to the backend
+            fetch("/update-user-balance", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response
+                console.log(data);
+                alert(data.message); // Show success message
+                // You can do further processing here if needed
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again."); // Show error message
+            });
+        });
+    });
+</script>
+<script>
+    document.getElementById("searchButton").addEventListener("click", function() {
+        const searchValue = document.getElementById("searchInput").value.toLowerCase();
+        const forms = document.querySelectorAll('.myForm');
+
+        forms.forEach(form => {
+            const email = form.querySelector('[name="email"]').value.toLowerCase();
+            const name = form.querySelector('.name-div').innerText.toLowerCase();
+
+            if (email.includes(searchValue) || name.includes(searchValue)) {
+                form.style.display = "flex";
+            } else {
+                form.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</body>
 
 </html>

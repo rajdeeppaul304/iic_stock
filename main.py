@@ -2,4 +2,4 @@ import src
 
 app = src.start()
 
-app.run()
+app.run(debug=True, port=3000)

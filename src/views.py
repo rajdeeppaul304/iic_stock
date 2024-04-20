@@ -26,6 +26,12 @@ stocks = [
     "XOM",   # Exxon Mobil Corporation
     "BABA"  # Alibaba Group Holding Limited
 ]
+data = [
+        {"email": "example1@gmail.com", "name": "John Doe"},
+        {"email": "example2@gmail.com", "name": "Jane Smith"},
+        {"email": "example3@gmail.com", "name": "Alice Johnson"}
+        # Add more data as needed
+    ]
 
 @routes.route("/")
 def index():
@@ -39,9 +45,36 @@ def index():
 def login():
     return render_template("login.html")
 
+@routes.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@routes.route("/owned_stocks")
+def owned_stocks():
+    return render_template("owned_stocks.html", items=stocks, current_balance=current_balance, name=name)
+
+
 @routes.route("/admin")
 def admin():
-    return render_template("admin.html", ServerStartStop=ServerStartStop)
+    return render_template("admin.html", ServerStartStop=ServerStartStop, data=data)
+
+@routes.route("/barter")
+def barter():
+    return render_template("barter.html", data=data)
+
+# your-backend-endpoint
+@routes.route("/update-user-balance", methods=['GET', 'POST'])
+def update_user_balance():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        number = request.form.get('number')
+        print(f"Gmail: {email}, Input Value: {number}")
+        # You can perform any further processing here
+        return jsonify({"message": "Form submitted successfully!", "email": email, "number": number})
+    return "Hello, please submit the form."
+
+
 
 @routes.route('/update-server', methods=['POST'])
 def update_server():

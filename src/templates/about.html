@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About the Developers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles */
+    .developer-card {
+      transition: transform 0.3s ease;
+    }
+    .developer-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex items-center justify-center">
+  <div class="container mx-auto p-8">
+    <h1 class="text-4xl font-bold mb-8 text-white text-center">Meet Our Amazing Team</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <!-- Developer 1 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+        <img src="https://via.placeholder.com/300" alt="Developer 1" class="w-full h-48 object-cover object-center">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2 text-purple-600">Developer 1</h2>
+          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
+        </div>
+      </div>
+      <!-- Developer 2 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+        <img src="https://via.placeholder.com/300" alt="Developer 2" class="w-full h-48 object-cover object-center">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2 text-purple-600">Developer 2</h2>
+          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
+        </div>
+      </div>
+      <!-- Developer 3 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+        <img src="https://via.placeholder.com/300" alt="Developer 3" class="w-full h-48 object-cover object-center">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2 text-purple-600">Developer 3</h2>
+          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

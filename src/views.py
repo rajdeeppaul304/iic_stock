@@ -4,12 +4,34 @@ routes = Blueprint("views", __name__)
 ServerStartStop = False #dhruv dekh lio kya karna hai, isko implement kardio
 name= "Rajdeep" #dhruv dekh lio kya karna hai, isko implement kardio
 current_balance = 1000.10 #dhruv dekh lio kya karna hai, isko implement kardio
-
+stocks = [
+    "AAPL",  # Apple Inc.
+    "TSLA",  # Tesla, Inc.
+    "AMZN",  # Amazon.com, Inc.
+    "GOOGL", # Alphabet Inc.
+    "MSFT",  # Microsoft Corporation
+    "FB",     # Facebook, Inc.
+    "NVDA",  # NVIDIA Corporation
+    "JNJ",    # Johnson & Johnson
+    "PFE",    # Pfizer Inc.
+    "KO",     # Coca-Cola Company
+    "NFLX",  # Netflix, Inc.
+    "DIS",    # Walt Disney Company
+    "BAC",    # Bank of America Corporation
+    "V",       # Visa Inc.
+    "PG",     # Procter & Gamble Company
+    "T",       # AT&T Inc.
+    "BRK.B", # Berkshire Hathaway Inc.
+    "GE",     # General Electric Company
+    "XOM",   # Exxon Mobil Corporation
+    "BABA"  # Alibaba Group Holding Limited
+]
 
 @routes.route("/")
 def index():
     items = [f'Item {i + 1}' for i in range(20)]
-    return render_template('index.html', items=items, current_balance=current_balance, name=name)
+    print(items)
+    return render_template('index.html', items=stocks, current_balance=current_balance, name=name)
 
     # return render_template("index.html")
 

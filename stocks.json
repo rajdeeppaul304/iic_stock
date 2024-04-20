@@ -1,0 +1,7 @@
+{
+	"1001": {"name":"AAPL", "full_name":"Apple Inc.", "description":"trash", "amount": 1000},
+	"1002": {"name":"TSLA", "full_name":"Tesla, Inc.", "description":"mid", "amount": 1000},
+	"1003": {"name":"AMZN", "full_name":"Amazon.com, Inc.", "description":"labour laws", "amount": 1000},
+	"1004": {"name":"GOOGL", "full_name":"Alphabet Inc.", "description":"data", "amount": 1000},
+	"1005": {"name":"MSFT", "full_name":"Microsoft Corporation", "description":"windows 🤮", "amount": 1000}
+}

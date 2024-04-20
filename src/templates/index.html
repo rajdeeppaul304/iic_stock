@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INDEX</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -46,30 +46,63 @@
                             <img src="{{ url_for('static', filename='images/search.svg') }}" alt="Search Icon">
 
                         </div>
-                        <input
-                        id="searchInput"
+                        <input id="searchInput"
                             class="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
                             placeholder=" " /><label
-                            class="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">Search For Stocks
+                            class="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-blue-gray-400 peer-focus:text-blue-500 before:border-blue-gray-200 peer-focus:before:!border-blue-500 after:border-blue-gray-200 peer-focus:after:!border-blue-500">Search
+                            For Stocks
                         </label>
                     </div>
                 </div>
 
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="itemsContainer">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 " id="itemsContainer">
                     {% for item in items %}
-                    <div class="items-class">
-                        <div class="flex justify-center bg-blue-200 p-4">
+                    <div class="items-class rounded-md overflow-hidden bg-blue-200">
+                        <div class="flex justify-center bg-blue-200 p-4 ">
                             <div class="font-bold item-head">{{ item }}</div>
+                        </div>
+                        <div class="flex bg-blue-200 px-4 ">
+                            <div class="font-bold item-head">Nvidea corp</div>
+                        </div>
+                        <div class="flex bg-blue-200 px-4 justify-end">
+                            <div class="font-bold item-head rounded-md bg-red-300 px-2">IT</div>
                         </div>
                         <div class="bg-blue-200 p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero,
                             quos!</div>
-                        <div class="flex bg-blue-200 p-4 justify-between">
-                            <div><button type="button" name="buy" value=`{{item}}`
-                                    class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">BUY</button>
+                        <div class="flex bg-blue-200 p-4 justify-center mb-2">
+
+                            <div class="custom-number-input h-10 w-32">
+
+                                <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                    <button data-action="decrement"
+                                        class=" bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe]  h-full w-20 rounded-l cursor-pointer ">
+                                        <span class="m-auto text-2xl font-thin">−</span>
+                                    </button>
+                                    <input type="number" id="item-{{ loop.index0 }}"
+                                        class="stock-amount border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
+                                        name="custom-input-number" value="0"></input>
+                                    <button data-action="increment"
+                                        class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
+                                        <span class="m-auto text-2xl font-thin">+</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div><button type="button" name="sell" value=`{{item}}`
-                                    class=" btn-confirm focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
+
+
+
+
+                        </div>
+
+
+                        <div class="flex bg-blue-200 p-4 justify-between">
+                            <div>
+                                <button type="button" name="buy" value=`{{item}}` id="buy-{{ loop.index0 }}"
+                                    class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
+                            </div>
+                            <div>
+                                <button type="button" name="sell" value=`{{item}}` id="sell-{{ loop.index0 }}"
+                                    class=" btn-confirm focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
                             </div>
                         </div>
                     </div>
@@ -117,6 +150,100 @@
             </div>
         </div>
     </div>
+
+    <div id="errorModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <!-- This element is to trick the browser into centering the modal contents. -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <!-- Confirmation Dialog -->
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="error-modal-title">
+                                Error
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500 confirmation-text">
+                                    please Enter a Valid amount.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="closeErrorButton" type="button"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        input[type='number']::-webkit-inner-spin-button,
+        input[type='number']::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .custom-number-input input:focus {
+            outline: none !important;
+        }
+
+        .custom-number-input button:focus {
+            outline: none !important;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+    </style>
+
+
+    <script>
+        function decrement(e) {
+            const btn = e.target.parentNode.parentElement.querySelector(
+                'button[data-action="decrement"]'
+            );
+            const target = btn.nextElementSibling;
+            let value = Number(target.value);
+            value--;
+            target.value = value;
+        }
+
+        function increment(e) {
+            const btn = e.target.parentNode.parentElement.querySelector(
+                'button[data-action="decrement"]'
+            );
+            const target = btn.nextElementSibling;
+            let value = Number(target.value);
+            value++;
+            target.value = value;
+        }
+
+        const decrementButtons = document.querySelectorAll(
+            `button[data-action="decrement"]`
+        );
+
+        const incrementButtons = document.querySelectorAll(
+            `button[data-action="increment"]`
+        );
+
+        decrementButtons.forEach(btn => {
+            btn.addEventListener("click", decrement);
+        });
+
+        incrementButtons.forEach(btn => {
+            btn.addEventListener("click", increment);
+        });
+    </script>
 
 
     <script>
@@ -170,10 +297,13 @@
             document.getElementById('confirmationModal').classList.remove('hidden');
             document.getElementById('confirmButton').setAttribute('value', itemId);
             document.getElementById('confirmButton').setAttribute('name', itemName);
-
-
-
         }
+
+        function showError() {
+            var modal = document.getElementById('errorModal');
+            document.getElementById('errorModal').classList.remove('hidden');
+        }
+
 
         // Function to hide confirmation popup
         function hideConfirmation() {
@@ -181,24 +311,57 @@
 
         }
 
-        // Attach event listeners to all buttons with the class 'btn-confirm'
-        var deleteButtons = document.querySelectorAll('.btn-confirm');
-        deleteButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var itemId = this.getAttribute('value');
-                var itemName = this.getAttribute('name');
-                if (itemName === "buy"){
-                    showConfirmation(itemId, itemName, "Are you sure you want to Buy this Stock?");
+        function hideError() {
+            document.getElementById('errorModal').classList.add('hidden');
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            for (let i = 0; i < 20; i++) {
+                const inputField = document.getElementById(`item-${i}`);
+                const buttonBuy = document.getElementById(`buy-${i}`);
+                const buttonSell = document.getElementById(`sell-${i}`);
+                // console.log(inputField, `item-${i}`);
+
+
+                buttonBuy.addEventListener('click', function () {
+                    if (inputField.value < 1 && this.value && !/^\d+$/.test(this.value) ) {
+                    console.log(inputField.value);
+                    showError()
                 }
                 else{
+                    console.log('Value from Button 1:', inputField.value);
+                    var itemId = this.getAttribute('value');
+                    var itemName = "buy"
+                    showConfirmation(itemId, itemName, "Are you sure you want to Buy this Stock?");
+
+                }
+
+
+                });
+
+                buttonSell.addEventListener('click', function () {
+                    if (inputField.value < 1 && this.value && !/^\d+$/.test(this.value) ) {
+                    console.log(inputField.value);
+                    showError()
+                }
+                else{
+                    console.log('Value from Button 2:', inputField.value);
+                    var itemId = this.getAttribute('value');
+                    var itemName = "sell"
                     showConfirmation(itemId, itemName, "Are you sure you want to Sell this Stock?");
 
                 }
-            });
+
+                });
+
+            }
+
         });
 
         // Attach event listener to cancel button
         document.getElementById('cancelButton').addEventListener('click', hideConfirmation);
+        document.getElementById('closeErrorButton').addEventListener('click', hideError);
 
         // Attach event listener to confirm button
         document.getElementById('confirmButton').addEventListener('click', function () {
@@ -234,6 +397,7 @@
 
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
 

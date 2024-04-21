@@ -39,8 +39,12 @@ class Database():
             if user_data_dict[email]["balance"] < 0:
                 return False
 
-            with open(self.file, "w") as database:
-                user_data_dict = json.dump(user_data_dict, database)
+            if not path.exists("transaction.lock"):
+                with open(self.file, "w") as database:
+                    user_data_dict = json.dump(user_data_dict, database)
+
+            else:
+                return False
 
         return True
 
@@ -67,8 +71,12 @@ class Database():
                 print("not enought stocks")
                 return False
 
-            with open(self.file, "w") as database:
-                user_data_dict = json.dump(user_data_dict, database)
+            if not path.exists("transaction.lock"):
+                with open(self.file, "w") as database:
+                    user_data_dict = json.dump(user_data_dict, database)
+
+            else:
+                return False
 
         return True
 
@@ -84,6 +92,23 @@ class Database():
                 json.dump(user_data_dict, database)
 
         else: print("could not find user")
+
+    def get_stocks(self) -> dict:
+        with open(self.stocks_file) as stocks:
+            stocks_dict = json.load(stocks)
+
+        return stocks_dict
+
+    def get_users(self) -> dict:
+        with open(self.file) as stocks:
+            user_data_dict = json.load(stocks)
+    
+        for user_data in user_data_dict.keys():
+            user_data["password"] = ""
+
+        print(user_data_dict)
+
+        return user_data_dict
 
     def dump_data(self):
         with open(self.file, "r") as database:

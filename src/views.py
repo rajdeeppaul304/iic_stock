@@ -23,37 +23,6 @@ def load_user(user_id):
 
     return None
 
-# name= "Rajdeep" #dhruv dekh lio kya karna hai, isko implement kardio
-# current_balance = 1000.10 #dhruv dekh lio kya karna hai, isko implement kardio
-# stocks = [
-#     "AAPL",  # Apple Inc.
-#     "TSLA",  # Tesla, Inc.
-#     "AMZN",  # Amazon.com, Inc.
-#     "GOOGL", # Alphabet Inc.
-#     "MSFT",  # Microsoft Corporation
-#     "FB",     # Facebook, Inc.
-#     "NVDA",  # NVIDIA Corporation
-#     "JNJ",    # Johnson & Johnson
-#     "PFE",    # Pfizer Inc.
-#     "KO",     # Coca-Cola Company
-#     "NFLX",  # Netflix, Inc.
-#     "DIS",    # Walt Disney Company
-#     "BAC",    # Bank of America Corporation
-#     "V",       # Visa Inc.
-#     "PG",     # Procter & Gamble Company
-#     "T",       # AT&T Inc.
-#     "BRK.B", # Berkshire Hathaway Inc.
-#     "GE",     # General Electric Company
-#     "XOM",   # Exxon Mobil Corporation
-#     "BABA"  # Alibaba Group Holding Limited
-# ]
-# data = [
-#         {"email": "example1@gmail.com", "name": "John Doe"},
-#         {"email": "example2@gmail.com", "name": "Jane Smith"},
-#         {"email": "example3@gmail.com", "name": "Alice Johnson"}
-#         # Add more data as needed
-#     ]
-
 user_id = "dhruvdubey32@gmail.com"
 
 manager = Database("database.json", "stocks.json")
@@ -61,11 +30,11 @@ manager = Database("database.json", "stocks.json")
 @routes.route("/")
 @login_required
 def index():
-    items = [f'Item {i + 1}' for i in range(20)]
-    stock_names = [val['name'] for (key, val) in manager.get_stocks().items()]
+    # stock_names = [val['name'] for (key, val) in manager.get_stocks().items()]
+    # print(manager.get_stocks())
     user_data = manager.get_users()[user_id]
 
-    return render_template('index.html', items=stock_names, current_balance=user_data["balance"], name=user_data["name"])
+    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
 @routes.route("/login", methods=["POST", "GET"])
 def login():
@@ -88,15 +57,57 @@ def login():
 def about():
     return render_template("about.html")
 
+
+@routes.route('/buy_stocks', methods=['POST'])
+@login_required
+def buy_stocks():
+    # Parse the JSON data sent on POST request
+    data = request.get_json()
+    
+    # Access the data
+    item_id = data['itemId']
+    number_of_stocks = data['number_of_stocks']
+
+    print(user_id, number_of_stocks)
+
+    print(manager.buy_stocks(email=user_id, stock_id=int(item_id) , amount=int(number_of_stocks)))
+    # setup an error here
+    return jsonify({"message": f"Stock purchased for {item_id} with {number_of_stocks} units."})
+
+
+@routes.route('/sell_stocks', methods=['POST'])
+@login_required
+def sell_stocks():
+    # Parse the JSON data sent on POST request
+    data = request.get_json()
+    
+    # Access the data
+    item_id = data['itemId']
+    number_of_stocks = data['number_of_stocks']
+
+    print(user_id, number_of_stocks)
+    print(manager.sell_stocks(email=user_id, stock_id=int(item_id) , amount=int(number_of_stocks)))
+    # setup an error here
+    return jsonify({"message": f"Stock sold for {item_id} with {number_of_stocks} units."})
+
+
 @routes.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("views.login"))
 
-# @routes.route("/owned_stocks")
-# def owned_stocks():
-#     return render_template("owned_stocks.html", items=stocks, current_balance=current_balance, name=name)
+@routes.route("/owned_stocks")
+def owned_stocks():
+    user_data = manager.get_users()[user_id]
+    items=user_data["stocks"]
+    stocks_data=manager.get_stocks()
+    dict_to_return = {}
+    for i,y in items.items():
+        dict_to_return[i] = stocks_data[i]
+        dict_to_return[i].update({"owned":y})
+
+    return render_template("owned_stocks.html", stocks_data=dict_to_return, current_balance=user_data["balance"], name=user_data["name"])
 #
 
 # @routes.route("/barter")
@@ -105,5 +116,5 @@ def logout():
 
 @routes.route("/test")
 def test():
-    return render_template("test.html", data=data)
+    return render_template("test.html")
 

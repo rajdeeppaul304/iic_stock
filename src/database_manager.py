@@ -1,6 +1,8 @@
 from os import path
 import json
 
+from flask_login import UserMixin
+
 class Database():
     def __init__(self, file:str, stocks_file:str) -> None:
         self.file = file
@@ -99,14 +101,13 @@ class Database():
 
         return stocks_dict
 
-    def get_users(self) -> dict:
+    def get_users(self, no_pass=True) -> dict:
         with open(self.file) as stocks:
             user_data_dict = json.load(stocks)
-    
-        for user_data in user_data_dict.keys():
-            user_data["password"] = ""
 
-        print(user_data_dict)
+        if no_pass:
+            for user_data in user_data_dict.values():
+                del user_data["password"]
 
         return user_data_dict
 
@@ -115,3 +116,12 @@ class Database():
             user_data_dict = json.load(database)
         
         print(json.dumps(user_data_dict, indent=4))
+
+
+
+class User(UserMixin):
+    def __init__(self, id:str|None) -> None:
+        self.id = id
+
+    def data(self, manager: Database) -> dict:
+        return manager.get_users()[self.id]

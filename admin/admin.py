@@ -24,5 +24,16 @@ def admin():
 
     return render_template("admin.html")
 
+# add render_template
+@app.route("/update-user-balance", methods=['GET', 'POST'])
+def update_user_balance():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        number = request.form.get('number')
+        print(f"Gmail: {email}, Input Value: {number}")
+        # You can perform any further processing here
+        return jsonify({"message": "Form submitted successfully!", "email": email, "number": number})
+
+    return "Hello, please submit the form."
 
 app.run(debug=True)

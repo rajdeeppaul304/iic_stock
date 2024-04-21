@@ -9,7 +9,6 @@
 
         {% for user in data %}
         <form action="/" method="POST" class="myForm block items-center flex-col md:flex md:flex-row md:space-x-4 px-10 py-2">
-            <!-- Gmail icon -->
             <div class="flex justify-center ">
                 {{ user.email }}
                 <input type="hidden" name="email" value="{{ user.email }}">

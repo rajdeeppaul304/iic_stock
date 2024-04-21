@@ -2,20 +2,32 @@
 
 {% block content %}
 
+<style>
+  /* Custom styles */
+  .developer-card {
+    transition: transform 0.3s ease;
+  }
+  .developer-card:hover {
+    transform: translateY(-5px);
+  }
 
+  /* Make the page full-screen and non-scrollable */
+  body {
+    overflow: hidden;
+  }
 
-  <style>
-    /* Custom styles */
-    .developer-card {
-      transition: transform 0.3s ease;
+  /* Adjust grid layout for mobile screens */
+  @media (max-width: 640px) {
+    body {
+    overflow: scroll;
+  }
+    .grid {
+      grid-template-columns: 1fr;
     }
-    .developer-card:hover {
-      transform: translateY(-5px);
-    }
-  </style>
+  }
+</style>
 
-  <div class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex items-center justify-center">
-
+<div class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex items-center justify-center">
 
   <div class="container mx-auto p-8">
     <h1 class="text-4xl font-bold mb-8 text-white text-center">Meet Our Amazing Team</h1>
@@ -46,5 +58,5 @@
       </div>
     </div>
   </div>
-
+</div>
 {% endblock %}

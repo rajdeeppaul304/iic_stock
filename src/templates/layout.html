@@ -1,42 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <style>
+        /* Custom styles for fixed navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999; /* Ensure the navbar is on top of other elements */
+            width: 100%;
+        }
 
+        /* Adjust main content padding to avoid overlapping with fixed navbar */
+        main {
+            padding-top: 64px; /* Adjust the value according to the height of your navbar */
+        }
+    </style>
 </head>
+
 <body>
     <nav class="bg-gray-800 text-white p-4">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">
-                <span class="font-semibold text-xl tracking-tight">IIC</span>
+                {% if current_balance %}
+                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">Current Balance: {{ current_balance }}</a>
+                {% else %}
+                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">IIC</a>
+                {% endif %}
             </div>
             <div class="hidden md:flex space-x-4">
-                <a href="#" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
-                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">Current Balance: {{current_balance}}</a>
-                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">notification</a>
+                <a href="/" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
+                <a href="/owned_stocks" class="hover:bg-gray-700 px-3 py-2 rounded-md">owned stocks</a>
+                <a href="/about" class="hover:bg-gray-700 px-3 py-2 rounded-md">about us</a>
+                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">trade notification</a>
             </div>
             <!-- Mobile menu button -->
-            <button class="md:hidden block text-gray-500 hover:text-white focus:text-white focus:outline-none">
+            <button class="md:hidden block text-gray-500 hover:text-white focus:text-white focus:outline-none" id="mobile-menu-btn">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
         </div>
+        <!-- Mobile menu -->
+        <div class="md:hidden" id="mobile-menu">
+            <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-700">Home</a>
+            <a href="/owned_stocks" class="block px-4 py-2 text-sm hover:bg-gray-700">Owned Stocks</a>
+            <a href="/about" class="block px-4 py-2 text-sm hover:bg-gray-700">About Us</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700">Trade Notification</a>
+        </div>
     </nav>
-    
+
     <main>
         {% block content %}
         {% endblock %}
-
     </main>
 
-
     <footer>
-
     </footer>
+
+    <script>
+                // Toggle mobile menu visibility
+                const mobileMenu = document.getElementById('mobile-menu');
+
+document.getElementById('mobile-menu-btn').addEventListener('click', function () {
+    mobileMenu.classList.toggle('hidden');
+});
+mobileMenu.classList.toggle('hidden');
+
+    </script>
 </body>
+
 </html>
+

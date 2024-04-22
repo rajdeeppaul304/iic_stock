@@ -81,7 +81,7 @@
                             <div class="font-bold item-head">{{ stock.full_name }}</div>
                         </div>
                         <div class="block sm:flex bg-blue-200 px-4 justify-between">
-                            <div class="font-bold item-head rounded-md bg-green-300 px-2 item-sector">
+                            <div class="font-bold item-head rounded-md bg-green-300 px-2 item-amount">
                                 ₹{{stock.amount|round(2)}}
                             </div>
                             <div class="font-bold item-head rounded-md bg-red-300 px-2 item-sector">{{stock.sector}}
@@ -305,7 +305,7 @@
             item = items[i];
             itemName = item.querySelector('.item-head').textContent || item.querySelector('.item-head').innerText;
             itemSector = item.querySelector('.item-sector').textContent || item.querySelector('.item-sector').innerText;
-
+            // console.log(itemSector)
             // Check if both name and sector match the filters
             if ((itemName.toUpperCase().indexOf(filterName) > -1 || filterName === '') &&
                 (itemSector.toUpperCase().indexOf(filterSector) > -1 || filterSector === 'ALL CATEGORIES')) {

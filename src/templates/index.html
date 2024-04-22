@@ -464,76 +464,44 @@
         let number_of_stocks = document.getElementById(`number-stock-${itemId}`)
         console.log(itemId, itemName, number_of_stocks.value)
 
-        // API requests still not configured
-        if (itemName === "buy") {
-            fetch('/buy_stocks', {
+        const handleResponse = (data) => {
+            if (data.success === 1) {
+                console.log(data.message);
+                hideConfirmation();
+                balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
+                if (itemName === "buy") {
+                    showSuccess("Successfully Bought The Stock Unit(s).");
+                } else if (itemName === "sell") {
+                    showSuccess("Successfully Sold The Stock Unit(s).");
+                }
+            } else {
+                console.log(data.message);
+                hideConfirmation();
+                if (itemName === "buy") {
+                    showError("Error: Not enough Balance");
+
+                } else if (itemName === "sell") {
+                    showError("Error: selling more than owned.");
+
+                }
+                showError("Error: Not enough Balance");
+            }
+        };
+
+        if (itemName === "buy" || itemName === "sell") {
+            fetch('/buy_sell_stocks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ itemId: itemId, number_of_stocks: number_of_stocks.value }),
+                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value }),
             })
                 .then(response => response.json())
-                .then(data => {
-                    if (data.success === 1) {
-                        console.log(data.message);
-                        hideConfirmation();
-
-                        if (data.refresh) {
-                            balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
-                        }
-                        showSuccess("Successfully Bought The Stock Unit(s).")
-
-                    }
-                    else {
-                        console.log(data.message);
-                        hideConfirmation();
-                        showError("Error: Not enough Balance")
-
-
-                    }
-
-                })
+                .then(handleResponse)
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-
         }
-
-        else if (itemName === "sell") {
-            fetch('/sell_stocks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ itemId: itemId, number_of_stocks: number_of_stocks.value }),
-            })
-                .then(response => response.json()) // Parse the JSON in the response
-                .then(data => {
-                    if (data.success === 1) {
-                        console.log(data.message);
-                        hideConfirmation();
-
-                        if (data.refresh) {
-                            balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
-                        }
-                        showSuccess("Successfully Sold The Stock Unit(s).")
-
-                    }
-                    else {
-                        console.log(data.message);
-                        hideConfirmation();
-                        showError("Error: Selling more than owned")
-                    }
-
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-
-        }
-
 
     });
 

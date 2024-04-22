@@ -70,41 +70,47 @@ def buy_stocks():
         return jsonify({
             "success":1,
             "remaining_balance":manager.get_users()[user_id]["balance"],
-            "message": f"Stock purchased for {item_id} with {number_of_stocks} units.",
-            "refresh": True 
+            "message": f"Stock purchased for {item_id} with {number_of_stocks} units."
         })
     else:
         return jsonify({
             "success":0,
-            "message": f"Error purchasing {item_id} with {number_of_stocks} units.",
-            "refresh": True 
+            "message": f"Error purchasing {item_id} with {number_of_stocks} units."
         })
 
 
 
-@routes.route('/sell_stocks', methods=['POST'])
+
+
+@routes.route('/buy_sell_stocks', methods=['POST'])
 @login_required
-def sell_stocks():
+def buy_sell_stocks():
     data = request.get_json()
     
     item_id = data['itemId']
     number_of_stocks = data['number_of_stocks']
+    action = data['action']  # Assuming 'buy' or 'sell'
 
-    print(user_id, number_of_stocks)
-    if manager.sell_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks)):
+    if action == "buy":
+        success_message = f"Stock purchased for {item_id} with {number_of_stocks} units."
+        success = manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
+    elif action == "sell":
+        success_message = f"Stock sold for {item_id} with {number_of_stocks} units."
+        success = manager.sell_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
+    else:
+        return jsonify({"success": 0, "message": "Invalid action."})
+
+    if success:
         return jsonify({
-            "success":1,
-            "remaining_balance":manager.get_users()[user_id]["balance"],
-            "message": f"Stock sold for {item_id} with {number_of_stocks} units.",
-            "refresh": True 
+            "success": 1,
+            "remaining_balance": manager.get_users()[user_id]["balance"],
+            "message": success_message
         })
     else:
         return jsonify({
-            "success":0,
-            "message": f"Error selling {item_id} with {number_of_stocks} units.",
-            "refresh": True 
+            "success": 0,
+            "message": f"Error {action}ing {item_id} with {number_of_stocks} units."
         })
-
 
 
 

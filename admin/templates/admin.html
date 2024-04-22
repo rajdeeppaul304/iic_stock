@@ -10,7 +10,7 @@
 <body class="bg-[#111827] h-screen">
     <section class="w-full flex justify-center bg-[#111827] h-12 m-0 p-0">
         <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if ServerStartStop %}checked{% endif %}>
+            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if server_state %}checked{% endif %}>
             <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start Server</span>
         </label>
@@ -46,8 +46,11 @@
             <button id="searchButton" class="px-4 py-2 ml-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Search</button>
         </div>
         {% for email, user in users_data.items() %}
+
         <form action="/update-user-balance" method="POST" class="myForm block items-center flex-col md:flex md:flex-row md:space-x-4 px-10 py-2">
             <!-- Gmail icon -->
+			<div class="flex justify-center ">{{loop.index0}}.</div>
+
             <div class="flex justify-center ">
                 {{ email }}
                 <input type="hidden" name="email" value="{{ email }}">
@@ -55,7 +58,7 @@
         
             <!-- Name -->
             <div class="flex justify-center m-0 md:flex-1 md:block name-div">{{ user.name }}</div>
-            <div class="flex justify-center m-0 md:flex-2 md:block name-div">{{ user.balance|round(3) }}</div>
+            <div class="flex justify-center m-0 md:flex-2 md:block name-div">{{ user.balance|round(2) }}</div>
 
             <!-- Number input field -->
             <div class="flex justify-center space-x-4">
@@ -68,7 +71,7 @@
             </div>
         </form>
         {% endfor %}
-            </section>
+	</section>
     <script>
         document.getElementById('stockForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
@@ -83,7 +86,7 @@
                 return;
             }
 
-            if (inputValue === '' || isNaN(inputValue)) {
+			if (inputValue === '' || (isNaN(inputValue))) {
             alert('Please type a valid number.');
             return;
         }
@@ -95,8 +98,8 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    option: selectedOption,
-                    quantity: inputValue
+                    stock_id: selectedOption,
+                    price: inputValue
                 })
             })
             .then(response => {
@@ -154,7 +157,7 @@ function handleFormSubmit(event) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: email, number: number }),
+        body: JSON.stringify({ email: email, add_balance: number }),
     })
     .then(response => response.json())
     .then(data => {

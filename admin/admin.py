@@ -1,6 +1,9 @@
+from re import A
 from flask import Flask, render_template, request, jsonify
+import database_manager
 import os
 
+manager = database_manager.Database("database.json", "stocks.json")
 lock_file = os.path.abspath("transaction.lock")
 
 def change_lock_state(file, new_state):
@@ -12,28 +15,38 @@ def change_lock_state(file, new_state):
         with open(file, "w") as file:
             print("locked")
 
-app = Flask(__name__, template_folder=os.path.abspath("admin/template"))
+def get_lock_state(file) -> bool:
+    return not os.path.exists(file)
+
+app = Flask(__name__, template_folder=os.path.abspath("admin/templates"))
 
 @app.route("/", methods=["GET","POST"])
 def admin():
     if request.method == "POST":
-        new_state = request.json.get('ServerStartStop')
+        new_state = request.get_json().get('ServerStartStop')
         print(f"New server state: {new_state}")
         change_lock_state(lock_file, new_state)
         return jsonify({"success": True, "newState": new_state})
 
-    return render_template("admin.html")
+    return render_template("admin.html", server_state=get_lock_state(lock_file), stocks_data=manager.get_stocks(), users_data=manager.get_users())
 
-# add render_template
-@app.route("/update-user-balance", methods=['GET', 'POST'])
+@app.route("/stock_submit", methods=["POST"])
+def stock_submit():
+    data = request.get_json()
+    print(data)
+    return jsonify({"message": "Form submitted successfully"})
+
+@app.route("/update-user-balance", methods=["POST"])
 def update_user_balance():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        number = request.form.get('number')
-        print(f"Gmail: {email}, Input Value: {number}")
-        # You can perform any further processing here
-        return jsonify({"message": "Form submitted successfully!", "email": email, "number": number})
+    data = request.get_json()
+    email = data.get('email')
+    number = data.get('add_balance')
 
-    return "Hello, please submit the form."
+    print(f"Gmail: {email}, Input Value: {number}")
+    # You can perform any further processing here
+    
+    manager.add_balance(email, int(number))
 
-app.run(debug=True)
+    return jsonify({"message": "Form submitted successfully!", "email": email, "add_balance": number})
+
+app.run(debug=True, port=5000)

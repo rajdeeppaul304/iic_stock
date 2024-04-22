@@ -66,12 +66,20 @@ def buy_stocks():
     item_id = data['itemId']
     number_of_stocks = data['number_of_stocks']
 
-    manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
+    if manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks)):
+        return jsonify({
+            "success":1,
+            "remaining_balance":manager.get_users()[user_id]["balance"],
+            "message": f"Stock purchased for {item_id} with {number_of_stocks} units.",
+            "refresh": True 
+        })
+    else:
+        return jsonify({
+            "success":0,
+            "message": f"Error purchasing {item_id} with {number_of_stocks} units.",
+            "refresh": True 
+        })
 
-    return jsonify({
-        "message": f"Stock purchased for {item_id} with {number_of_stocks} units.",
-        "refresh": True 
-    })
 
 
 @routes.route('/sell_stocks', methods=['POST'])

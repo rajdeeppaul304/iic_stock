@@ -1,2 +1,2 @@
 # iic_stock
-made by AIC
+made by Rajdeep Paul, Dhruv Dubey

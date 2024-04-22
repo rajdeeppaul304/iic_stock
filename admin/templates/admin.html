@@ -16,13 +16,13 @@
         </label>
     </section>
     <section>
-        <div class="bg-[#111827] relative block justify-left p-2 px-8 space-y-4 md:space-y-0 md:space-x-4 md:flex">
+        <form id="stockForm" class="bg-[#111827] relative block justify-left p-2 px-8 space-y-4 md:space-y-0 md:space-x-4 md:flex">
             <div class="relative md:w-4/12">
-                <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                    <option>Choose an option</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                <select id="stockSelect" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                    <option value="">Choose an option</option>
+                    {% for key, stock in stocks_data.items() %}
+                    <option value="{{key}}">{{stock.name}}</option>
+                    {% endfor %}
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12L6 8h8l-4 4z"/></svg>
@@ -30,24 +30,75 @@
             </div>
             <div class="md:w-4/12">
                 <div class="relative">
-                    <input type="number" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Enter a number">
+                    <input id="quantityInput" type="number" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Enter a number">
                 </div>
             </div>
             <div class="md:w-4/12 flex justify-end">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
                     Update Stock Value
                 </button>
             </div>
-        </div>
+        </form>
+        
         
 
 
           
     </section>
+
+    <script>
+        document.getElementById('stockForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get selected option value and input value
+            const selectedOption = document.getElementById('stockSelect').value;
+            const inputValue = document.getElementById('quantityInput').value;
+            
+            // Check if "Choose an option" is selected
+            if (selectedOption === '') {
+                alert('Please choose an option.');
+                return;
+            }
+
+            if (inputValue === '' || isNaN(inputValue)) {
+            alert('Please type a valid number.');
+            return;
+        }
+            
+            // Send form data to server
+            fetch('/stock_submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    option: selectedOption,
+                    quantity: inputValue
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Optionally, you can handle the response here
+                console.log('Form submitted successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Optionally, you can handle the error here
+            });
+    
+            // Reset the form
+            this.reset();
+        });
+    </script>
+    
+
+
     <script>
         document.getElementById('serverCheckbox').addEventListener('change', function() {
             const serverState = this.checked;
-            fetch('/admin', {
+            fetch('/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,6 +112,7 @@
             });
         });
     </script>
+
 </body>
 
 

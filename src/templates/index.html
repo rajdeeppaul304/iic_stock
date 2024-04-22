@@ -407,21 +407,28 @@
         // API requests still not configured
         if (itemName==="buy") {
             fetch('/buy_stocks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ itemId: itemId, number_of_stocks: number_of_stocks.value }),
-        })
-            .then(response => response.json()) // Parse the JSON in the response
-            .then(data => {
-                // Process the data received from the server
-                console.log(data.message); // Access the 'message' key from the JSON response
-                hideConfirmation()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ itemId: itemId, number_of_stocks: number_of_stocks.value }),
+})
+    .then(response => response.json()) // Parse the JSON in the response
+    .then(data => {
+        // Process the data received from the server
+        console.log(data.message); // Access the 'message' key from the JSON response
+        hideConfirmation();
+
+        // Check if the page needs to be refreshed
+        if (data.refresh) {
+            // Reload the page
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
 
         }
         

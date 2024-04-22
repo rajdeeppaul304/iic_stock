@@ -61,34 +61,33 @@ def about():
 @routes.route('/buy_stocks', methods=['POST'])
 @login_required
 def buy_stocks():
-    # Parse the JSON data sent on POST request
     data = request.get_json()
     
-    # Access the data
     item_id = data['itemId']
     number_of_stocks = data['number_of_stocks']
 
-    print(user_id, number_of_stocks)
+    manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
 
-    print(manager.buy_stocks(email=user_id, stock_id=int(item_id) , amount=int(number_of_stocks)))
-    # setup an error here
-    return jsonify({"message": f"Stock purchased for {item_id} with {number_of_stocks} units."})
+    return jsonify({
+        "message": f"Stock purchased for {item_id} with {number_of_stocks} units.",
+        "refresh": True 
+    })
 
 
 @routes.route('/sell_stocks', methods=['POST'])
 @login_required
 def sell_stocks():
-    # Parse the JSON data sent on POST request
     data = request.get_json()
     
-    # Access the data
     item_id = data['itemId']
     number_of_stocks = data['number_of_stocks']
 
     print(user_id, number_of_stocks)
     print(manager.sell_stocks(email=user_id, stock_id=int(item_id) , amount=int(number_of_stocks)))
-    # setup an error here
-    return jsonify({"message": f"Stock sold for {item_id} with {number_of_stocks} units."})
+    return jsonify({
+        "message": f"Stock sold for {item_id} with {number_of_stocks} units.",                            
+        "refresh": True 
+    })
 
 
 @routes.route("/logout")
@@ -112,7 +111,7 @@ def owned_stocks():
 
 # @routes.route("/barter")
 # def barter():
-#     return render_template("barter.html", data=data)
+#     return render_template("barter.html")
 
 @routes.route("/test")
 def test():

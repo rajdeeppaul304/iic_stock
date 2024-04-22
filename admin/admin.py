@@ -14,7 +14,7 @@ def change_lock_state(file, new_state):
 
 app = Flask(__name__, template_folder=os.path.abspath("admin/template"))
 
-@app.route("/admin", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def admin():
     if request.method == "POST":
         new_state = request.json.get('ServerStartStop')

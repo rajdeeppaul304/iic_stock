@@ -12,6 +12,7 @@ manager = Database(database_file, stocks_file)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
+
 def initialize_login(app):
     login_manager.init_app(app)
 
@@ -23,8 +24,6 @@ def load_user(user_id):
 
     return None
 
-user_id = "dhruvdubey32@gmail.com"
-
 manager = Database("database.json", "stocks.json")
 
 @routes.route("/")
@@ -32,7 +31,7 @@ manager = Database("database.json", "stocks.json")
 def index():
     # stock_names = [val['name'] for (key, val) in manager.get_stocks().items()]
     # print(manager.get_stocks())
-    user_data = manager.get_users()[user_id]
+    user_data = manager.get_users()[current_user.id]
 
     return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
@@ -57,6 +56,11 @@ def login():
 def about():
     return render_template("about.html")
 
+@routes.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("views.login"))
 
 @routes.route('/buy_sell_stocks', methods=['POST'])
 @login_required
@@ -69,17 +73,17 @@ def buy_sell_stocks():
 
     if action == "buy":
         success_message = f"Stock purchased for {item_id} with {number_of_stocks} units."
-        success = manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
+        success = manager.buy_stocks(email=current_user.id, stock_id=int(item_id), amount=int(number_of_stocks))
     elif action == "sell":
         success_message = f"Stock sold for {item_id} with {number_of_stocks} units."
-        success = manager.sell_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks))
+        success = manager.sell_stocks(email=current_user.id, stock_id=int(item_id), amount=int(number_of_stocks))
     else:
         return jsonify({"success": 0, "message": "Invalid action."})
 
     if success:
         return jsonify({
             "success": 1,
-            "remaining_balance": manager.get_users()[user_id]["balance"],
+            "remaining_balance": manager.get_users()[current_user.id]["balance"],
             "message": success_message
         })
     else:
@@ -91,8 +95,9 @@ def buy_sell_stocks():
 
 
 @routes.route("/owned_stocks")
+@login_required
 def owned_stocks():
-    user_data = manager.get_users()[user_id]
+    user_data = manager.get_users()[current_user.id]
     items=user_data["stocks"]
     stocks_data=manager.get_stocks()
     dict_to_return = {}

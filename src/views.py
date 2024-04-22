@@ -91,11 +91,21 @@ def sell_stocks():
     number_of_stocks = data['number_of_stocks']
 
     print(user_id, number_of_stocks)
-    print(manager.sell_stocks(email=user_id, stock_id=int(item_id) , amount=int(number_of_stocks)))
-    return jsonify({
-        "message": f"Stock sold for {item_id} with {number_of_stocks} units.",                            
-        "refresh": True 
-    })
+    if manager.sell_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks)):
+        return jsonify({
+            "success":1,
+            "remaining_balance":manager.get_users()[user_id]["balance"],
+            "message": f"Stock sold for {item_id} with {number_of_stocks} units.",
+            "refresh": True 
+        })
+    else:
+        return jsonify({
+            "success":0,
+            "message": f"Error selling {item_id} with {number_of_stocks} units.",
+            "refresh": True 
+        })
+
+
 
 
 @routes.route("/logout")

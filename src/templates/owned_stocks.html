@@ -44,8 +44,16 @@
                         <div class="flex bg-blue-200 px-4 justify-end">
                             <div class="font-bold item-head rounded-md bg-red-300 px-2">{{ stock.sector }}</div>
                         </div>
-                        <div class="bg-blue-200 p-4">{{ stock.description }}</div>
-                    </div>
+                        <div class="bg-blue-200 p-4">
+                            {% if stock.description | length > 100 %}
+                            <div class="description-truncate">{{ stock.description | truncate(30, True, '...') }}</div>
+
+                            <a href="#" class="text-[#F98A06] mt-2 read-more">Read more</a>
+                            <div class="description-full hidden">{{ stock.description }}</div>
+                            {% else %}
+                            {{ stock.description }}
+                            {% endif %}
+                        </div>                    </div>
 
                     <div class="block justify-center">
 
@@ -70,6 +78,19 @@
     </div>
 </section>
 
+<script>
+    document.querySelectorAll('.read-more').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            var descriptionTruncate = this.previousElementSibling;
+            var descriptionFull = this.nextElementSibling;
+            descriptionTruncate.classList.add('hidden');
+            this.classList.add('hidden');
+            descriptionFull.classList.remove('hidden');
+        });
+    });
+
+</script>
 
 <script>
     // Function to filter items based on name
@@ -100,17 +121,6 @@
 </script>
 
 
-<script>
-    // Simple JavaScript for toggling the menu on small screens
-    document.querySelector('nav button').addEventListener('click', function () {
-        const links = document.querySelector('nav div.md\\:hidden');
-        if (links.classList.contains('hidden')) {
-            links.classList.remove('hidden');
-        } else {
-            links.classList.add('hidden');
-        }
-    });
-</script>
 
 
 

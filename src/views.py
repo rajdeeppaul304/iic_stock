@@ -58,30 +58,6 @@ def about():
     return render_template("about.html")
 
 
-@routes.route('/buy_stocks', methods=['POST'])
-@login_required
-def buy_stocks():
-    data = request.get_json()
-    
-    item_id = data['itemId']
-    number_of_stocks = data['number_of_stocks']
-
-    if manager.buy_stocks(email=user_id, stock_id=int(item_id), amount=int(number_of_stocks)):
-        return jsonify({
-            "success":1,
-            "remaining_balance":manager.get_users()[user_id]["balance"],
-            "message": f"Stock purchased for {item_id} with {number_of_stocks} units."
-        })
-    else:
-        return jsonify({
-            "success":0,
-            "message": f"Error purchasing {item_id} with {number_of_stocks} units."
-        })
-
-
-
-
-
 @routes.route('/buy_sell_stocks', methods=['POST'])
 @login_required
 def buy_sell_stocks():
@@ -89,7 +65,7 @@ def buy_sell_stocks():
     
     item_id = data['itemId']
     number_of_stocks = data['number_of_stocks']
-    action = data['action']  # Assuming 'buy' or 'sell'
+    action = data['action']  
 
     if action == "buy":
         success_message = f"Stock purchased for {item_id} with {number_of_stocks} units."
@@ -114,12 +90,6 @@ def buy_sell_stocks():
 
 
 
-@routes.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("views.login"))
-
 @routes.route("/owned_stocks")
 def owned_stocks():
     user_data = manager.get_users()[user_id]
@@ -131,7 +101,7 @@ def owned_stocks():
         dict_to_return[i].update({"owned":y})
 
     return render_template("owned_stocks.html", stocks_data=dict_to_return, current_balance=user_data["balance"], name=user_data["name"])
-#
+
 
 # @routes.route("/barter")
 # def barter():

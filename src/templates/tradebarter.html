@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Scanner</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <h1>QR Code Scanner</h1>
+  <div id="reader" style="width: 300px; height: 300px;"></div>
+
+  <script>
+    // script.js
+
+// Function to handle QR code scanning
+function onScanSuccess(qrCodeMessage) {
+  console.log('QR code detected:', qrCodeMessage);
+  alert('QR code detected: ' + qrCodeMessage);
+}
+
+// Function to handle errors
+function onScanError(errorMessage) {
+  console.error(errorMessage);
+}
+
+// Start QR code scanning
+var html5QrCode = new Html5Qrcode('reader');
+html5QrCode.start(
+  { facingMode: 'environment' }, // Use 'environment' to use rear camera
+  {
+    fps: 10,                    // Optional frame per seconds for QR detection
+    qrbox: 250                  // Optional width/height of the QR scan box
+  },
+  onScanSuccess,
+  onScanError
+);
+
+  </script>
+</body>
+</html>

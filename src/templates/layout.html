@@ -36,7 +36,9 @@
                 {% endif %}
             </div>
             <div class="hidden md:flex space-x-4">
+                {% if name %}
                 <a href="/" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
+                {% endif %}
                 <a href="/owned_stocks" class="hover:bg-gray-700 px-3 py-2 rounded-md">owned stocks</a>
                 <a href="/about" class="hover:bg-gray-700 px-3 py-2 rounded-md">about us</a>
                 <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">trade notification</a>
@@ -49,8 +51,10 @@
             </button>
         </div>
         <!-- Mobile menu -->
-        <div class="md:hidden" id="mobile-menu">
-            <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-700">Home</a>
+        <div class="hidden md:hidden" id="mobile-menu">
+            {% if name %}
+            <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-700">{{name}}</a>
+            {% endif %}
             <a href="/owned_stocks" class="block px-4 py-2 text-sm hover:bg-gray-700">Owned Stocks</a>
             <a href="/about" class="block px-4 py-2 text-sm hover:bg-gray-700">About Us</a>
             <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700">Trade Notification</a>
@@ -72,7 +76,7 @@
 document.getElementById('mobile-menu-btn').addEventListener('click', function () {
     mobileMenu.classList.toggle('hidden');
 });
-mobileMenu.classList.toggle('hidden');
+// mobileMenu.classList.toggle('hidden');
 
     </script>
 </body>

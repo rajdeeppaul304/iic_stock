@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,55 +8,70 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
+
 <body class="bg-[#111827] h-screen">
     <section class="w-full flex justify-center bg-[#111827] h-12 m-0 p-0">
         <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if server_state %}checked{% endif %}>
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if server_state %}checked{%
+                endif %}>
+            <div
+                class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start Server</span>
         </label>
     </section>
     <section>
-        <form id="stockForm" class="bg-[#111827] relative block justify-left p-2 px-8 space-y-4 md:space-y-0 md:space-x-4 md:flex">
+        <form id="stockForm"
+            class="bg-[#111827] relative block justify-left p-2 px-8 space-y-4 md:space-y-0 md:space-x-4 md:flex">
             <div class="relative md:w-4/12">
-                <select id="stockSelect" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <select id="stockSelect"
+                    class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                     <option value="">Choose an option</option>
                     {% for key, stock in stocks_data.items() %}
                     <option value="{{key}}">{{stock.name}}</option>
                     {% endfor %}
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 12L6 8h8l-4 4z"/></svg>
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M10 12L6 8h8l-4 4z" />
+                    </svg>
                 </div>
             </div>
             <div class="md:w-4/12">
                 <div class="relative">
-                    <input id="quantityInput" type="number" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Enter a number">
+                    <input id="quantityInput" type="number"
+                        class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        placeholder="Enter a number">
                 </div>
             </div>
             <div class="md:w-4/12 flex justify-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
                     Update Stock Value
                 </button>
             </div>
-        </form>         
+        </form>
     </section>
     <section class="bg-[#111827] text-white pt-4">
         <div class="flex justify-center mb-4">
-            <input id="searchInput" type="text" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 text-black" placeholder="Search">
-            <button id="searchButton" class="px-4 py-2 ml-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Search</button>
+            <input id="searchInput" type="text"
+                class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 text-black"
+                placeholder="Search">
+            <button id="searchButton"
+                class="px-4 py-2 ml-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Search</button>
         </div>
         {% for email, user in users_data.items() %}
 
-        <form action="/update-user-balance" method="POST" class="myForm block items-center flex-col md:flex md:flex-row md:space-x-4 px-10 py-2">
+        <form action="/update-user-balance" method="POST"
+            class="myForm block items-center flex-col md:flex md:flex-row md:space-x-4 px-10 py-2">
             <!-- Gmail icon -->
-			<div class="flex justify-center ">{{loop.index0}}.</div>
+            <div class="flex justify-center ">{{loop.index0}}.</div>
 
             <div class="flex justify-center ">
                 {{ email }}
                 <input type="hidden" name="email" value="{{ email }}">
             </div>
-        
+
             <!-- Name -->
             <div class="flex justify-center m-0 md:flex-1 md:block name-div">{{ user.name }}</div>
             <div class="flex justify-center m-0 md:flex-2 md:block name-div">{{ user.balance|round(2) }}</div>
@@ -71,26 +87,26 @@
             </div>
         </form>
         {% endfor %}
-	</section>
+    </section>
     <script>
-        document.getElementById('stockForm').addEventListener('submit', function(event) {
+        document.getElementById('stockForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
-            
+
             // Get selected option value and input value
             const selectedOption = document.getElementById('stockSelect').value;
             const inputValue = document.getElementById('quantityInput').value;
-            
+
             // Check if "Choose an option" is selected
             if (selectedOption === '') {
                 alert('Please choose an option.');
                 return;
             }
 
-			if (inputValue === '' || (isNaN(inputValue))) {
-            alert('Please type a valid number.');
-            return;
-        }
-            
+            if (inputValue === '' || (isNaN(inputValue))) {
+                alert('Please type a valid number.');
+                return;
+            }
+
             // Send form data to server
             fetch('/stock_submit', {
                 method: 'POST',
@@ -102,27 +118,27 @@
                     price: inputValue
                 })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                // Optionally, you can handle the response here
-                console.log('Form submitted successfully');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Optionally, you can handle the error here
-            });
-    
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // Optionally, you can handle the response here
+                    console.log('Form submitted successfully');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Optionally, you can handle the error here
+                });
+
             // Reset the form
             this.reset();
         });
     </script>
-    
+
 
 
     <script>
-        document.getElementById('serverCheckbox').addEventListener('change', function() {
+        document.getElementById('serverCheckbox').addEventListener('change', function () {
             const serverState = this.checked;
             fetch('/', {
                 method: 'POST',
@@ -131,73 +147,73 @@
                 },
                 body: JSON.stringify({ ServerStartStop: serverState })
             })
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => console.log('Success:', data))
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         });
     </script>
 
 
-<script>
-// Function to handle form submission
-function handleFormSubmit(event) {
-    event.preventDefault(); // Prevent default form submission
-    
-    const form = event.target.closest('.myForm');
-    const email = form.querySelector('[name="email"]').value;
-    const number = form.querySelector('[name="number"]').value;
-    console.log(email, number)
-    // Example of AJAX request to Flask backend
-    // Assumes you have an endpoint '/update-user-balance' that handles POST requests
-    // Replace 'YOUR_BACKEND_URL' with the actual URL of your backend
-    fetch('/update-user-balance', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email, add_balance: number }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response
-        console.log(data); // Log the response to the console
-        // You can update the UI or show a message to the user based on the response
-        alert(data.message); // Example: Show an alert with the message from the server
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        // Handle error as needed
-    });
-}
+    <script>
+        // Function to handle form submission
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
 
-// Attach event listeners to each form for form submission
-const forms = document.querySelectorAll('.myForm');
-forms.forEach(form => {
-    form.addEventListener("submit", handleFormSubmit);
-});
-
-// Function to filter forms based on search input
-function filterForms() {
-    const searchValue = document.getElementById("searchInput").value.toLowerCase();
-    const forms = document.querySelectorAll('.myForm');
-
-    forms.forEach(form => {
-        const email = form.querySelector('[name="email"]').value.toLowerCase();
-        const name = form.querySelector('.name-div').innerText.toLowerCase();
-
-        if (email.includes(searchValue) || name.includes(searchValue)) {
-            form.style.display = "flex";
-        } else {
-            form.style.display = "none";
+            const form = event.target.closest('.myForm');
+            const email = form.querySelector('[name="email"]').value;
+            const number = form.querySelector('[name="number"]').value;
+            console.log(email, number)
+            // Example of AJAX request to Flask backend
+            // Assumes you have an endpoint '/update-user-balance' that handles POST requests
+            // Replace 'YOUR_BACKEND_URL' with the actual URL of your backend
+            fetch('/update-user-balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, add_balance: number }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response
+                    console.log(data); // Log the response to the console
+                    // You can update the UI or show a message to the user based on the response
+                    alert(data.message); // Example: Show an alert with the message from the server
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    // Handle error as needed
+                });
         }
-    });
-}
 
-// Attach event listener to search button
-document.getElementById("searchButton").addEventListener("click", filterForms);
-</script>
+        // Attach event listeners to each form for form submission
+        const forms = document.querySelectorAll('.myForm');
+        forms.forEach(form => {
+            form.addEventListener("submit", handleFormSubmit);
+        });
+
+        // Function to filter forms based on search input
+        function filterForms() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            const forms = document.querySelectorAll('.myForm');
+
+            forms.forEach(form => {
+                const email = form.querySelector('[name="email"]').value.toLowerCase();
+                const name = form.querySelector('.name-div').innerText.toLowerCase();
+
+                if (email.includes(searchValue) || name.includes(searchValue)) {
+                    form.style.display = "flex";
+                } else {
+                    form.style.display = "none";
+                }
+            });
+        }
+
+        // Attach event listener to search button
+        document.getElementById("searchButton").addEventListener("click", filterForms);
+    </script>
 
 </body>
 

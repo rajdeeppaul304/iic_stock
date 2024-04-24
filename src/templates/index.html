@@ -87,7 +87,7 @@
                             <div class="font-bold item-head rounded-md bg-red-300 px-2 item-sector">{{stock.sector}}
                             </div>
                         </div>
-                        <div class="bg-blue-200 p-4">
+                        <!-- <div class="bg-blue-200 p-4">
                             {% if stock.description | length > 100 %}
                             <div class="description-truncate">{{ stock.description | truncate(30, True, '...') }}</div>
 
@@ -96,12 +96,12 @@
                             {% else %}
                             {{ stock.description }}
                             {% endif %}
-                        </div>
+                        </div> -->
 
 
                     </div>
 
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col items-center pt-4">
                         <hr class="border-t border-gray-400 w-full">
 
                         <div class="flex bg-blue-200 p-4 justify-center mb-2">
@@ -333,7 +333,8 @@
     });
 </script>
 
-<script>
+<!-- <script>
+    // read more in description
     document.querySelectorAll('.read-more').forEach(function (link) {
         link.addEventListener('click', function (e) {
             e.preventDefault();
@@ -345,7 +346,7 @@
         });
     });
 
-</script>
+</script> -->
 
 <script>
     var balance_of_user = document.getElementById("balance-of-user")

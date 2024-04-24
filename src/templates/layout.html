@@ -30,7 +30,10 @@
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">
                 {% if current_balance %}
-                <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3 py-2 rounded-md">Current Balance: {{ current_balance|round(2) }}</a>
+                <div class="block">
+                    <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3  rounded-md block">Current Round: {{ current_round }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
+                </div>
                 {% else %}
                 <a href="/" class="hover:bg-gray-700 px-3 py-2 rounded-md">IIC</a>
                 {% endif %}
@@ -60,6 +63,8 @@
             <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700">Trade Notification</a>
         </div>
     </nav>
+    
+    
 
     <main>
         {% block content %}

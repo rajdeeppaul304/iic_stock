@@ -112,7 +112,11 @@ def owned_stocks():
 # def barter():
 #     return render_template("barter.html")
 
-@routes.route("/test")
+@routes.route("/test", methods=['GET','POST'])
 def test():
-    return render_template("test.html")
+    if request.method == 'POST':
+        print("POST data received:")
+        for key, value in request.form.items():
+            print(f"{key}: {value}")
+    return render_template("tradebarter.html", stocks_data=manager.get_stocks())
 

@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <script src="{{ url_for('static', filename='js/qrcode.min.js') }}">
+    </script>
+
+<div >
+  <div>
+    <div class="text-3xl font-bold mb-8 text-center pt-5">Your QR code</div>
+    <div class="text-2xl font-bold mb-8 text-center pt-5">Ask your friend to scan your code to start trading</div>
+  
+  
+  </div>
+
+  <div class="flex justify-center">
+    <div id="qr-code"></div>
+
+  </div>
+
+    <a href="/barter/start_trade" class="flex justify-center w-full p-3 text-2xl underline text-blue-500"> Or, you scan code</a>
+
+
+  <div>
+    <div class="flex justify-center w-full p-3 text-2xl ">Ongoing Trade Requests</div>
+
+  </div>
+
+
+
+
+</div>
+
+
+<script>
+    let qrCode;
+     
+    function generateQrCode(qrContent) {
+      return new QRCode("qr-code", {
+        text: qrContent,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    }
+     
+    // Event listener for form submit event
+    generateQrCode("druvdalla")
+</script>
+{% endblock %}

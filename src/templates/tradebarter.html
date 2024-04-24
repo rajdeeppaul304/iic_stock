@@ -1,11 +1,39 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="flex flex-col items-center justify-center h-full md:min-h-screen pt-10 md:pt-0 overflow-hidden">
-  <h1 class="text-3xl font-bold mb-8 text-center">Scan Your Friends Code to Start Trading</h1>
-  <div id="reader" class="md:max-w-none border border-gray-300 rounded-lg overflow-hidden"></div>
-  <button id="scanAgainBtn">Scan Again</button>
-  <input type="text" id="qrCodeInput" placeholder="QR Code" />
+
+<style>
+
+#qr-reader a{
+  font-size: 18px;
+    color: #007BFF; /* Bright blue */
+    text-decoration: none; /* Removes underline */
+    padding: 10px 15px; 
+    display: inline-block; /* Allows padding and width/height */
+    cursor: pointer;
+    margin-top: 2px;
+
+}
+
+#qr-reader button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #FFFFFF;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 2px;
+}
+</style>
+<div class="flex flex-col items-center justify-center h-full md:min-h-screen pt-10 md:pt-0 overflow-hidden ">
+  <div class="border border-green-600 flex flex-col items-center justify-center w-10/12 md:w-5/12">
+    <div id="qr-reader" class="w-full border border-green-600"></div>
+    <div id="qr-reader-results" class="border border-green-600"></div>
+  </div>
+
 </div>
 
 
@@ -15,7 +43,7 @@
     <h1 class="text-3xl font-bold mb-8 text-center pt-5">Or input it Manually</h1>
     <div class=" flex justify-center">
       <div class="w-11/12">
-        <input type="text" name="manual-input-qr" id="helper-text" aria-describedby="helper-text-explanation"
+        <input type="text" name="manual-input-qr" id="manual-input-qr" aria-describedby="manual-input-qr-explanation"
           class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="input code from friend..." required>
       </div>
@@ -120,11 +148,11 @@
 
 <script>
   document.getElementById("form-for-barter").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent default form submission
+  event.preventDefault(); 
   
-  var formData = new FormData(this); // Get form data
+  var formData = new FormData(this); 
   
-  fetch("/test", { // Change "/submit" to your Flask backend route
+  fetch("/barter", { 
     method: "POST",
     body: formData
   })
@@ -173,40 +201,28 @@ handleRadioChange()
 </script>
 
 <script>
-  // Function to handle QR code scanning
-  function onScanSuccess(qrCodeMessage) {
-    console.log('QR code detected:', qrCodeMessage);
-    alert('QR code detected: ' + qrCodeMessage);
-    
-    // Fill the input field with the scanned QR code message
-    document.getElementById('qrCodeInput').value = qrCodeMessage;
-  }
+  // Function to handle QR code 
+  
 
-  // Function to handle errors
-  function onScanError(errorMessage) {
-    console.error(errorMessage);
-    alert('QR code scan error: ' + errorMessage);
-  }
+  var resultContainer = document.getElementById('qr-reader-results');
+var lastResult, countResults = 0;
 
-  // Start QR code scanning
-  var html5QrCode = new Html5Qrcode('reader');
-  html5QrCode.start(
-    { facingMode: 'environment' }, // Use 'environment' to use rear camera
-    {
-      fps: 10
-    },
-    onScanSuccess,
-    onScanError
-  );
+function onScanSuccess(decodedText, decodedResult) {
+    if (decodedText !== lastResult) {
+        ++countResults;
+        lastResult = decodedText;
+        // Handle on success condition with the decoded message.
+        alert(`Scan result ${decodedText} ${decodedResult}`)
+        document.getElementById('manual-input-qr').value = decodedText;
 
-  // Function to handle scan again button click
-  document.getElementById('scanAgainBtn').addEventListener('click', function() {
-    // Clear the input field
-    document.getElementById('qrCodeInput').value = '';
-    
-    // Start QR code scanning again
-    html5QrCode.start();
-  });
+        console.log(`Scan result ${decodedText}`, decodedResult);
+    }
+}
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "qr-reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
+
 </script>
 
 

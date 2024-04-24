@@ -1,41 +1,213 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Scanner</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
-</head>
-<body>
-  <h1>QR Code Scanner</h1>
-  <div id="reader" style="width: 300px; height: 300px;"></div>
+{% extends 'layout.html' %}
 
-  <script>
-    // script.js
+{% block content %}
+<div class="flex flex-col items-center justify-center h-full md:min-h-screen pt-10 md:pt-0 overflow-hidden">
+  <h1 class="text-3xl font-bold mb-8 text-center">Scan Your Friends Code to Start Trading</h1>
+  <div id="reader" class="md:max-w-none border border-gray-300 rounded-lg overflow-hidden"></div>
+  <button id="scanAgainBtn">Scan Again</button>
+  <input type="text" id="qrCodeInput" placeholder="QR Code" />
+</div>
 
-// Function to handle QR code scanning
-function onScanSuccess(qrCodeMessage) {
-  console.log('QR code detected:', qrCodeMessage);
-  alert('QR code detected: ' + qrCodeMessage);
+
+
+<form action="" id="form-for-barter">
+  <div>
+    <h1 class="text-3xl font-bold mb-8 text-center pt-5">Or input it Manually</h1>
+    <div class=" flex justify-center">
+      <div class="w-11/12">
+        <input type="text" name="manual-input-qr" id="helper-text" aria-describedby="helper-text-explanation"
+          class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="input code from friend..." required>
+      </div>
+    </div>
+  </div>
+  <div class="text-center text-2xl pt-5">
+    Stock to Give
+  </div>
+  <div class="flex justify-between">
+    <div class="relative p-4 w-7/12 md:w-4/12">
+      <select id="stockSelect" name="give-selected-stock"
+        class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <option value="">Choose an option</option>
+        {% for key, stock in stocks_data.items() %}
+        <option value="{{key}}">{{stock.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="w-5/12 md:w-4/12 p-4">
+      <div class="relative">
+        <input id="quantityInput" type="number"  name="give-value-stock"
+          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          placeholder="Value">
+      </div>
+    </div>
+  </div>
+  <div class="text-center text-2xl pt-5">
+    Stock to Take
+  </div>
+  <div class="flex justify-between">
+    <div class="relative p-4 w-7/12 md:w-4/12">
+      <select id="stockSelect2" name="take-selected-stock"
+        class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <option value="">Choose an option</option>
+        {% for key, stock in stocks_data.items() %}
+        <option value="{{key}}">{{stock.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="w-5/12 md:w-4/12 p-4">
+      <div class="relative">
+        <input id="quantityInput2" type="number" name="take-value-stock"
+          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          placeholder="Value">
+      </div>
+    </div>
+  </div>
+  <!-- Radio buttons -->
+  <div class="flex justify-center">
+  <div class="w-10/12 md:w-7/12">
+    <ul
+      class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+        <div class="flex items-center ps-3">
+          <input id="horizontal-list-radio-bartnorm" type="radio" value="bartnorm" name="list-radio" onchange="handleRadioChange()"
+            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked>
+          <label for="horizontal-list-radio-bartnorm"
+            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Barter Normally</label>
+        </div>
+      </li>
+      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+        <div class="flex items-center ps-3">
+          <input id="horizontal-list-radio-take" type="radio" value="take-bart" name="list-radio" onchange="handleRadioChange()"
+            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+          <label for="horizontal-list-radio-take"
+            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Give money instead of stock</label>
+        </div>
+      </li>
+      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+        <div class="flex items-center ps-3">
+          <input id="horizontal-list-radio-give" type="radio" value="give-bart" name="list-radio" onchange="handleRadioChange()"
+            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+          <label for="horizontal-list-radio-give"
+            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Take money instead of stock</label>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="flex justify-center ">
+    <div class="w-10/12 md:w-4/12 p-4">
+      <div class="relative">
+        <input id="quantityInput3" type="number" name="money-barter-stock"
+          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          placeholder="Amount To give/take">
+      </div>
+  </div>
+</div>
+
+
+<div class="flex justify-center">
+  <button type="submit"
+  class="submitButton px-4 py-2 w-9/12 md:w-3/12 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Send Trade request
+  </button>
+</div>
+</form>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
+
+<script>
+  document.getElementById("form-for-barter").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent default form submission
+  
+  var formData = new FormData(this); // Get form data
+  
+  fetch("/test", { // Change "/submit" to your Flask backend route
+    method: "POST",
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data); // Handle response data
+  })
+  .catch(error => {
+    console.error("There was a problem with your fetch operation:", error);
+  });
+});
+
+</script>
+
+<script>
+  function handleRadioChange() {
+  // var input1 = document.getElementById("quantityInput");
+  // var input1_ = document.getElementById("stockSelect");
+
+  // var input2 = document.getElementById("quantityInput2");
+  // var input2_ = document.getElementById("stockSelect2");
+
+  var input3 = document.getElementById("quantityInput3");
+
+  var option1 = document.getElementById("horizontal-list-radio-bartnorm");
+  var option2 = document.getElementById("horizontal-list-radio-take");
+  var option3 = document.getElementById("horizontal-list-radio-give");
+  
+  if (option1.checked) {
+  input3.disabled = true;
+
+} else if (option2.checked) {
+  input3.disabled = false;
+
+} else if (option3.checked) {
+  input3.disabled = false;
+
 }
-
-// Function to handle errors
-function onScanError(errorMessage) {
-  console.error(errorMessage);
 }
+handleRadioChange()
+</script>
 
-// Start QR code scanning
-var html5QrCode = new Html5Qrcode('reader');
-html5QrCode.start(
-  { facingMode: 'environment' }, // Use 'environment' to use rear camera
-  {
-    fps: 10,                    // Optional frame per seconds for QR detection
-    qrbox: 250                  // Optional width/height of the QR scan box
-  },
-  onScanSuccess,
-  onScanError
-);
+<script>
+  // Function to handle QR code scanning
+  function onScanSuccess(qrCodeMessage) {
+    console.log('QR code detected:', qrCodeMessage);
+    alert('QR code detected: ' + qrCodeMessage);
+    
+    // Fill the input field with the scanned QR code message
+    document.getElementById('qrCodeInput').value = qrCodeMessage;
+  }
 
-  </script>
-</body>
-</html>
+  // Function to handle errors
+  function onScanError(errorMessage) {
+    console.error(errorMessage);
+    alert('QR code scan error: ' + errorMessage);
+  }
+
+  // Start QR code scanning
+  var html5QrCode = new Html5Qrcode('reader');
+  html5QrCode.start(
+    { facingMode: 'environment' }, // Use 'environment' to use rear camera
+    {
+      fps: 10
+    },
+    onScanSuccess,
+    onScanError
+  );
+
+  // Function to handle scan again button click
+  document.getElementById('scanAgainBtn').addEventListener('click', function() {
+    // Clear the input field
+    document.getElementById('qrCodeInput').value = '';
+    
+    // Start QR code scanning again
+    html5QrCode.start();
+  });
+</script>
+
+
+{% endblock %}

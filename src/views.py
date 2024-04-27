@@ -2,13 +2,16 @@ from flask import Blueprint, redirect, request, render_template, jsonify, url_fo
 from .database_manager import Database, User
 from flask_login import LoginManager, login_manager, login_user, logout_user, current_user, login_required
 from os import path
+from .barter import Barter
 
 routes = Blueprint("views", __name__)
 
 database_file = path.abspath("database.json")
 stocks_file = path.abspath("stocks.json")
+active_trades = path.abspath("active_trades.json")
 
 manager = Database(database_file, stocks_file)
+barter_manager = Barter(active_trades)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
@@ -113,13 +116,16 @@ def owned_stocks():
 #     return render_template("barter.html")
 
 @routes.route("/barter/start_trade", methods=['GET','POST'])
+@login_required
 def barter_start_trade():
     return render_template("tradebarter.html", stocks_data=manager.get_stocks())
 
 @routes.route("/barter", methods=['GET','POST'])
+@login_required
 def barter():
     if request.method == 'POST':
-        print("POST data received:")
-        for key, value in request.form.items():
-            print(f"{key}: {value}")
+        barter_manager.start_trade(current_user.id, request.form)
+        # print("POST data received:")
+        # for key, value in request.form.items():
+        #     print(f"{key}: {value}")
     return render_template("test2.html", stocks_data=manager.get_stocks()) 

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from .database_manager import Database
 from os import path
 
@@ -12,5 +12,9 @@ def start():
 
     initialize_login(app)
     app.register_blueprint(routes, url_prefix="")
+    
+    @app.errorhandler(404)
+    def error(e):
+        return render_template("404.html")
 
     return app

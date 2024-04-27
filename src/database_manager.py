@@ -1,4 +1,5 @@
-from os import path
+import os
+# from os import path
 import json
 
 from flask_login import UserMixin
@@ -7,7 +8,7 @@ class Database():
     def __init__(self, file:str, stocks_file:str) -> None:
         self.file = file
         self.stocks_file = stocks_file
-        if not path.exists(file):
+        if not os.path.exists(file):
             open(file, "w").close()
 
     # whats hashing?
@@ -41,9 +42,11 @@ class Database():
             if user_data_dict[email]["balance"] < 0:
                 return False
 
-            if not path.exists("transaction.lock"):
+            if not os.path.exists("transaction.lock"):
+                open("transaction.lock", "w").close()
                 with open(self.file, "w") as database:
-                    user_data_dict = json.dump(user_data_dict, database)
+                    json.dump(user_data_dict, database)
+                os.remove("transaction.lock")
 
             else:
                 return False
@@ -74,14 +77,23 @@ class Database():
                 print("not enought stocks")
                 return False
 
-            if not path.exists("transaction.lock"):
+            if not os.path.exists("transaction.lock"):
+                open("transaction.lock", "w").close()
                 with open(self.file, "w") as database:
-                    user_data_dict = json.dump(user_data_dict, database)
+                    json.dump(user_data_dict, database)
+                os.remove("transaction.lock")
 
             else:
                 return False
 
         return True
+
+    def save_data(self, user_data_dict:dict):
+        if not os.path.exists("transaction.lock"):
+            open("transaction.lock", "w").close()
+            with open(self.file, "w") as database:
+                json.dump(user_data_dict, database)
+            os.remove("transaction.lock")
 
     def reset(self, email:str):
         with open(self.file, "r") as database:
@@ -108,10 +120,12 @@ class Database():
 
         if no_pass:
             for user_data in user_data_dict.values():
-                del user_data["password"]
+                user_data.pop("password", None)
+                # del user_data["password"]
 
         return user_data_dict
 
+    # dumps data to serial
     def dump_data(self):
         with open(self.file, "r") as database:
             user_data_dict = json.load(database)

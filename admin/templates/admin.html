@@ -9,17 +9,109 @@
 
 </head>
 
-<body class="bg-[#111827] h-screen">
-    <section class="w-full flex justify-center bg-[#111827] h-12 m-0 p-0">
-        <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if server_state %}checked{%
-                endif %}>
-            <div
-                class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+<body class="bg-[#111827] h-screen text-white">
+    <section>
+        <div class="w-full flex justify-center bg-[#111827] h-12 m-0 p-0">
+
+
+            <label class="inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="serverCheckbox" value="" class="sr-only peer" {% if server_state %}checked{%
+                    endif %}>
+                <div
+                    class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start Server</span>
+            </label>
+
+        </div>
+        <div class="block">
+            <div class="flex justify-center">
+                <div class=" flex items-center justify-center px-3">
+                    <div id="current-round-display text-white">
+                        Current Round: <span id="current-round">Loading...</span>
+                    </div>
+                </div>
+                <button id="increment-round"
+                    class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
+                    Increment Round 
+                </button>
             </div>
-            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start Server</span>
-        </label>
+        
+            <div class="flex justify-center py-4">
+                <div class=" flex items-center justify-center px-3">
+                    <div id="current-match-display text-white">
+
+                        Current Match: <span id="current-match">Loading...</span>
+                    </div>
+                </div>
+
+                <button id="increment-match"
+                    class="bg-blue-500 hover:bg-blue-700 text-white h-full w-full md:w-auto font-bold py-2 px-4 rounded">
+                    Increment Match 
+                </button>
+            </div>
+        </div>
+        
     </section>
+    <script>
+document.getElementById('increment-round').addEventListener('click', function() {
+    handleButtonClick('increment-round');
+});
+
+document.getElementById('increment-match').addEventListener('click', function() {
+    handleButtonClick('increment-match');
+});
+
+function handleButtonClick(buttonId) {
+    const password = prompt("Please enter the password:");
+    if (password === "your_password") { // Securely validate this on the backend in a real application
+        sendApiRequest(buttonId);
+    } else {
+        alert("Incorrect password!");
+    }
+}
+
+function sendApiRequest(buttonId) {
+    fetch('/update_round_match', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: buttonId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('current-round').textContent = data.current_round;
+        document.getElementById('current-match').textContent = data.current_match;
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to send API request.');
+    });
+}
+
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    fetchCurrentValues();
+});
+
+function fetchCurrentValues() {
+    fetch('/get_current_values')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('current-round').textContent = data.current_round;
+        document.getElementById('current-match').textContent = data.current_match;
+    })
+    .catch(error => {
+        console.error('Error fetching current values:', error);
+        alert('Failed to load current values.');
+    });
+}
+
+</script>
     <section>
         <form id="stockForm"
             class="bg-[#111827] relative block justify-left p-2 px-8 space-y-4 md:space-y-0 md:space-x-4 md:flex">

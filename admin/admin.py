@@ -36,6 +36,26 @@ def stock_submit():
     print(data)
     return jsonify({"message": "Form submitted successfully"})
 
+# updation of round and match
+current_round = 0
+current_match = 0
+@app.route("/get_current_values", methods=["GET"])
+def get_current_values():
+    return jsonify({"current_round": current_round, "current_match": current_match})
+
+@app.route("/update_round_match", methods=["POST"])
+def update_round_match():
+    global current_round, current_match
+
+    data = request.get_json()
+    print(data)
+    if data['id'] == 'increment-round':
+        current_round += 1
+    elif data['id'] == 'increment-match':
+        current_match += 1
+
+    return jsonify({"message": "Form submitted successfully", "current_round":current_round, "current_match":current_match})
+
 @app.route("/update-user-balance", methods=["POST"])
 def update_user_balance():
     data = request.get_json()

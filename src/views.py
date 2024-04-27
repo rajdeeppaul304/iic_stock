@@ -143,4 +143,3 @@ def barter():
 def test():
     return render_template("test2.html", stocks_data=manager.get_stocks())
 
-

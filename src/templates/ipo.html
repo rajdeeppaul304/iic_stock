@@ -1,0 +1,369 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .custom-number-input input:focus {
+        outline: none !important;
+    }
+
+    .custom-number-input button:focus {
+        outline: none !important;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<section class="w-full flex justify-center">
+    <div class="pt-36 container mt-5 mb-3 w-11/12">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 " id="itemsContainer">
+            {% for key, stock in stocks_data.items() %}
+            <div class="items-class rounded-md overflow-hidden bg-blue-200 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-center bg-blue-200 p-4">
+                        <div class="font-bold item-head">{{ stock.name }}</div>
+                    </div>
+                    <div class="flex bg-blue-200 px-4">
+                        <div class="font-bold item-head">{{ stock.full_name }}</div>
+                    </div>
+                    <div class="flex justify-center sm:flex bg-blue-200 px-4 md:justify-between">
+                        <div class="inline font-bold item-head rounded-md bg-green-300 px-2 item-amount">
+                            ₹{{stock.amount|round(2)}}
+                        </div>
+                        <div class="inline font-bold item-head rounded-md bg-red-300 px-2 item-sector">{{stock.sector}}
+                        </div>
+                    </div>
+                    <div class="flex sm:flex bg-blue-200 px-4 justify-between pt-2">
+                        <div class="inline font-bold item-head rounded-md px-1">
+                            currently requested:
+                        </div>
+                        <div class="inline font-bold item-head rounded-md px-1 bg-orange-300">{{stock.requested}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center pt-4">
+                    <hr class="border-t border-gray-400 w-full">
+
+                    <div class="flex bg-blue-200 p-4 justify-center mb-2">
+                        <div class="custom-number-input h-10 w-32">
+
+                            <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                <button data-action="decrement"
+                                    class=" bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe]  h-full w-20 rounded-l cursor-pointer ">
+                                    <span class="m-auto text-2xl font-thin">−</span>
+                                </button>
+                                <input type="number" id="number-stock-{{ key }}"
+                                    class="input-stock-numbers stock-amount border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
+                                    name="{{ key }}" value="0"></input>
+                                <button data-action="increment"
+                                    class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
+                                    <span class="m-auto text-2xl font-thin">+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex bg-blue-200 p-4 justify-between">
+                        <div>
+                            <button type="button" name="buy" value="{{ key }}" id="buy-{{ key }}"
+                                class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
+                        </div>
+                        <div>
+                            <button type="button" name="sell" value="{{ key }}" id="sell-{{ key }}"
+                                class="btn-confirm focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</section>
+
+<div id="confirmationModal" tabindex="-1"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full bg-gray-900 bg-opacity-50">
+    <div class="flex justify-center items-center h-full">
+        <div class="relative p-4 w-full max-w-md">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                <div class="p-4 md:p-5 text-center">
+
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400 confirmation-text">Are you sure
+                        you want to delete this product?</h3>
+                    <button id="confirmButton" type="button"
+                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        Yes, I'm sure
+                    </button>
+                    <button id="cancelButton" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                        cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="errorModal" tabindex="-1"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full bg-gray-900 bg-opacity-50">
+    <div class="flex justify-center items-center h-full">
+        <div class="relative p-4 w-full max-w-md">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                <div class="p-4 md:p-5 text-center">
+                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400 errorMessage-text">Error please
+                        choose a valid
+                        number</h3>
+                    <button id="closeErrorButton" type="button"
+                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        Ok, Fine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="successModal" tabindex="-1"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full bg-gray-900 bg-opacity-50">
+    <div class="flex justify-center items-center h-full">
+        <div class="relative p-4 w-full max-w-md">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                <div class="p-4 md:p-5 text-center">
+                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                        xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision"
+                        text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
+                        clip-rule="evenodd" viewBox="0 0 403 512.4">
+                        <path fill-rule="nonzero"
+                            d="M18.67 114.75h85.03v-17.3c0-26.81 10.97-51.18 28.62-68.83S174.33 0 201.15 0c26.81 0 51.19 10.97 68.84 28.62 17.65 17.65 28.61 42.02 28.61 68.83v17.3h85.73c5.15 0 9.81 2.13 13.17 5.49l.91 1.02c2.86 3.3 4.59 7.59 4.59 12.16v311.99c0 18.39-7.55 35.15-19.7 47.29-12.14 12.14-28.9 19.7-47.29 19.7H66.98c-18.35 0-35.12-7.56-47.28-19.72C7.55 480.58 0 463.83 0 445.41V133.42c0-5.14 2.11-9.83 5.48-13.19 3.36-3.37 8.05-5.48 13.19-5.48zm115.52 235.64c-5.29-4.65-5.8-12.72-1.15-18.01 4.65-5.29 12.72-5.8 18.01-1.15l31.18 27.46 68.86-73.42c4.82-5.12 12.89-5.37 18.01-.55 5.13 4.82 5.38 12.89.56 18.02l-77.02 82.12c-4.65 5.29-12.72 5.8-18.01 1.15l-40.44-35.62zm-6.73-235.64h147.38v-17.3c0-20.25-8.29-38.68-21.65-52.03-13.36-13.36-31.79-21.66-52.04-21.66s-38.68 8.3-52.03 21.66c-13.36 13.35-21.66 31.78-21.66 52.03v17.3zm-23.76 46.09v-22.31H23.78v306.88c0 11.86 4.88 22.65 12.71 30.48 7.81 7.87 18.62 12.72 30.49 12.72h269.03c11.83 0 22.64-4.89 30.48-12.72 7.84-7.84 12.73-18.65 12.73-30.48V138.53H298.6v22.56c8.82 4.48 14.86 13.64 14.86 24.21 0 14.99-12.15 27.15-27.15 27.15-14.99 0-27.15-12.16-27.15-27.15 0-10.9 6.42-20.29 15.68-24.62v-22.15H127.46v22.4c8.99 4.42 15.18 13.67 15.18 24.37 0 14.99-12.15 27.15-27.14 27.15-15 0-27.15-12.16-27.15-27.15 0-10.77 6.26-20.07 15.35-24.46z" />
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400 successMessage-text">
+                        Sucessfully Bought the Stock.</h3>
+                    <button id="closeSuccessButton" type="button"
+                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        Ok, Fine
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function decrement(e) {
+        const btn = e.target.parentNode.parentElement.querySelector(
+            'button[data-action="decrement"]'
+        );
+        const target = btn.nextElementSibling;
+        let value = Number(target.value);
+        value--;
+        target.value = value;
+    }
+
+    function increment(e) {
+        const btn = e.target.parentNode.parentElement.querySelector(
+            'button[data-action="decrement"]'
+        );
+        const target = btn.nextElementSibling;
+        let value = Number(target.value);
+        value++;
+        target.value = value;
+    }
+
+    const decrementButtons = document.querySelectorAll(
+        `button[data-action="decrement"]`
+    );
+
+    const incrementButtons = document.querySelectorAll(
+        `button[data-action="increment"]`
+    );
+
+    decrementButtons.forEach(btn => {
+        btn.addEventListener("click", decrement);
+    });
+
+    incrementButtons.forEach(btn => {
+        btn.addEventListener("click", increment);
+    });
+</script>
+
+<script>
+    var balance_of_user = document.getElementById("balance-of-user")
+    // Function to show confirmation popup
+    function showConfirmation(itemId, itemName, number_of_stocks, message) {
+        var modal = document.getElementById('confirmationModal');
+        var deleteMessage = modal.querySelector('.confirmation-text');
+        deleteMessage.textContent = message;
+        document.getElementById('confirmationModal').classList.remove('hidden');
+        document.getElementById('confirmButton').setAttribute('value', itemId);
+        document.getElementById('confirmButton').setAttribute('name', itemName);
+
+
+
+    }
+
+    function showError(message) {
+        var modal = document.getElementById('errorModal');
+        var errorMessage = modal.querySelector('.errorMessage-text');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('visible');
+        errorMessage.textContent = message;
+
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+
+    }
+
+    function showSuccess(message) {
+        var modal = document.getElementById('successModal');
+        var successMessage = modal.querySelector('.successMessage-text');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('visible');
+        successMessage.textContent = message;
+
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+
+    }
+
+
+    // Function to hide confirmation popup
+    function hideConfirmation() {
+        document.getElementById('confirmationModal').classList.add('hidden');
+
+    }
+
+    function hideError() {
+        document.getElementById('errorModal').classList.remove('visible');
+        document.getElementById('errorModal').classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling when modal is closed
+    }
+
+    function hideSuccess() {
+        document.getElementById('successModal').classList.remove('visible');
+        document.getElementById('successModal').classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling when modal is closed
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements_stock_number = document.querySelectorAll('.input-stock-numbers');
+
+
+
+        for (let i = 0; i < elements_stock_number.length; i++) {
+            const inputField = elements_stock_number[i];
+            const buttonBuy = document.getElementById(`buy-${inputField.name}`);
+            const buttonSell = document.getElementById(`sell-${inputField.name}`);
+            buttonBuy.addEventListener('click', function () {
+                console.log(inputField.value < 1, !inputField.value, !/^\d+$/.test(inputField.value))
+
+                if (inputField.value < 1 || !inputField.value || !/^\d+$/.test(inputField.value)) {
+                    console.log(inputField.value);
+                    showError("Please enter a valid amount")
+                }
+                else {
+                    console.log(`Value from Button ${inputField.name}:`, inputField.value);
+                    var itemId = this.getAttribute('value');
+                    var itemName = "buy"
+                    showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Buy ${inputField.value} of this Stock?`);
+
+                }
+
+
+            });
+
+            buttonSell.addEventListener('click', function () {
+                if (inputField.value < 1 || !inputField.value || !/^\d+$/.test(inputField.value)) {
+                    console.log(inputField.value);
+                    showError("Please enter a valid amount")
+                }
+                else {
+                    console.log(`Value from Button ${inputField.name}:`, inputField.value);
+                    var itemId = this.getAttribute('value');
+                    var itemName = "sell"
+                    showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Sell ${inputField.value} of this Stock?`);
+
+                }
+
+            });
+
+        }
+
+    });
+
+    // Attach event listener to cancel button
+    document.getElementById('cancelButton').addEventListener('click', hideConfirmation);
+    document.getElementById('closeErrorButton').addEventListener('click', hideError);
+    document.getElementById('closeSuccessButton').addEventListener('click', hideSuccess);
+
+    // Attach event listener to confirm button
+    document.getElementById('confirmButton').addEventListener('click', function () {
+        console.log("this works")
+        var itemId = this.getAttribute('value');
+        var itemName = this.getAttribute('name');
+        let number_of_stocks = document.getElementById(`number-stock-${itemId}`)
+        console.log(itemId, itemName, number_of_stocks.value)
+
+        const handleResponse = (data) => {
+            if (data.success === 1) {
+                console.log(data.message);
+                hideConfirmation();
+                balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
+                if (itemName === "buy") {
+                    showSuccess("Successfully Bought The Stock Unit(s).");
+                } else if (itemName === "sell") {
+                    showSuccess("Successfully Sold The Stock Unit(s).");
+                }
+            } else {
+                console.log(data.message);
+                hideConfirmation();
+                if (itemName === "buy") {
+                    showError("Error: Not enough Balance");
+
+                } else if (itemName === "sell") {
+                    showError("Error: selling more than owned.");
+
+                }
+                showError("Error: Not enough Balance");
+            }
+        };
+
+        if (itemName === "buy" || itemName === "sell") {
+            fetch('/buy_sell_stocks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value }),
+            })
+                .then(response => response.json())
+                .then(handleResponse)
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    });
+
+
+</script>
+
+{% endblock %}

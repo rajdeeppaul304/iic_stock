@@ -30,6 +30,24 @@
 
 </div>
 
+<div>
+	{% for trade in current_active_trades %}
+		<div>
+			<div class="inline">
+				<!--trade with:	{{ trade[0] }},-->
+				<!--you get: {{ trade[1]["stocks_to_get"] }}-->
+				{{ trade }}
+			</div>
+
+			<form action="barter" class="inline" method="post">
+				<input type="hidden" value={{ trade[0] }} name="trader"  />
+				<button value="No" name="confirmation" type="submit" style="background-color: red; color: white;">No</button>
+				<button value="Yes" name="confirmation" type="submit" style="background-color: green; color: white;">Yes</button>
+			</form>
+		</div>
+	{% endfor %}
+</div>
+
 
 <script>
     let qrCode;
@@ -46,6 +64,6 @@
     }
      
     // Event listener for form submit event
-    generateQrCode("druvdalla")
+	generateQrCode({{ current_user }})
 </script>
 {% endblock %}

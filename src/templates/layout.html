@@ -19,9 +19,9 @@
         }
 
         /* Adjust main content padding to avoid overlapping with fixed navbar */
-        main {
-            padding-top: 64px; /* Adjust the value according to the height of your navbar */
-        }
+        /* main {
+            padding-top: 64px;
+        } */
     </style>
 </head>
 
@@ -31,7 +31,7 @@
             <div class="flex items-center">
                 {% if current_balance %}
                 <div class="block">
-                    <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3  rounded-md block">Current Round: {{ current_round }}</a>
+                    <a href="#" id="current-round" class="hover:bg-gray-700 px-3  rounded-md block">Current Round: {{ current_round }}</a>
                     <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
                 </div>
                 {% else %}
@@ -41,6 +41,9 @@
             <div class="hidden md:flex space-x-4">
                 {% if name %}
                 <a href="/" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
+                {% endif %}
+                {% if show_barter %}
+                <a href="/barter" class="hover:bg-gray-700 px-4 py-2 rounded-md">Barter</a>
                 {% endif %}
                 <a href="/owned_stocks" class="hover:bg-gray-700 px-3 py-2 rounded-md">owned stocks</a>
                 <a href="/about" class="hover:bg-gray-700 px-3 py-2 rounded-md">about us</a>
@@ -66,7 +69,7 @@
     
     
 
-    <main>
+    <main class="">
         {% block content %}
         {% endblock %}
     </main>

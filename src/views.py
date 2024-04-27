@@ -123,8 +123,3 @@ def barter():
         for key, value in request.form.items():
             print(f"{key}: {value}")
     return render_template("test2.html", stocks_data=manager.get_stocks()) 
-
-@routes.route("/test", methods=['GET','POST'])
-def test():
-
-    return render_template("test2.html", stocks_data=manager.get_stocks())

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section>
+<section class="pt-32">
     <div class="w-full flex justify-center">
         <div class="container mt-5 mb-3 w-11/12">
 
@@ -87,17 +87,6 @@
                             <div class="font-bold item-head rounded-md bg-red-300 px-2 item-sector">{{stock.sector}}
                             </div>
                         </div>
-                        <!-- <div class="bg-blue-200 p-4">
-                            {% if stock.description | length > 100 %}
-                            <div class="description-truncate">{{ stock.description | truncate(30, True, '...') }}</div>
-
-                            <a href="#" class="text-[#F98A06] mt-2 read-more">Read more</a>
-                            <div class="description-full hidden">{{ stock.description }}</div>
-                            {% else %}
-                            {{ stock.description }}
-                            {% endif %}
-                        </div> -->
-
 
                     </div>
 

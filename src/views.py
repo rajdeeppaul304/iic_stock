@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, redirect, request, render_template, jsonify, url_for
 from .database_manager import Database, User
 from flask_login import LoginManager, login_manager, login_user, logout_user, current_user, login_required
@@ -11,7 +12,7 @@ stocks_file = path.abspath("stocks.json")
 active_trades = path.abspath("active_trades.json")
 
 manager = Database(database_file, stocks_file)
-barter_manager = Barter(active_trades)
+barter_manager = Barter(active_trades, stocks_file)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
@@ -118,14 +119,27 @@ def owned_stocks():
 @routes.route("/barter/start_trade", methods=['GET','POST'])
 @login_required
 def barter_start_trade():
-    return render_template("tradebarter.html", stocks_data=manager.get_stocks())
+    if request.method == "POST":
+        barter_manager.start_trade(current_user.id, request.form)
+
+    return render_template("tradebarter.html", stocks_data=manager.get_stocks(), current_user_stocks=current_user.data(manager).get("stocks"))
 
 @routes.route("/barter", methods=['GET','POST'])
 @login_required
 def barter():
-    if request.method == 'POST':
-        barter_manager.start_trade(current_user.id, request.form)
-        # print("POST data received:")
-        # for key, value in request.form.items():
-        #     print(f"{key}: {value}")
-    return render_template("test2.html", stocks_data=manager.get_stocks()) 
+    if request.method == "POST":
+        confirmation = request.form.get("confirmation")
+
+        if confirmation == "Yes":
+            barter_manager.confirm_trade(current_user.id, request.form.get("trader"), manager)
+
+        else:
+            barter_manager.deny_trade(current_user.id, request.form.get("trader"))
+
+    current_active_trades = barter_manager.get_active_trades(current_user.id)
+    return render_template("test2.html", stocks_data=manager.get_stocks(), current_active_trades=current_active_trades, current_user=current_user.id) 
+
+@routes.route("/test", methods=['GET','POST'])
+def test():
+    return render_template("test2.html", stocks_data=manager.get_stocks())
+

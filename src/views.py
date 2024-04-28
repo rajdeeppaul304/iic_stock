@@ -117,6 +117,7 @@ def owned_stocks():
 def barter_start_trade():
     if request.method == "POST":
         barter_manager.start_trade(current_user.id, request.form)
+        return jsonify(success=True, message="Trade started successfully")
 
     return render_template("tradebarter.html", stocks_data=manager.get_stocks(), current_user_stocks=current_user.data(manager).get("stocks"))
 

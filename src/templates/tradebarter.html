@@ -57,8 +57,10 @@
       <select id="stockSelect" name="give-selected-stock"
         class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
         <option value="">Choose an option</option>
-        {% for key, stock in stocks_data.items() %}
-        <option value="{{key}}">{{stock.name}}</option>
+
+        {% for key, stock in current_user_stocks.items() %}
+
+        <option value="{{key}}">{{stocks_data[key]['name']}}</option>
         {% endfor %}
       </select>
     </div>
@@ -136,7 +138,7 @@
 </div>
 
 
-<div class="flex justify-center">
+<div class="flex justify-center mb-6">
   <button type="submit"
   class="submitButton px-4 py-2 w-9/12 md:w-3/12 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Send Trade request
   </button>
@@ -146,10 +148,43 @@
 
 
 
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.0.1/html5-qrcode.min.js"></script>
 
 <script>
-  document.getElementById("form-for-barter").addEventListener("submit", function(event) {
+  function showError(message) {
+    var modal = document.getElementById('errorModal');
+    var errorMessage = modal.querySelector('.errorMessage-text');
+    modal.classList.remove('hidden');
+    modal.classList.add('visible');
+    errorMessage.textContent = message;
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  }
+  function showSuccess(message) {
+    var modal = document.getElementById('successModal');
+    var successMessage = modal.querySelector('.successMessage-text');
+    modal.classList.remove('hidden');
+    modal.classList.add('visible');
+    successMessage.textContent = message;
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  }
+  function hideError() {
+    document.getElementById('errorModal').classList.remove('visible');
+    document.getElementById('errorModal').classList.add('hidden');
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+  function hideSuccess() {
+    document.getElementById('successModal').classList.remove('visible');
+    document.getElementById('successModal').classList.add('hidden');
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+  document.getElementById('closeErrorButton').addEventListener('click', hideError);
+  document.getElementById('closeSuccessButton').addEventListener('click', hideSuccess);
+</script>
+
+<script>
+document.getElementById("form-for-barter").addEventListener("submit", function(event) {
   event.preventDefault(); 
   
   var formData = new FormData(this); 
@@ -166,6 +201,13 @@
   })
   .then(data => {
     console.log(data); // Handle response data
+    // Example: Show success message to the user
+    if (data.success) {
+      showSuccess(data.message)
+    } else {
+      showError(data.message)
+
+    }
   })
   .catch(error => {
     console.error("There was a problem with your fetch operation:", error);

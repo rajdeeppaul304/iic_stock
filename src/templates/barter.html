@@ -5,6 +5,7 @@
 </script>
 
 <div>
+
   <div>
     <div class="text-3xl font-bold mb-8 text-center pt-5">Your QR code</div>
     <div class="text-2xl font-bold mb-8 text-center pt-5">Ask your friend to scan your code to start trading</div>
@@ -206,7 +207,36 @@
   </div>
 </div>
 
-
+<script>
+      function showError(message) {
+        var modal = document.getElementById('errorModal');
+        var errorMessage = modal.querySelector('.errorMessage-text');
+        modal.classList.remove('hidden');
+        modal.classList.add('visible');
+        errorMessage.textContent = message;
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    }
+    function showSuccess(message) {
+        var modal = document.getElementById('successModal');
+        var successMessage = modal.querySelector('.successMessage-text');
+        modal.classList.remove('hidden');
+        modal.classList.add('visible');
+        successMessage.textContent = message;
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    }
+      function hideError() {
+        document.getElementById('errorModal').classList.remove('visible');
+        document.getElementById('errorModal').classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling when modal is closed
+    }
+    function hideSuccess() {
+        document.getElementById('successModal').classList.remove('visible');
+        document.getElementById('successModal').classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling when modal is closed
+    }
+    document.getElementById('closeErrorButton').addEventListener('click', hideError);
+    document.getElementById('closeSuccessButton').addEventListener('click', hideSuccess);
+</script>
 <script>
             function handleFormSubmit(event) {
             event.preventDefault(); // Prevent default form submission
@@ -215,9 +245,6 @@
             const trader = form.querySelector('[name="trader"]').value;
             const confirmation = event.submitter.value; // Get the value of the clicked button
             console.log(trader, confirmation)
-            // Example of AJAX request to Flask backend
-            // Assumes you have an endpoint '/update-user-balance' that handles POST requests
-            // Replace 'YOUR_BACKEND_URL' with the actual URL of your backend
             fetch('/barter', {
                 method: 'POST',
                 headers: {
@@ -227,13 +254,18 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Handle the response
-                    console.log(data); // Log the response to the console
-                    // You can update the UI or show a message to the user based on the response
-                    alert(data.message); // Example: Show an alert with the message from the server
+                    console.log(data); 
+                    if (data.success === false) {
+                      showError(data.message)
+
+                    } else{
+                      showSuccess(data.message)
+
+                    }
                 })
                 .catch((error) => {
                     console.error('Error:', error);
+                    alert(error)
                     // Handle error as needed
                 });
         }

@@ -28,7 +28,7 @@ class Barter:
         active_trades[trader] = {"trade_with" : form_data["manual-input-qr"],
                                  "stocks_to_give" : [form_data.get("give-selected-stock"), form_data.get("give-value-stock")],
                                  "stocks_to_get" : [form_data.get("take-selected-stock"), form_data.get("take-value-stock")],
-                                 "trade-type" : form_data["list-radio"],
+                                 "trade_type" : form_data["list-radio"],
                                  "money": form_data.get("money-barter-stock")}
 
         with open(self.file, "w") as file:
@@ -89,6 +89,19 @@ class Barter:
             print("trader cannot trade")
             return False
 
+        # bartnorm -> normal barter without money
+        # take-bart -> trader gets money from current_user
+        # give-bart -> current_user gets money from trader
+        if trader_active_trade["trade_type"] == "take-bart":
+            if not current_user_info.get("balance") >= int(trader_active_trade["money"]):
+                print("current user does not have enough balance")
+                return False
+
+        if trader_active_trade["trade_type"] == "give-bart":
+            if not trader_info.get("balance") >= int(trader_active_trade["money"]):
+                print("trader does not have enough balance")
+                return False
+
         else:
             user_data_dict = manager.get_users()
 
@@ -109,20 +122,26 @@ class Barter:
             user_data_dict[trader]["stocks"] = trader_info["stocks"]
             user_data_dict[current_user]["stocks"] = current_user_info["stocks"]
 
+            # handle giving or taking of money
+            if trader_active_trade["trade_type"] == "take-bart":
+                user_data_dict[current_user]["balance"] -= int(trader_active_trade["money"])
+                user_data_dict[trader]["balance"] += int(trader_active_trade["money"])
+
+            if trader_active_trade["trade_type"] == "give-bart":
+                user_data_dict[trader]["balance"] -= int(trader_active_trade["money"])
+                user_data_dict[current_user]["balance"] += int(trader_active_trade["money"])
+
             print("user_data_dict", user_data_dict)
             print("trader_info", trader_info)
             print("current_user_info", current_user_info)
 
             manager.save_data(user_data_dict)
 
+            # clear the trade from active_trades
             if active_trades.get(trader):
                 del active_trades[trader]
-
             with open(self.file, "w") as file:
                 json.dump(active_trades, file)
 
         print("trade completed")
         return True
-
-
-

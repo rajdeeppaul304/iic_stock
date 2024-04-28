@@ -139,7 +139,7 @@ def barter():
     current_active_trades = barter_manager.get_active_trades(current_user.id)
     stocks_data=manager.get_stocks()
     transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
-    return render_template("test2.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id) 
+    return render_template("barter.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id) 
 
 @routes.route("/test", methods=['GET','POST'])
 def test():

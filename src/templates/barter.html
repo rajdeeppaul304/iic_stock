@@ -123,7 +123,7 @@
         <div class="flex justify-between">
           <div>
             <div class="font-bold pl-2">
-              You Get
+              You Give
             </div>
             <div>
               <div class="font-bold item-head rounded-md bg-red-300 px-2 item-sector mt-2">
@@ -135,19 +135,28 @@
                   {{trade[1]['stocks_to_get'][1]}}
 
               </div>
-              </div>
 
-              
+              </div>
+              {% if 
+                trade[1]['trade_type'] == 'take-bart'
+              %}
+              <div class="mt-2">
+                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
+                    ₹{{trade[1]["money"]}}
+              </div>
+              </div>
+              {% endif %}
+
             </div>
 
           </div>
 
           <div>
             <div class="font-bold flex justify-end pr-2">
-              You Give
+              You Get
             </div>
             <div class="">
-              <div class="flex justify-end font-bold item-head rounded-md bg-green-300 px-2 item-sector mt-2">
+              <div class="flex justify-end font-bold item-head rounded-md bg-blue-300 px-2 item-sector mt-2">
                 {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
 
               </div> 
@@ -157,6 +166,15 @@
 
               </div>
               </div>
+              {% if 
+                trade[1]['trade_type'] == 'give-bart'
+              %}
+              <div class="mt-2 flex justify-end">
+                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
+                    ₹{{trade[1]["money"]}}
+              </div>
+              </div>
+              {% endif %}
             </div>
 
           </div>

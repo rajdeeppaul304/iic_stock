@@ -124,14 +124,15 @@ def barter_start_trade():
 @login_required
 def barter():
     if request.method == "POST":
-        confirmation = request.form.get("confirmation")
+        returned_request = request.get_json()
+        confirmation = returned_request['confirmation']
         trade_status = [False, ""]
 
         if confirmation == "Yes":
-            trade_status = barter_manager.confirm_trade(current_user.id, request.form.get("trader"), manager)
+            trade_status = barter_manager.confirm_trade(current_user.id, returned_request["trader"], manager)
 
         else:
-            trade_status = barter_manager.deny_trade(current_user.id, request.form.get("trader"))
+            trade_status = barter_manager.deny_trade(current_user.id, returned_request["trader"])
 
         return jsonify({
             "success": trade_status[0],

@@ -117,7 +117,7 @@
     {% for trade in current_active_trades %}
 <div>
   <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
-    <form action="barter" method="post">
+    <form action="barter" class="barterForms" method="post">
       <input type="hidden" value="{{ trade[0] }}" name="trader" />
 
       <div class="font-bold pl-1 text-xl">{{ trade[0] }}</div>
@@ -206,6 +206,48 @@
   </div>
 </div>
 
+
+<script>
+            function handleFormSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = event.target.closest('.barterForms');
+            const trader = form.querySelector('[name="trader"]').value;
+            const confirmation = event.submitter.value; // Get the value of the clicked button
+            console.log(trader, confirmation)
+            // Example of AJAX request to Flask backend
+            // Assumes you have an endpoint '/update-user-balance' that handles POST requests
+            // Replace 'YOUR_BACKEND_URL' with the actual URL of your backend
+            fetch('/barter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ trader: trader, confirmation: confirmation }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response
+                    console.log(data); // Log the response to the console
+                    // You can update the UI or show a message to the user based on the response
+                    alert(data.message); // Example: Show an alert with the message from the server
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    // Handle error as needed
+                });
+        }
+
+
+            const forms = document.querySelectorAll('.barterForms');
+        forms.forEach(form => {
+            form.addEventListener("submit", handleFormSubmit);
+        });
+
+
+
+
+</script>
 
 <script>
   let qrCode;

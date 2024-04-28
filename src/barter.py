@@ -39,7 +39,8 @@ class Barter:
             active_trades = json.load(file)
 
         if trader != "":
-            return (trader, active_trades.get(trader))
+            sent_trade = active_trades.get(trader)
+            return (trader, sent_trade) if sent_trade is not None else None
         
         user_active_trades = []
         for key, val in active_trades.items():

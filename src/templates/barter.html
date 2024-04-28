@@ -61,12 +61,99 @@
   </div>
   <div>
     <div class="flex justify-center w-full p-3 text-2xl ">Current Sent Requests</div>
-    <div>
+    {% if sent_trade is not none %}
+    <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+
+      <div class="font-bold pl-1 text-xl">{{ sent_trade[1]['trade_with'] }}</div>
+      <div class="block">
+
+
+        <div class="flex justify-between">
+          <div>
+            <div class="font-bold pl-2">
+              You Give
+            </div>
+            <div>
+              <div class=" flex justify-start mt-2">
+                <div class="inline font-bold item-head rounded-md bg-red-300 px-2">
+                  {{transformed_stocks[sent_trade[1]['stocks_to_give'][0]]}}
+
+                </div>
+
+              </div>
+              <div class="mt-2">
+                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
+                  {{sent_trade[1]['stocks_to_give'][1]}}
+
+                </div>
+
+              </div>
+              {% if
+              sent_trade[1]['trade_type'] == 'give-bart'
+              %}
+              <div class="my-2">
+                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
+                  Also Give ₹{{sent_trade[1]["money"]}}
+                </div>
+              </div>
+              {% endif %}
+
+            </div>
+
+          </div>
+
+          <div>
+            <div class="font-bold flex justify-end pr-2">
+              You Get
+            </div>
+            <div class="">
+              <div class=" flex justify-end mt-2">
+                <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
+                  {{transformed_stocks[sent_trade[1]['stocks_to_get'][0]]}}
+
+                </div>
+
+              </div>
+              <div class="mt-2 flex justify-end">
+                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector ">
+                  {{sent_trade[1]['stocks_to_get'][1]}}
+
+                </div>
+              </div>
+              {% if
+              sent_trade[1]['trade_type'] == 'take-bart'
+              %}
+              <div class="my-2 flex justify-end">
+                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
+                  Also Get ₹{{sent_trade[1]["money"]}}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+        <div class="flex justify-center space-x-2">
+          <form action="/delete_current_trade_request" method="POST">
+            <input type="hidden" name="deletion-current-request" value="{{sent_trade[1]['trade_with']}}">
+            <button type="submit"
+              class="focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete
+              current Request</button>
+          </form>
+        </div>
+      </div>
     </div>
+    {% else %}
+    <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+
+      <div class=" pl-1 text-xl flex justify-center">No current Sent Trade Requests... </br> Send a Trade Request to start </div>
+      
+    </div>
+    {% endif %}
   </div>
 
   <div>
-    <div class="flex justify-center w-full p-3 text-2xl ">Ongoing Trade Requests</div>
+    <div class="flex justify-center w-full p-3 text-2xl ">Incoming Trade Requests</div>
 
   </div>
 
@@ -116,91 +203,91 @@
 <div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
     {% for trade in current_active_trades %}
-<div>
-  <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
-    <form action="barter" class="barterForms" method="post">
-      <input type="hidden" value="{{ trade[0] }}" name="trader" />
+    <div>
+      <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+        <form action="barter" class="barterForms" method="post">
+          <input type="hidden" value="{{ trade[0] }}" name="trader" />
 
-      <div class="font-bold pl-1 text-xl">{{ trade[0] }}</div>
-      <div class="block">
+          <div class="font-bold pl-1 text-xl">{{ trade[0] }}</div>
+          <div class="block">
 
 
-        <div class="flex justify-between">
-          <div>
-            <div class="font-bold pl-2">
-              You Give
-            </div>
-            <div>
-                <div class=" flex justify-start mt-2">
+            <div class="flex justify-between">
+              <div>
+                <div class="font-bold pl-2">
+                  You Give
+                </div>
+                <div>
+                  <div class=" flex justify-start mt-2">
                     <div class="inline font-bold item-head rounded-md bg-red-300 px-2">
-                        {{transformed_stocks[trade[1]['stocks_to_get'][0]]}}
-    
+                      {{transformed_stocks[trade[1]['stocks_to_get'][0]]}}
+
                     </div>
-    
-                  </div> 
-              <div class="mt-2">
-                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
-                  {{trade[1]['stocks_to_get'][1]}}
 
-              </div>
+                  </div>
+                  <div class="mt-2">
+                    <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
+                      {{trade[1]['stocks_to_get'][1]}}
 
-              </div>
-              {% if 
-                trade[1]['trade_type'] == 'take-bart'
-              %}
-              <div class="mt-2">
-                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
-                   Also Give ₹{{trade[1]["money"]}}
-              </div>
-              </div>
-              {% endif %}
+                    </div>
 
-            </div>
-
-          </div>
-
-          <div>
-            <div class="font-bold flex justify-end pr-2">
-              You Get
-            </div>
-            <div class="">
-              <div class=" flex justify-end mt-2">
-                <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
-                    {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
+                  </div>
+                  {% if
+                  trade[1]['trade_type'] == 'take-bart'
+                  %}
+                  <div class="mt-2">
+                    <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
+                      Also Give ₹{{trade[1]["money"]}}
+                    </div>
+                  </div>
+                  {% endif %}
 
                 </div>
 
-              </div> 
-              <div class="mt-2 flex justify-end">
-                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector ">
-                  {{trade[1]['stocks_to_give'][1]}}
+              </div>
+
+              <div>
+                <div class="font-bold flex justify-end pr-2">
+                  You Get
+                </div>
+                <div class="">
+                  <div class=" flex justify-end mt-2">
+                    <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
+                      {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
+
+                    </div>
+
+                  </div>
+                  <div class="mt-2 flex justify-end">
+                    <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector ">
+                      {{trade[1]['stocks_to_give'][1]}}
+
+                    </div>
+                  </div>
+                  {% if
+                  trade[1]['trade_type'] == 'give-bart'
+                  %}
+                  <div class="my-2 flex justify-end">
+                    <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
+                      Also Get ₹{{trade[1]["money"]}}
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
 
               </div>
-              </div>
-              {% if 
-                trade[1]['trade_type'] == 'give-bart'
-              %}
-              <div class="my-2 flex justify-end">
-                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
-                    Also Get ₹{{trade[1]["money"]}}
-              </div>
-              </div>
-              {% endif %}
             </div>
+            <div class="flex justify-center space-x-2">
+              <button value="Yes" name="confirmation" type="submit"
+                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">Yes</button>
+              <button value="No" name="confirmation" type="submit"
+                class="focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">No</button>
 
+            </div>
           </div>
-        </div>
-        <div class="flex justify-center space-x-2">
-          <button value="Yes" name="confirmation" type="submit"
-            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">Yes</button>
-          <button value="No" name="confirmation" type="submit"
-            class="focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">No</button>
-
-        </div>
+        </form>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
 
 
     {% endfor %}
@@ -208,73 +295,73 @@
 </div>
 
 <script>
-      function showError(message) {
-        var modal = document.getElementById('errorModal');
-        var errorMessage = modal.querySelector('.errorMessage-text');
-        modal.classList.remove('hidden');
-        modal.classList.add('visible');
-        errorMessage.textContent = message;
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-    }
-    function showSuccess(message) {
-        var modal = document.getElementById('successModal');
-        var successMessage = modal.querySelector('.successMessage-text');
-        modal.classList.remove('hidden');
-        modal.classList.add('visible');
-        successMessage.textContent = message;
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-    }
-      function hideError() {
-        document.getElementById('errorModal').classList.remove('visible');
-        document.getElementById('errorModal').classList.add('hidden');
-        document.body.style.overflow = ''; // Restore scrolling when modal is closed
-    }
-    function hideSuccess() {
-        document.getElementById('successModal').classList.remove('visible');
-        document.getElementById('successModal').classList.add('hidden');
-        document.body.style.overflow = ''; // Restore scrolling when modal is closed
-    }
-    document.getElementById('closeErrorButton').addEventListener('click', hideError);
-    document.getElementById('closeSuccessButton').addEventListener('click', hideSuccess);
+  function showError(message) {
+    var modal = document.getElementById('errorModal');
+    var errorMessage = modal.querySelector('.errorMessage-text');
+    modal.classList.remove('hidden');
+    modal.classList.add('visible');
+    errorMessage.textContent = message;
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  }
+  function showSuccess(message) {
+    var modal = document.getElementById('successModal');
+    var successMessage = modal.querySelector('.successMessage-text');
+    modal.classList.remove('hidden');
+    modal.classList.add('visible');
+    successMessage.textContent = message;
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  }
+  function hideError() {
+    document.getElementById('errorModal').classList.remove('visible');
+    document.getElementById('errorModal').classList.add('hidden');
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+  function hideSuccess() {
+    document.getElementById('successModal').classList.remove('visible');
+    document.getElementById('successModal').classList.add('hidden');
+    document.body.style.overflow = ''; // Restore scrolling when modal is closed
+  }
+  document.getElementById('closeErrorButton').addEventListener('click', hideError);
+  document.getElementById('closeSuccessButton').addEventListener('click', hideSuccess);
 </script>
 <script>
-            function handleFormSubmit(event) {
-            event.preventDefault(); // Prevent default form submission
+  function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
 
-            const form = event.target.closest('.barterForms');
-            const trader = form.querySelector('[name="trader"]').value;
-            const confirmation = event.submitter.value; // Get the value of the clicked button
-            console.log(trader, confirmation)
-            fetch('/barter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ trader: trader, confirmation: confirmation }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data); 
-                    if (data.success === false) {
-                      showError(data.message)
+    const form = event.target.closest('.barterForms');
+    const trader = form.querySelector('[name="trader"]').value;
+    const confirmation = event.submitter.value; // Get the value of the clicked button
+    console.log(trader, confirmation)
+    fetch('/barter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ trader: trader, confirmation: confirmation }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.success === false) {
+          showError(data.message)
 
-                    } else{
-                      showSuccess(data.message)
+        } else {
+          showSuccess(data.message)
 
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert(error)
-                    // Handle error as needed
-                });
         }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(error)
+        // Handle error as needed
+      });
+  }
 
 
-            const forms = document.querySelectorAll('.barterForms');
-        forms.forEach(form => {
-            form.addEventListener("submit", handleFormSubmit);
-        });
+  const forms = document.querySelectorAll('.barterForms');
+  forms.forEach(form => {
+    form.addEventListener("submit", handleFormSubmit);
+  });
 
 
 

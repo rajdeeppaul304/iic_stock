@@ -142,7 +142,19 @@ def barter():
     current_active_trades = barter_manager.get_active_trades(current_user.id)
     stocks_data=manager.get_stocks()
     transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
-    return render_template("barter.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id) 
+    sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
+    return render_template("barter.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+
+@routes.route("/delete_current_trade_request", methods=['POST'])
+@login_required
+def delete_current_trade_request():
+    deletionoftradewith = request.form['deletion-current-request']
+    trade_status = barter_manager.deny_trade(deletionoftradewith, current_user.id)
+
+    print(request.form['deletion-current-request'], trade_status)
+    return redirect('/barter')
+    
+
 
 @routes.route("/test", methods=['GET','POST'])
 def test():

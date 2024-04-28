@@ -3,7 +3,7 @@ from .database_manager import Database, User
 from flask_login import LoginManager, login_manager, login_user, logout_user, current_user, login_required
 from os import path
 from .barter import Barter
-
+import json
 routes = Blueprint("views", __name__)
 
 database_file = path.abspath("database.json")
@@ -128,4 +128,12 @@ def barter():
         # print("POST data received:")
         # for key, value in request.form.items():
         #     print(f"{key}: {value}")
-    return render_template("test2.html", stocks_data=manager.get_stocks()) 
+    own_code = {"email":current_user.id}
+    own_code = json.dumps(own_code)
+
+    return render_template("test2.html", stocks_data=manager.get_stocks(), current_user = "hehe") 
+
+@routes.route("/test", methods=['GET','POST'])
+def test():
+    user_data = manager.get_users()[current_user.id]
+    return render_template("ipo.html",stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])

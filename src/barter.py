@@ -34,9 +34,12 @@ class Barter:
         with open(self.file, "w") as file:
             json.dump(active_trades, file)
 
-    def get_active_trades(self, user: str):
+    def get_active_trades(self, user="", trader=""):
         with open(self.file, "r") as file:
             active_trades = json.load(file)
+
+        if trader != "":
+            return (trader, active_trades.get(trader))
         
         user_active_trades = []
         for key, val in active_trades.items():
@@ -50,11 +53,13 @@ class Barter:
         with open(self.file, "r") as file:
             active_trades = json.load(file)
         
-        if active_trades.get(trader)["trade_with"] == current_user:
+        if active_trades.get(trader, {}).get("trade_with") == current_user:
             del active_trades[trader]
 
         with open(self.file, "w") as file:
             json.dump(active_trades, file)
+        
+        return (False, "Trade Denied")
 
     def confirm_trade(self, current_user, trader, manager):
         with open(self.file, "r") as file:
@@ -62,7 +67,7 @@ class Barter:
         
         trader_active_trade = active_trades.get(trader, {})
         if trader_active_trade.get("trade_with") != current_user:
-            return False
+            return (False, "Trader Cancelled the Trade")
 
         # keep in mind that trader is the one who initiated the barter
         # current_user is the one that accepted the barter
@@ -75,19 +80,19 @@ class Barter:
 
         # return False if user or trader was not found in database.json
         if not (trader_info or current_user_info):
-            return False
+            return (False, "User or Trader not Found")
         
         # before the and statement stuff is to avoid the case where the user does not own the stock trader wants
         # the not is to just return False if the trade is not possible
         if not (current_user_info.get("stocks").get(stocks_to_get[0]) and current_user_info.get("stocks").get(stocks_to_get[0]) >= int(stocks_to_get[1])):
             print("user cannot trade")
-            return False
+            return (False, "You do not have enough requested stocks")
         
         # before the and statement stuff is to avoid the case where the trader does not own the stock user wants
         # same logic for using not 
         if not (trader_info.get("stocks").get(stocks_to_give[0]) and trader_info.get("stocks").get(stocks_to_give[0]) >= int(stocks_to_give[1])):
             print("trader cannot trade")
-            return False
+            return (False, "Trader does not have enough stocks")
 
         # bartnorm -> normal barter without money
         # take-bart -> trader gets money from current_user
@@ -95,12 +100,12 @@ class Barter:
         if trader_active_trade["trade_type"] == "take-bart":
             if not current_user_info.get("balance") >= int(trader_active_trade["money"]):
                 print("current user does not have enough balance")
-                return False
+                return (False, "You do not have enough Balance")
 
         if trader_active_trade["trade_type"] == "give-bart":
             if not trader_info.get("balance") >= int(trader_active_trade["money"]):
                 print("trader does not have enough balance")
-                return False
+                return (False, "Trader does not have enough Balance")
 
         else:
             user_data_dict = manager.get_users()
@@ -144,4 +149,4 @@ class Barter:
                 json.dump(active_trades, file)
 
         print("trade completed")
-        return True
+        return (True, "Trade Complete")

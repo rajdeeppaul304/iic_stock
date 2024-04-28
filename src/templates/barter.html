@@ -58,7 +58,11 @@
       code</a>
 
   </div>
-
+  <div>
+    <div class="flex justify-center w-full p-3 text-2xl ">Current Sent Requests</div>
+    <div>
+    </div>
+  </div>
 
   <div>
     <div class="flex justify-center w-full p-3 text-2xl ">Ongoing Trade Requests</div>
@@ -126,12 +130,15 @@
               You Give
             </div>
             <div>
-              <div class="font-bold item-head rounded-md bg-red-300 px-2 item-sector mt-2">
-                {{transformed_stocks[trade[1]['stocks_to_get'][0]]}}
-
-              </div>
+                <div class=" flex justify-start mt-2">
+                    <div class="inline font-bold item-head rounded-md bg-red-300 px-2">
+                        {{transformed_stocks[trade[1]['stocks_to_get'][0]]}}
+    
+                    </div>
+    
+                  </div> 
               <div class="mt-2">
-                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector">
+                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
                   {{trade[1]['stocks_to_get'][1]}}
 
               </div>
@@ -141,8 +148,8 @@
                 trade[1]['trade_type'] == 'take-bart'
               %}
               <div class="mt-2">
-                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
-                    ₹{{trade[1]["money"]}}
+                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
+                   Also Give ₹{{trade[1]["money"]}}
               </div>
               </div>
               {% endif %}
@@ -156,8 +163,11 @@
               You Get
             </div>
             <div class="">
-              <div class="flex justify-end font-bold item-head rounded-md bg-blue-300 px-2 item-sector mt-2">
-                {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
+              <div class=" flex justify-end mt-2">
+                <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
+                    {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
+
+                </div>
 
               </div> 
               <div class="mt-2 flex justify-end">
@@ -169,9 +179,9 @@
               {% if 
                 trade[1]['trade_type'] == 'give-bart'
               %}
-              <div class="mt-2 flex justify-end">
+              <div class="my-2 flex justify-end">
                 <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
-                    ₹{{trade[1]["money"]}}
+                    Also Get ₹{{trade[1]["money"]}}
               </div>
               </div>
               {% endif %}

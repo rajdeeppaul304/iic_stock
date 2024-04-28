@@ -112,10 +112,6 @@ def owned_stocks():
     return render_template("owned_stocks.html", stocks_data=dict_to_return, current_balance=user_data["balance"], name=user_data["name"])
 
 
-# @routes.route("/barter")
-# def barter():
-#     return render_template("barter.html")
-
 @routes.route("/barter/start_trade", methods=['GET','POST'])
 @login_required
 def barter_start_trade():
@@ -129,12 +125,18 @@ def barter_start_trade():
 def barter():
     if request.method == "POST":
         confirmation = request.form.get("confirmation")
+        trade_status = [False, ""]
 
         if confirmation == "Yes":
-            barter_manager.confirm_trade(current_user.id, request.form.get("trader"), manager)
+            trade_status = barter_manager.confirm_trade(current_user.id, request.form.get("trader"), manager)
 
         else:
-            barter_manager.deny_trade(current_user.id, request.form.get("trader"))
+            trade_status = barter_manager.deny_trade(current_user.id, request.form.get("trader"))
+
+        return jsonify({
+            "success": trade_status[0],
+            "message": trade_status[1]
+        })
 
     current_active_trades = barter_manager.get_active_trades(current_user.id)
     stocks_data=manager.get_stocks()

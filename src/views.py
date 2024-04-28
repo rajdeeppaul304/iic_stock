@@ -127,15 +127,17 @@ def barter_start_trade():
 @routes.route("/barter", methods=['GET','POST'])
 @login_required
 def barter():
-    if request.method == 'POST':
-        barter_manager.start_trade(current_user.id, request.form)
-        # print("POST data received:")
-        # for key, value in request.form.items():
-        #     print(f"{key}: {value}")
-    own_code = {"email":current_user.id}
-    own_code = json.dumps(own_code)
+    if request.method == "POST":
+        confirmation = request.form.get("confirmation")
 
-    return render_template("test2.html", stocks_data=manager.get_stocks(), current_user = "hehe") 
+        if confirmation == "Yes":
+            barter_manager.confirm_trade(current_user.id, request.form.get("trader"), manager)
+
+        else:
+            barter_manager.deny_trade(current_user.id, request.form.get("trader"))
+
+    current_active_trades = barter_manager.get_active_trades(current_user.id)
+    return render_template("test2.html", stocks_data=manager.get_stocks(), current_active_trades=current_active_trades, current_user=current_user.id) 
 
 @routes.route("/test", methods=['GET','POST'])
 def test():

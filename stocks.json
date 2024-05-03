@@ -1,1 +1,126 @@
-{"1001": {"name": "HDFCBANK", "full_name": "HDFC Bank Ltd", "amount": 100, "sector": "Banking"}, "1002": {"name": "RBLBANK", "full_name": "RBL Bank Ltd", "amount": 100, "sector": "Banking"}, "1003": {"name": "DCBBANK", "full_name": "DCB Bank Ltd", "amount": 100, "sector": "Banking"}, "1004": {"name": "ITC", "full_name": "ITC Ltd", "amount": 100, "sector": "FMCG"}, "1005": {"name": "EMAMILTD", "full_name": "Emami Ltd", "amount": 100, "sector": "FMCG"}, "1006": {"name": "SULA", "full_name": "Sula Vineyards Ltd", "amount": 100, "sector": "FMCG"}, "1007": {"name": "TCS", "full_name": "Tata Consultancy Services Ltd", "amount": 100, "sector": "IT"}, "1008": {"name": "ZENTEC", "full_name": "Zen Technologies Limited", "amount": 100, "sector": "IT"}, "1009": {"name": "QUICKHEAL", "full_name": "Quick Heal Technologies Ltd", "amount": 100, "sector": "IT"}, "1010": {"name": "ADANIPORTS", "full_name": "Adani Ports and Special Economic Zone Ld", "amount": 100, "sector": "Logistics and Freight"}, "1011": {"name": "BLUEDART", "full_name": "Blue Dart Express Ltd", "amount": 100, "sector": "Logistics and Freight"}, "1012": {"name": "MAHLOG", "full_name": "Mahindra Logistics Ltd", "amount": 100, "sector": "Logistics and Freight"}, "1013": {"name": "SUNTV", "full_name": "Sun Tv Network Ltd", "amount": 100, "sector": "Media & Entertainment"}, "1014": {"name": "PVRINOX", "full_name": "PVR INOX Ltd", "amount": 100, "sector": "Media & Entertainment"}, "1015": {"name": "NDTV", "full_name": "New Delhi Television Ltd", "amount": 100, "sector": "Media & Entertainment"}, "1016": {"name": "CIPLA", "full_name": "Cipla Ltd", "amount": 100, "sector": "Healthcare"}, "1017": {"name": "LALPATHLAB", "full_name": "Dr. Lal PathLabs Ltd", "amount": 100, "sector": "Healthcare"}, "1018": {"name": "INNOVACAP", "full_name": "Innova Captab Ltd", "amount": 100, "sector": "Healthcare"}}
+{
+	"1001": {
+		"name": "HDFCBANK",
+		"full_name": "HDFC Bank Ltd",
+		"amount": 100,
+		"sector": "Banking"
+	},
+	"1002": {
+		"name": "RBLBANK",
+		"full_name": "RBL Bank Ltd",
+		"amount": 100,
+		"sector": "Banking"
+	},
+	"1003": {
+		"name": "DCBBANK",
+		"full_name": "DCB Bank Ltd",
+		"amount": 100,
+		"sector": "Banking"
+	},
+	"1004": {
+		"name": "ITC",
+		"full_name": "ITC Ltd",
+		"amount": 100,
+		"sector": "FMCG"
+	},
+	"1005": {
+		"name": "EMAMILTD",
+		"full_name": "Emami Ltd",
+		"amount": 100,
+		"sector": "FMCG"
+	},
+	"1006": {
+		"name": "SULA",
+		"full_name": "Sula Vineyards Ltd",
+		"amount": 100,
+		"sector": "FMCG"
+	},
+	"1007": {
+		"name": "TCS",
+		"full_name": "Tata Consultancy Services Ltd",
+		"amount": 100,
+		"sector": "IT"
+	},
+	"1008": {
+		"name": "ZENTEC",
+		"full_name": "Zen Technologies Limited",
+		"amount": 100,
+		"sector": "IT"
+	},
+	"1009": {
+		"name": "QUICKHEAL",
+		"full_name": "Quick Heal Technologies Ltd",
+		"amount": 100,
+		"sector": "IT"
+	},
+	"1010": {
+		"name": "ADANIPORTS",
+		"full_name": "Adani Ports and Special Economic Zone Ld",
+		"amount": 100,
+		"sector": "Logistics and Freight"
+	},
+	"1011": {
+		"name": "BLUEDART",
+		"full_name": "Blue Dart Express Ltd",
+		"amount": 100,
+		"sector": "Logistics and Freight"
+	},
+	"1012": {
+		"name": "MAHLOG",
+		"full_name": "Mahindra Logistics Ltd",
+		"amount": 100,
+		"sector": "Logistics and Freight"
+	},
+	"1013": {
+		"name": "SUNTV",
+		"full_name": "Sun Tv Network Ltd",
+		"amount": 100,
+		"sector": "Media & Entertainment"
+	},
+	"1014": {
+		"name": "PVRINOX",
+		"full_name": "PVR INOX Ltd",
+		"amount": 100,
+		"sector": "Media & Entertainment"
+	},
+	"1015": {
+		"name": "NDTV",
+		"full_name": "New Delhi Television Ltd",
+		"amount": 100,
+		"sector": "Media & Entertainment"
+	},
+	"1016": {
+		"name": "CIPLA",
+		"full_name": "Cipla Ltd",
+		"amount": 100,
+		"sector": "Healthcare"
+	},
+	"1017": {
+		"name": "LALPATHLAB",
+		"full_name": "Dr. Lal PathLabs Ltd",
+		"amount": 100,
+		"sector": "Healthcare"
+	},
+	"1018": {
+		"name": "INNOVACAP",
+		"full_name": "Innova Captab Ltd",
+		"amount": 100,
+		"sector": "Healthcare"
+	},
+	"1019": {
+		"name": "ti1",
+		"full_name": "testing ipo 1",
+		"amount": 100,
+		"lots":20,
+		"sector": "Healthcare",
+		"ipo":true
+	},
+	"1020": {
+		"name": "ti2",
+		"full_name": "testing ipo 2",
+		"amount": 100,
+		"lots":20,
+		"sector": "Healthcare",
+		"ipo":true
+	}
+}

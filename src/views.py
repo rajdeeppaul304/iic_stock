@@ -157,7 +157,12 @@ def delete_current_trade_request():
     
 
 
-@routes.route("/test", methods=['GET','POST'])
-def test():
+@routes.route("/ipo", methods=['GET','POST'])
+@login_required
+def ipo():
     user_data = manager.get_users()[current_user.id]
-    return render_template("ipo.html",stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+    return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"])
+
+
+
+

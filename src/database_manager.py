@@ -1,6 +1,7 @@
 import os
 # from os import path
 import json
+import re
 
 from flask_login import UserMixin
 
@@ -108,9 +109,13 @@ class Database():
 
         else: print("could not find user")
 
-    def get_stocks(self) -> dict:
+    def get_stocks(self, only_ipos=False) -> dict:
         with open(self.stocks_file) as stocks:
             stocks_dict = json.load(stocks)
+
+        if only_ipos:
+            ipo_dict = {key:val for key, val in stocks_dict.items() if val.get("ipo")}
+            return ipo_dict
 
         return stocks_dict
 

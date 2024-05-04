@@ -10,8 +10,9 @@ routes = Blueprint("views", __name__)
 database_file = path.abspath("database.json")
 stocks_file = path.abspath("stocks.json")
 active_trades = path.abspath("active_trades.json")
+fd_file = path.abspath("fds.json")
 
-manager = Database(database_file, stocks_file)
+manager = Database(database_file, stocks_file, fd_file)
 barter_manager = Barter(active_trades, stocks_file)
 
 login_manager = LoginManager()
@@ -27,8 +28,6 @@ def load_user(user_id):
         return User(user_id)
 
     return None
-
-manager = Database("database.json", "stocks.json")
 
 @routes.route("/")
 @login_required
@@ -144,6 +143,7 @@ def barter():
     stocks_data=manager.get_stocks()
     transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
     sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
+
     return render_template("barter.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
 
 @routes.route("/delete_current_trade_request", methods=['POST'])
@@ -154,8 +154,6 @@ def delete_current_trade_request():
 
     print(request.form['deletion-current-request'], trade_status)
     return redirect('/barter')
-    
-
 
 @routes.route("/ipo", methods=['GET','POST'])
 @login_required

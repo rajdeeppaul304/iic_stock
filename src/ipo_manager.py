@@ -1,12 +1,6 @@
 import json
 import random
 
-# requested_lots = {"ipo1": {"dhruvdubey":35,
-#                            "rajdeep":20},
-#                   "ipo2": {"dhruvdubey":12,
-#                           "rajdeep":10}}
-#
-
 class Ipo:
     def __init__(self, file, database_manager) -> None:
         self.file = file

@@ -1,27 +1,15 @@
 import os
-# from os import path
 import json
-import re
 
 from flask_login import UserMixin
 
 class Database():
-    def __init__(self, file:str, stocks_file:str) -> None:
+    def __init__(self, file:str, stocks_file:str, fd_file:str) -> None:
         self.file = file
         self.stocks_file = stocks_file
+        self.fd_file = fd_file
         if not os.path.exists(file):
             open(file, "w").close()
-
-    # whats hashing?
-    def add_user(self, name:str, email:str, password:str, intial_balance:float):
-        with open(self.file, "r") as database:
-            user_data_dict = json.load(database)
-
-        if not user_data_dict.get(email):
-            user_data_dict[email] = {"name":name, "password":password, "balance":intial_balance}
-
-            with open(self.file, "w") as database:
-                json.dump(user_data_dict, database)
 
     def buy_stocks(self, email:str, stock_id:int, amount:int) -> bool:
         stock_id_str = str(stock_id)
@@ -88,13 +76,6 @@ class Database():
                 return False
 
         return True
-
-    def save_data(self, user_data_dict:dict):
-        if not os.path.exists("transaction.lock"):
-            open("transaction.lock", "w").close()
-            with open(self.file, "w") as database:
-                json.dump(user_data_dict, database)
-            os.remove("transaction.lock")
 
     def reset(self, email:str):
         with open(self.file, "r") as database:

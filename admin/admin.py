@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import database_manager
+import fd_manager
 import os
 
 manager = database_manager.Database("database.json", "stocks.json", "round_match_info.json")
+# interest is in fraction
+manager_fd = fd_manager.FD("fds.json", 0.06)
 lock_file = os.path.abspath("transaction.lock")
 
 def change_lock_state(file, new_state):
@@ -50,6 +53,7 @@ def update_round_match():
         manager.round(increment=True)
 
     elif data['id'] == 'increment-match':
+        manager_fd.increase_interest()
         manager.match(increment=True)
 
     print(f"round: {manager.round()} match:{manager.match()}")

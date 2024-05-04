@@ -35,10 +35,42 @@
                         <div class="font-bold item-head">{{ stock.full_name }}</div>
                     </div>
                     <div class="flex justify-center sm:flex bg-blue-200 px-4 md:justify-between">
-                        <div class="inline font-bold item-head rounded-md bg-green-300 px-2 item-amount">
-                            ₹{{stock.amount|round(2)}}
+                        <div class="inline font-bold item-head rounded-md bg-green-300 overflow-hidden item-amount">
+                            <div class="block">
+                                <div class="flex justify-between space-x-2 px-2">
+                                    <div>
+                                        Share Price
+                                    </div>
+                                    <div>
+                                        ₹{{stock.amount|round(2)}}
+
+                                    </div>
+                                </div>
+                                <div class="flex justify-between space-x-2 px-2">
+                                    <div>
+                                        Shares Per Lot
+                                    </div>
+                                    <div>
+                                        {{stock.shares_per_lot|round(2)}}
+
+                                    </div>
+                                </div>
+                                <div class="flex justify-between bg-orange-300 space-x-2 px-2">
+                                    <div>
+                                        Lot Price
+                                    </div>
+                                    <div>
+                                        ₹{{stock.amount * stock.shares_per_lot |round(2)}}
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="inline font-bold item-head rounded-md bg-red-300 px-2 item-sector">{{stock.sector}}
+                        <div class="">
+                            <div class="inline font-bold item-head rounded-md bg-red-300 px-2 item-sector">
+                                {{stock.sector}}
+                            </div>
                         </div>
                     </div>
                     <div class="flex sm:flex bg-blue-200 px-4 justify-between pt-2">

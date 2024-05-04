@@ -1,0 +1,14 @@
+dhruv:
+	admin
+	- fd interest
+	- stocks price change, market
+
+	user
+	- graphs
+	- roundwise rendering on /
+	- fd
+	- finish up ipo
+
+rajdeep:
+	user
+	- fix search

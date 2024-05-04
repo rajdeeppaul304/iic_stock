@@ -1,12 +1,13 @@
 from os import path
 import json
 
-from flask_login import UserMixin
+# from flask_login import UserMixin
 
 class Database():
-    def __init__(self, file:str, stocks_file:str) -> None:
+    def __init__(self, file:str, stocks_file:str, round_match_info:str) -> None:
         self.file = file
         self.stocks_file = stocks_file
+        self.round_match_info = round_match_info
         if not path.exists(file):
             open(file, "w").close()
 
@@ -32,15 +33,20 @@ class Database():
             json.dump(user_data_dict, database)
 
     def update_stocks(self, stock_id_str:str, new_price:int) -> bool:
-        stocks = self.get_stocks()[stock_id_str]
-        return False
+        stocks = self.get_stocks()
+        stocks[stock_id_str] = new_price
+
+        with open(self.stocks_file, "w") as file:
+            json.dump(stocks, file)
+
+        return True
 
     def reset(self, email:str):
         with open(self.file, "r") as database:
             user_data_dict = json.load(database)
 
         if user_data_dict.get(email):
-            user_data_dict[email]["balance"] = 10000
+            user_data_dict[email]["balance"] = 10_00_000
             user_data_dict[email]["stocks"] = {}
 
             with open(self.file, "w") as database:
@@ -53,6 +59,35 @@ class Database():
             stocks_dict = json.load(stocks)
 
         return stocks_dict
+    
+    def round(self, increment=False):
+        with open(self.round_match_info, "r") as file:
+            info = json.load(file)
+
+        if increment:
+            if info.get("round"):
+                info["round"] += 1
+            else:
+                info["round"] = 1
+            with open(self.round_match_info, "w") as file:
+                json.dump(info, file)
+
+        return info.get("round", 0)
+
+    def match(self, increment=False):
+        with open(self.round_match_info, "r") as file:
+            info = json.load(file)
+        
+        if increment:
+            if info.get("match"):
+                info["match"] += 1
+            else:
+                info["match"] = 1
+
+            with open(self.round_match_info, "w") as file:
+                json.dump(info, file)
+
+        return info.get("match", 0)
 
     def get_users(self, no_pass=False) -> dict:
         with open(self.file) as stocks:

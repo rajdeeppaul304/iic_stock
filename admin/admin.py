@@ -1,4 +1,3 @@
-from re import A
 from flask import Flask, render_template, request, jsonify
 import database_manager
 import os

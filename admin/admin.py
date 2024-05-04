@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify
 import database_manager
 import os
 
-manager = database_manager.Database("database.json", "stocks.json")
+manager = database_manager.Database("database.json", "stocks.json", "round_match_info.json")
 lock_file = os.path.abspath("transaction.lock")
 
 def change_lock_state(file, new_state):
@@ -37,11 +37,9 @@ def stock_submit():
     return jsonify({"message": "Form submitted successfully"})
 
 # updation of round and match
-current_round = 0
-current_match = 0
 @app.route("/get_current_values", methods=["GET"])
 def get_current_values():
-    return jsonify({"current_round": current_round, "current_match": current_match})
+    return jsonify({"current_round": manager.round(), "current_match": manager.match()})
 
 @app.route("/update_round_match", methods=["POST"])
 def update_round_match():
@@ -50,11 +48,13 @@ def update_round_match():
     data = request.get_json()
     print(data)
     if data['id'] == 'increment-round':
-        current_round += 1
-    elif data['id'] == 'increment-match':
-        current_match += 1
+        manager.round(increment=True)
 
-    return jsonify({"message": "Form submitted successfully", "current_round":current_round, "current_match":current_match})
+    elif data['id'] == 'increment-match':
+        manager.match(increment=True)
+
+    print(f"round: {manager.round()} match:{manager.match()}")
+    return jsonify({"message": "Form submitted successfully", "current_round":manager.round(), "current_match":manager.match()})
 
 @app.route("/update-user-balance", methods=["POST"])
 def update_user_balance():

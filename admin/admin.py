@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import database_manager
 import fd_manager
+import stocks_manager
 import os
 
 manager = database_manager.Database("database.json", "stocks.json", "round_match_info.json")
-# interest is in fraction
 ipo_manager = fd_manager.Ipo("requested_lots.json", manager)
+stocks_manager = stocks_manager.Stocks("stocks.json")
+# interest is in fraction
 manager_fd = fd_manager.FD("fds.json", 0.06)
 lock_file = os.path.abspath("transaction.lock")
 
@@ -57,6 +59,7 @@ def update_round_match():
 
     elif data['id'] == 'increment-match':
         manager_fd.increase_interest()
+        stocks_manager.on_match_increment()
         manager.match(increment=True)
 
     print(f"round: {manager.round()} match:{manager.match()}")

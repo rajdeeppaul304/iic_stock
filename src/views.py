@@ -56,8 +56,6 @@ def home():
     else:
         return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
-
-
 # @routes.route("/index")
 
 @routes.route("/login", methods=["POST", "GET"])

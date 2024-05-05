@@ -57,7 +57,7 @@ class FD:
         self.file = file
 
     def buy(self, user_id, amount, manager):
-        user_data_dict = manager.get_users()
+        user_data_dict = manager.get_users(no_pass=False)
         balance = user_data_dict.get(user_id, {}).get("balance")
 
         if balance == None:

@@ -50,3 +50,44 @@ class Ipo:
 
         print(requested_lots)
         print(distributed_lots) 
+
+
+class FD:
+    def __init__(self, file) -> None:
+        self.file = file
+
+    def buy(self, user_id, amount, manager):
+        user_data_dict = manager.get_users()
+        balance = user_data_dict.get(user_id, {}).get("balance")
+
+        if balance == None:
+            return (False, "User not found")
+        
+        with open(self.file, "r") as file:
+            fds = json.load(file)
+
+        if not (amount <= balance):
+            return (False, "You do not have enough balance")
+        if amount <= 0:
+            return (False, "Amount cannot be 0 or less")
+
+        if fds.get(user_id):
+            fds[user_id] += amount
+        else:
+            fds[user_id] = amount
+
+        user_data_dict[user_id]["balance"] -= amount
+
+        with open(self.file, "w") as file:
+            json.dump(fds, file)
+        
+        with open(manager.file, "w") as file:
+            json.dump(user_data_dict, file)
+
+        return (True, "Success")
+
+
+
+
+
+

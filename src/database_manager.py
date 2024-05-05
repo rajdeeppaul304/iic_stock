@@ -4,10 +4,9 @@ import json
 from flask_login import UserMixin
 
 class Database():
-    def __init__(self, file:str, stocks_file:str, fd_file:str) -> None:
+    def __init__(self, file:str, stocks_file:str) -> None:
         self.file = file
         self.stocks_file = stocks_file
-        self.fd_file = fd_file
         if not os.path.exists(file):
             open(file, "w").close()
 
@@ -76,7 +75,7 @@ class Database():
                 return False
 
         return True
-
+    
     def reset(self, email:str):
         with open(self.file, "r") as database:
             user_data_dict = json.load(database)

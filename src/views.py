@@ -1,9 +1,11 @@
-import re
 from flask import Blueprint, redirect, request, render_template, jsonify, url_for
-from .database_manager import Database, User
 from flask_login import LoginManager, login_manager, login_user, logout_user, current_user, login_required
-from os import path
+
+from .database_manager import Database, User
 from .barter import Barter
+from .ipo_manager import Ipo, FD
+
+from os import path
 import json
 routes = Blueprint("views", __name__)
 
@@ -12,8 +14,9 @@ stocks_file = path.abspath("stocks.json")
 active_trades = path.abspath("active_trades.json")
 fd_file = path.abspath("fds.json")
 
-manager = Database(database_file, stocks_file, fd_file)
+manager = Database(database_file, stocks_file)
 barter_manager = Barter(active_trades, stocks_file)
+fd_manager = FD(fd_file)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
@@ -158,6 +161,16 @@ def delete_current_trade_request():
 @routes.route("/ipo", methods=['GET','POST'])
 @login_required
 def ipo():
+    if request.method == "POST":
+        amount = request.form.get("amount")
+        if amount: amount = int(amount)
+        success, message = fd_manager.buy(current_user.id, amount, manager)
+        
+        return jsonify({
+            "success":success,
+            "message":message
+            })
+
     user_data = manager.get_users()[current_user.id]
     return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"])
 

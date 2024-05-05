@@ -361,7 +361,7 @@
         console.log(itemId, itemName, number_of_stocks.value)
 
         const handleResponse = (data) => {
-            if (data.success === 1) {
+            if (data.success === true) {
                 console.log(data.message);
                 hideConfirmation();
                 balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
@@ -385,12 +385,12 @@
         };
 
         if (itemName === "buy" || itemName === "sell") {
-            fetch('/buy_sell_stocks', {
+            fetch('/ipo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value }),
+                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value, ipo:true }),
             })
                 .then(response => response.json())
                 .then(handleResponse)

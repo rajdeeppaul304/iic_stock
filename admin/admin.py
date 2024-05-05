@@ -5,6 +5,7 @@ import os
 
 manager = database_manager.Database("database.json", "stocks.json", "round_match_info.json")
 # interest is in fraction
+ipo_manager = fd_manager.Ipo("requested_lots.json", manager)
 manager_fd = fd_manager.FD("fds.json", 0.06)
 lock_file = os.path.abspath("transaction.lock")
 
@@ -45,11 +46,13 @@ def get_current_values():
 
 @app.route("/update_round_match", methods=["POST"])
 def update_round_match():
-    global current_round, current_match
-
     data = request.get_json()
     print(data)
     if data['id'] == 'increment-round':
+        if manager.round() == 1:
+            print("distributing lots")
+            ipo_manager.distribute_lots()
+
         manager.round(increment=True)
 
     elif data['id'] == 'increment-match':

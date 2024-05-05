@@ -10,46 +10,32 @@ class Ipo:
         with open(self.file, "r") as file:
             requested_lots = json.load(file)
 
+        user_data_dict = self.database_manager.get_users(no_pass=False)
+        stocks = self.database_manager.get_stocks()
+
+        money_required = amount * stocks.get(ipo, {}).get("amount", 0) * stocks.get(ipo, {}).get("shares_per_lot", 0)
+
+        if user_data_dict.get(user_id, {}).get("balance", 0) < money_required:
+            print("user does not have enough balance")
+            return (False, "You do not have enough balance")
+
+        print(f"spending {money_required} on {ipo} by {user_id}")
         if requested_lots.get(ipo, {}).get(user_id):
             requested_lots[ipo][user_id] += amount
-
         else:
+            requested_lots[ipo] = {}
             requested_lots[ipo][user_id] = amount
 
+        user_data_dict[user_id]["balance"] -= money_required
 
         with open(self.file, "w") as file:
             json.dump(requested_lots, file)
 
+        with open(self.database_manager.file, "w") as file:
+            json.dump(user_data_dict, file)
 
-    def distribute_lots(self):
-        with open(self.file, "r") as file:
-            requested_lots = json.load(file)
 
-        ipos_list = self.database_manager.get_stocks(only_ipos=True)
-        distributed_lots = {ipo:{} for ipo in requested_lots.keys()}
-
-        for ipo, requests in requested_lots.items():
-            lots_remaining = ipos_list.get(ipo, {}).get("lots")
-
-            distributed = False
-            while not distributed:
-                distributed = True
-
-                for user, number_of_requests in requests.items():
-                    if number_of_requests and lots_remaining:
-                        distributed = False
-                        num = random.randint(0, min(5, number_of_requests, lots_remaining))
-
-                        requested_lots[ipo][user] -= num
-                        lots_remaining -= num
-
-                        if distributed_lots[ipo].get(user): 
-                            distributed_lots[ipo][user] += num
-                        else: 
-                            distributed_lots[ipo][user] = num
-
-        print(requested_lots)
-        print(distributed_lots) 
+        return (True, "Success")
 
 
 class FD:

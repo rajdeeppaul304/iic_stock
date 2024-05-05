@@ -54,12 +54,6 @@ class Database():
 
         else: print("could not find user")
 
-    def get_stocks(self) -> dict:
-        with open(self.stocks_file) as stocks:
-            stocks_dict = json.load(stocks)
-
-        return stocks_dict
-    
     def round(self, increment=False):
         with open(self.round_match_info, "r") as file:
             info = json.load(file)
@@ -89,13 +83,24 @@ class Database():
 
         return info.get("match", 0)
 
-    def get_users(self, no_pass=False) -> dict:
+    def get_stocks(self, only_ipos=False) -> dict:
+        with open(self.stocks_file) as stocks:
+            stocks_dict = json.load(stocks)
+
+        if only_ipos:
+            ipo_dict = {key:val for key, val in stocks_dict.items() if val.get("ipo")}
+            return ipo_dict
+
+        return stocks_dict
+
+    def get_users(self, no_pass=True) -> dict:
         with open(self.file) as stocks:
             user_data_dict = json.load(stocks)
 
         if no_pass:
             for user_data in user_data_dict.values():
-                del user_data["password"]
+                user_data.pop("password", None)
+                # del user_data["password"]
 
         return user_data_dict
 

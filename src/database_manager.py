@@ -38,6 +38,8 @@ class Database():
 
             else:
                 return False
+        
+        self.update_bought_stocks(stock_id_str, amount)
 
         return True
 
@@ -74,8 +76,20 @@ class Database():
             else:
                 return False
 
+        self.update_bought_stocks(stock_id_str, -amount)
         return True
     
+    def update_bought_stocks(self, stock_id:str, amount:int):
+        stocks = self.get_stocks()
+        if stocks.get(stock_id, {}).get("net_bought"):
+            stocks[stock_id]["net_bought"] += amount
+
+        else:
+            stocks[stock_id]["net_bought"] = amount
+
+        with open(self.stocks_file, "w") as file:
+            json.dump(stocks, file)
+
     def reset(self, email:str):
         with open(self.file, "r") as database:
             user_data_dict = json.load(database)

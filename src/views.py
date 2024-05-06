@@ -55,7 +55,7 @@ def index():
         transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
         sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
 
-        return render_template("barter.html",current_round = curr_round, stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+        return render_template("barter.html",current_round = curr_round,current_balance=user_data["balance"], stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
 
     else:
         return "match has not started yet"
@@ -145,11 +145,13 @@ def owned_stocks():
 @routes.route("/barter/start_trade", methods=['GET','POST'])
 @login_required
 def barter_start_trade():
+
     if request.method == "POST":
         barter_manager.start_trade(current_user.id, request.form)
         return jsonify(success=True, message="Trade started successfully")
+    user_data = manager.get_users()[current_user.id]
 
-    return render_template("tradebarter.html", stocks_data=manager.get_stocks(), current_user_stocks=current_user.data(manager).get("stocks"))
+    return render_template("tradebarter.html", stocks_data=manager.get_stocks(),current_balance=user_data["balance"], current_user_stocks=current_user.data(manager).get("stocks"))
 
 @routes.route("/barter", methods=['GET','POST'])
 @login_required

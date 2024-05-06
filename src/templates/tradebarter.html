@@ -67,7 +67,7 @@
     <div class="w-5/12 md:w-4/12 p-4">
       <div class="relative">
         <input id="quantityInput" type="number"  name="give-value-stock"
-          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="block prevent-negative-value appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Value">
       </div>
     </div>
@@ -88,7 +88,7 @@
     <div class="w-5/12 md:w-4/12 p-4">
       <div class="relative">
         <input id="quantityInput2" type="number" name="take-value-stock"
-          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="block prevent-negative-value appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Value">
       </div>
     </div>
@@ -131,7 +131,7 @@
     <div class="w-10/12 md:w-4/12 p-4">
       <div class="relative">
         <input id="quantityInput3" type="number" name="money-barter-stock"
-          class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          class="block appearance-none w-full prevent-negative-value bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Amount To give/take">
       </div>
   </div>
@@ -147,29 +147,7 @@
 
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-      // Function to prevent value from going below 0
-      function preventNegativeValue(input) {
-          input.addEventListener('input', function () {
-              // Prevent the value from going below 0
-              if (parseInt(this.value) < 0) {
-                  this.value = 0;
-              }
-          });
-      }
 
-      // Apply the function to both input fields
-      const quantityInput = document.getElementById('quantityInput');
-      const quantityInput2 = document.getElementById('quantityInput2');
-      const quantityInput3 = document.getElementById('quantityInput3');
-
-      preventNegativeValue(quantityInput3);
-
-      preventNegativeValue(quantityInput);
-      preventNegativeValue(quantityInput2);
-  });
-</script>
 
 
 

@@ -1,1 +1,181 @@
-{"1001": {"name": "HDFCBANK", "full_name": "HDFC Bank Ltd", "amount": 1519, "sector": "Banking", "net_bought": 0, "net_bought_prev": 0}, "1002": {"name": "RBLBANK", "full_name": "RBL Bank Ltd", "amount": 264, "sector": "Banking", "net_bought": 0, "net_bought_prev": 0}, "1003": {"name": "DCBBANK", "full_name": "DCB Bank Ltd", "amount": 3888.0, "sector": "Banking", "net_bought": 0, "net_bought_prev": 0}, "1004": {"name": "ITC", "full_name": "ITC Ltd", "amount": 436, "sector": "FMCG", "net_bought": 0, "net_bought_prev": 0}, "1005": {"name": "EMAMILTD", "full_name": "Emami Ltd", "amount": 495, "sector": "FMCG", "net_bought": 0, "net_bought_prev": 0}, "1006": {"name": "SULA", "full_name": "Sula Vineyards Ltd", "amount": 548, "sector": "FMCG", "net_bought": 0, "net_bought_prev": 0}, "1007": {"name": "TCS", "full_name": "Tata Consultancy Services Ltd", "amount": 434343.0, "sector": "IT", "net_bought": 0, "net_bought_prev": 0}, "1008": {"name": "ZENTEC", "full_name": "Zen Technologies Limited", "amount": 1088, "sector": "IT", "net_bought": 0, "net_bought_prev": 0}, "1009": {"name": "QUICKHEAL", "full_name": "Quick Heal Technologies Ltd", "amount": 486, "sector": "IT", "net_bought": 0, "net_bought_prev": 0}, "1010": {"name": "ADANIPORTS", "full_name": "Adani Ports and Special Economic Zone Ld", "amount": 1320, "sector": "Logistics and Freight", "net_bought": 0, "net_bought_prev": 0}, "1011": {"name": "BLUEDART", "full_name": "Blue Dart Express Ltd", "amount": 6821, "sector": "Logistics and Freight", "net_bought": 0, "net_bought_prev": 0}, "1012": {"name": "MAHLOG", "full_name": "Mahindra Logistics Ltd", "amount": 463, "sector": "Logistics and Freight", "net_bought": 0, "net_bought_prev": 0}, "1013": {"name": "SUNTV", "full_name": "Sun Tv Network Ltd", "amount": 655, "sector": "Media & Entertainment", "net_bought": 0, "net_bought_prev": 0}, "1014": {"name": "PVRINOX", "full_name": "PVR INOX Ltd", "amount": 1321, "sector": "Media & Entertainment", "net_bought": 0, "net_bought_prev": 0}, "1015": {"name": "NDTV", "full_name": "New Delhi Television Ltd", "amount": 223, "sector": "Media & Entertainment", "net_bought": 0, "net_bought_prev": 0}, "1016": {"name": "CIPLA", "full_name": "Cipla Ltd", "amount": 1424, "sector": "Healthcare", "net_bought": 0, "net_bought_prev": 0}, "1017": {"name": "LALPATHLAB", "full_name": "Dr. Lal PathLabs Ltd", "amount": 2318, "sector": "Healthcare", "net_bought": 0, "net_bought_prev": 0}, "1018": {"name": "INNOVACAP", "full_name": "Innova Captab Ltd", "amount": 458, "sector": "Healthcare", "net_bought": 0, "net_bought_prev": 0}, "1019": {"name": "ND", "full_name": "NutriDelight", "amount": 1312.5, "shares_per_lot": 8, "lots": 200, "sector": "Healthcare", "ipo": true, "net_bought": 0, "net_bought_prev": 0}, "1020": {"name": "ZF", "full_name": "Zenith Fintech", "amount": 1000, "shares_per_lot": 10, "lots": 140, "sector": "Healthcare", "ipo": true, "net_bought": 0, "net_bought_prev": 0}, "1021": {"name": "SRSS", "full_name": "Smaller robotics and solar solution", "amount": 400, "shares_per_lot": 25, "lots": 70, "sector": "Healthcare", "ipo": true, "net_bought": 0, "net_bought_prev": 0}}
+{
+	"1001": {
+		"name": "HDFCBANK",
+		"full_name": "HDFC Bank Ltd",
+		"amount": 1519,
+		"sector": "Banking",
+		"net_bought": 0,
+		"net_bought_prev": 0,
+		"total_bought": 0
+	},
+	"1002": {
+		"name": "RBLBANK",
+		"full_name": "RBL Bank Ltd",
+		"amount": 264,
+		"sector": "Banking",
+		"net_bought": 0,
+		"net_bought_prev": 0,
+		"total_bought": 0
+	},
+	"1003": {
+		"name": "DCBBANK",
+		"full_name": "DCB Bank Ltd",
+		"amount": 3888.0,
+		"sector": "Banking",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1004": {
+		"name": "ITC",
+		"full_name": "ITC Ltd",
+		"amount": 436,
+		"sector": "FMCG",
+		"net_bought": 0,
+		"net_bought_prev": 4
+	},
+	"1005": {
+		"name": "EMAMILTD",
+		"full_name": "Emami Ltd",
+		"amount": 495,
+		"sector": "FMCG",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1006": {
+		"name": "SULA",
+		"full_name": "Sula Vineyards Ltd",
+		"amount": 548,
+		"sector": "FMCG",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1007": {
+		"name": "TCS",
+		"full_name": "Tata Consultancy Services Ltd",
+		"amount": 434343.0,
+		"sector": "IT",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1008": {
+		"name": "ZENTEC",
+		"full_name": "Zen Technologies Limited",
+		"amount": 1088,
+		"sector": "IT",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1009": {
+		"name": "QUICKHEAL",
+		"full_name": "Quick Heal Technologies Ltd",
+		"amount": 486,
+		"sector": "IT",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1010": {
+		"name": "ADANIPORTS",
+		"full_name": "Adani Ports and Special Economic Zone Ld",
+		"amount": 1320,
+		"sector": "Logistics and Freight",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1011": {
+		"name": "BLUEDART",
+		"full_name": "Blue Dart Express Ltd",
+		"amount": 6821,
+		"sector": "Logistics and Freight",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1012": {
+		"name": "MAHLOG",
+		"full_name": "Mahindra Logistics Ltd",
+		"amount": 463,
+		"sector": "Logistics and Freight",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1013": {
+		"name": "SUNTV",
+		"full_name": "Sun Tv Network Ltd",
+		"amount": 655,
+		"sector": "Media & Entertainment",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1014": {
+		"name": "PVRINOX",
+		"full_name": "PVR INOX Ltd",
+		"amount": 1321,
+		"sector": "Media & Entertainment",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1015": {
+		"name": "NDTV",
+		"full_name": "New Delhi Television Ltd",
+		"amount": 223,
+		"sector": "Media & Entertainment",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1016": {
+		"name": "CIPLA",
+		"full_name": "Cipla Ltd",
+		"amount": 1424,
+		"sector": "Healthcare",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1017": {
+		"name": "LALPATHLAB",
+		"full_name": "Dr. Lal PathLabs Ltd",
+		"amount": 2318,
+		"sector": "Healthcare",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1018": {
+		"name": "INNOVACAP",
+		"full_name": "Innova Captab Ltd",
+		"amount": 458,
+		"sector": "Healthcare",
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1019": {
+		"name": "ND",
+		"full_name": "NutriDelight",
+		"amount": 1312.5,
+		"shares_per_lot": 8,
+		"lots": 200,
+		"sector": "Healthcare",
+		"ipo": true,
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1020": {
+		"name": "ZF",
+		"full_name": "Zenith Fintech",
+		"amount": 1000,
+		"shares_per_lot": 10,
+		"lots": 140,
+		"sector": "Healthcare",
+		"ipo": true,
+		"net_bought": 0,
+		"net_bought_prev": 0
+	},
+	"1021": {
+		"name": "SRSS",
+		"full_name": "Smaller robotics and solar solution",
+		"amount": 400,
+		"shares_per_lot": 25,
+		"lots": 70,
+		"sector": "Healthcare",
+		"ipo": true,
+		"net_bought": 0,
+		"net_bought_prev": 0
+	}
+}

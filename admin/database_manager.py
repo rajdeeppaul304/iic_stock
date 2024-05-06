@@ -17,13 +17,13 @@ class Database():
             user_data_dict = json.load(database)
 
         if not user_data_dict.get(email):
-            user_data_dict[email] = {"name":name, "password":password, "balance":intial_balance}
+            user_data_dict[email] = {"name":name, "password":password, "balance":intial_balance, "stocks":{}}
 
             with open(self.file, "w") as database:
                 json.dump(user_data_dict, database)
 
     def add_balance(self, email:str, extra_balance:int):
-        user_data_dict = self.get_users()
+        user_data_dict = self.get_users(no_pass=False)
         user_data_dict[email]["balance"] += extra_balance
 
         user_data_dict[email]["balance"] = user_data_dict[email]["balance"] if user_data_dict[email]["balance"] >= 0 else 0
@@ -32,9 +32,9 @@ class Database():
         with open(self.file, "w") as database:
             json.dump(user_data_dict, database)
 
-    def update_stocks(self, stock_id_str:str, new_price:int) -> bool:
+    def update_stocks(self, stock_id_str:str, new_price) -> bool:
         stocks = self.get_stocks()
-        stocks[stock_id_str] = new_price
+        stocks[stock_id_str]["amount"] = new_price
 
         with open(self.stocks_file, "w") as file:
             json.dump(stocks, file)

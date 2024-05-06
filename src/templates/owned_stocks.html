@@ -8,6 +8,7 @@
 
 {% block modals %}
 {% endblock modals %}
+<script src="{{url_for('static', filename='js/flowbite.min.js')}}"></script>
 
 <section class="">
     <div class="w-full flex justify-center">
@@ -122,12 +123,6 @@
     filterItems()
     document.getElementById('searchInput').addEventListener('input', filterItems);
 </script>
-
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 
 {% endblock %}

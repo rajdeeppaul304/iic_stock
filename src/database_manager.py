@@ -53,7 +53,7 @@ class Database():
             user_data_dict = json.load(database)
 
         if user_data_dict.get(email):
-            print("stocks and amount",user_data_dict[email]["stocks"][stock_id_str], amount)
+            # print("stocks and amount",user_data_dict[email]["stocks"][stock_id_str], amount)
             if not user_data_dict[email]["stocks"].get(stock_id_str):
                 print("no stocks owned")
                 return False

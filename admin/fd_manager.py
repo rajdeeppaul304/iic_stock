@@ -43,6 +43,8 @@ class Ipo:
         for ipo, dist_lots in distributed_lots.items():
             print(f"ipo: {ipo}, dist_lots: {dist_lots}")
             for user, amount in dist_lots.items():
+                if not user_data_dict[user].get("stocks"):
+                    user_data_dict[user]["stocks"]={}
                 user_data_dict[user]["stocks"][ipo] = amount * stocks.get(ipo, {}).get("shares_per_lot", 0)
 
         with open(self.file, "w") as file:

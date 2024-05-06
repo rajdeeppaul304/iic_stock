@@ -192,9 +192,23 @@ def ipo():
             "success":success,
             "message":message
         })
-
     user_data = manager.get_users()[current_user.id]
     return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
+
+
+@routes.route("/buy_fd", methods=['POST'])
+@login_required
+def buy_fd():
+    reqe = request.form['amount']
+    print(reqe)
+
+    amount = request.form.get("amount")
+    if amount: amount = int(amount)
+    success, message = fd_manager.buy(current_user.id, amount, manager)
+
+    print(f"success: {success}, message: {message}")
+    return redirect(url_for('views.ipo'))
+
 
 
 

@@ -2,6 +2,7 @@
 
 {% extends 'layout.html' %}
 {% block content %}
+<script src="{{url_for('static', filename='js/flowbite.min.js')}}"></script>
 
 <section class="">
     <div class="w-full flex justify-center">
@@ -23,28 +24,28 @@
                                 categories</button>
                         </li>
                         <li>
-                            <button type="button" name="Healthcare"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Healthcare</button>
-                        </li>
-                        <li>
-                            <button type="button" name="Tech"
-                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tech</button>
-                        </li>
-                        <li>
-                            <button type="button" name="Steel"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Steel</button>
+                            <button type="button" name="Banking"
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Banking</button>
                         </li>
                         <li>
                             <button type="button" name="FMCG"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">FMCG</button>
+                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">FMCG</button>
                         </li>
                         <li>
-                            <button type="button" name="Automotive"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Automotive</button>
+                            <button type="button" name="IT"
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">IT</button>
                         </li>
                         <li>
-                            <button type="button" name="E-Commerce"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">E-Commerce</button>
+                            <button type="button" name="Logistics and Freight"
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logistics and Freight</button>
+                        </li>
+                        <li>
+                            <button type="button" name="Media & Entertainment"
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Media & Entertain...</button>
+                        </li>
+                        <li>
+                            <button type="button" name="Healthcare"
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Healthcare</button>
                         </li>
                     </ul>
                 </div>
@@ -54,11 +55,9 @@
                         placeholder="Search Stocks..." />
                     <div
                         class="bg-gray-700 h-full w-8 rounded-r-lg overflow-hidden text-center items-center flex justify-center ">
-                        <svg class="w-4 h-4 text-gray-400  bg-gray-700 m-0" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
+
+
+                        <img src="{{url_for('static',filename='images/search.svg')}}" alt="" class="w-5 invert">
 
                     </div>
                 </div>
@@ -416,6 +415,6 @@
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
 
 {% endblock %}

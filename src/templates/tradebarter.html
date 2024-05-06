@@ -147,6 +147,29 @@
 
 
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Function to prevent value from going below 0
+      function preventNegativeValue(input) {
+          input.addEventListener('input', function () {
+              // Prevent the value from going below 0
+              if (parseInt(this.value) < 0) {
+                  this.value = 0;
+              }
+          });
+      }
+
+      // Apply the function to both input fields
+      const quantityInput = document.getElementById('quantityInput');
+      const quantityInput2 = document.getElementById('quantityInput2');
+      const quantityInput3 = document.getElementById('quantityInput3');
+
+      preventNegativeValue(quantityInput3);
+
+      preventNegativeValue(quantityInput);
+      preventNegativeValue(quantityInput2);
+  });
+</script>
 
 
 

@@ -226,9 +226,6 @@ def ipo():
 #     return jsonify({'success': success, 'message': message})
 
 
-
-
-
 def get_round():
     with open(round_match_file, "r") as file:
         round_match_info = json.load(file)

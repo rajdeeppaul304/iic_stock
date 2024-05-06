@@ -1,6 +1,8 @@
 import json
 import random
 
+interest = 0.06
+
 class Ipo:
     def __init__(self, file, database_manager) -> None:
         self.file = file
@@ -77,10 +79,37 @@ class FD:
 
         return (True, "Success")
     
+    def sell_fd(self, user_id, manager, current_round, current_match):
+        if current_round < 1 and current_match < 2:
+            return (False, "Please Wait for 2nd news flash before selling FD")
+        
+        user_data_dict = manager.get_users(no_pass=False)
+        holding = self.get_current_value(user_id)
+
+        if not holding:
+            return (False, "User does not have a FD")
+        user_data_dict[user_id]["balance"] += holding + (holding * interest / 2)
+
+        with open(self.file, "r") as file:
+            fds = json.load(file)
+
+        fds.pop(user_id)
+
+        with open(manager.file, "w") as file:
+            json.dump(user_data_dict, file)
+
+        with open(self.file, "w") as file:
+            json.dump(fds, file)
+        
+        return (True, f"Successful, {holding}")
+        
+
+
     def get_current_value(self, user_id):
         with open(self.file, "r") as file:
             fds = json.load(file)
-        return(fds.get(user_id, "error"))
+
+        return(fds.get(user_id, 0))
 
 
 

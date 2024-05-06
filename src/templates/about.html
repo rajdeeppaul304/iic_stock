@@ -12,9 +12,7 @@
   }
 
   /* Make the page full-screen and non-scrollable */
-  body {
-    overflow: hidden;
-  }
+
 
   /* Adjust grid layout for mobile screens */
   @media (max-width: 640px) {
@@ -30,55 +28,72 @@
 {% endblock modals %}
 
 <div class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex items-center justify-center absolute top-0 w-full pt-36">
-
-  <div class="container mx-auto p-8">
-    <h1 class="text-4xl font-bold mb-8 text-white text-center">Meet Our Amazing Team</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      <!-- Developer 1 -->
-
-
-
-      <div class="relative bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
-        <img src="{{url_for('static',filename='images/rajdeep_paul.jpg')}}" alt="Developer 2" class="w-full h-full object-cover object-top">
-        <div class="absolute inset-0 bg-white bg-opacity-70 top-56"></div> <!-- Transparent background overlay -->
-        <div class="absolute top-56 inset-0 p-4">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold mb-2 text-purple-600">Rajdeep Paul</h2>
-            <div class="flex justify-center items-center h-full text-center">
-              <a href="https://www.linkedin.com/in/rajdeep-paul-45459a288/" class="text-center" target="_blank"><img src="{{url_for('static',filename='images/linkedin.svg')}}" alt=""></a>
-              <a href="https://github.com/rajdeeppaul304" target="_blank"><img src="{{url_for('static',filename='images/github.svg')}}" alt="" class="w-10"></a>
+  <div>
+    <div class="container mx-auto">
+      <section id="about" class="text-center">
+          <h2 class="text-4xl font-bold mb-8">About Synergy Summit</h2>
+          <p class="text-lg mb-8">Get equipped to unleash your entrepreneurial spirit at Synergy Summit with the aid of the IIC crew of GGSIPU! Join us for an electrifying two-day adventure full of immersive workshops, exciting competitions, and insights from industry mavens. Don't just dream it, build it with us!</p>
+  
+      </section>
+      <section id="events" class="text-center mb-16">
+          <h2 class="text-4xl font-bold mb-8">Events</h2>
+          <!-- Add events details here -->
+      </section>
+      <section id="contact" class="text-center">
+          <h2 class="text-4xl font-bold mb-8">Contact Us</h2>
+          <p class="text-lg">For inquiries and more information, contact us at synergy@example.com</p>
+      </section>
+  </div>
+    <div class="container mx-auto p-8">
+      <h1 class="text-4xl font-bold mb-8 text-white text-center">Meet Our Amazing Team</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- Developer 1 -->
+  
+  
+  
+        <div class="relative bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+          <img src="{{url_for('static',filename='images/rajdeep_paul.jpg')}}" alt="Developer 2" class="w-full h-full object-cover object-top">
+          <div class="absolute inset-0 bg-white bg-opacity-70 top-56"></div> <!-- Transparent background overlay -->
+          <div class="absolute top-56 inset-0 p-4">
+            <div class="flex justify-between items-center">
+              <h2 class="text-xl font-semibold mb-2 text-purple-600">Rajdeep Paul</h2>
+              <div class="flex justify-center items-center h-full text-center">
+                <a href="https://www.linkedin.com/in/rajdeep-paul-45459a288/" class="text-center" target="_blank"><img src="{{url_for('static',filename='images/linkedin.svg')}}" alt=""></a>
+                <a href="https://github.com/rajdeeppaul304" target="_blank"><img src="{{url_for('static',filename='images/github.svg')}}" alt="" class="w-10"></a>
+              </div>
             </div>
+            <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
           </div>
-          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
         </div>
-      </div>
-      
-      <!-- Developer 2 -->
-      <div class="relative bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
-        <img src="{{url_for('static',filename='images/dhruv_dubey.jpeg')}}" alt="Developer 2" class="w-full h-full object-cover object-top">
-        <div class="absolute inset-0 bg-white bg-opacity-70 top-56"></div> <!-- Transparent background overlay -->
-        <div class="absolute top-56 inset-0 p-4">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold mb-2 text-purple-600">Dhruv Dubey</h2>
-            <div class="flex justify-center items-center h-full text-center">
-              <a href="https://www.linkedin.com/in/dhruv-dubey-b5a379272/" class="text-center" target="_blank"><img src="{{url_for('static',filename='images/linkedin.svg')}}" alt=""></a>
-              <a href="https://github.com/simplycode07" target="_blank"><img src="{{url_for('static',filename='images/github.svg')}}" alt="" class="w-10"></a>
+        
+        <!-- Developer 2 -->
+        <div class="relative bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+          <img src="{{url_for('static',filename='images/dhruv_dubey.jpeg')}}" alt="Developer 2" class="w-full h-full object-cover object-top">
+          <div class="absolute inset-0 bg-white bg-opacity-70 top-56"></div> <!-- Transparent background overlay -->
+          <div class="absolute top-56 inset-0 p-4">
+            <div class="flex justify-between items-center">
+              <h2 class="text-xl font-semibold mb-2 text-purple-600">Dhruv Dubey</h2>
+              <div class="flex justify-center items-center h-full text-center">
+                <a href="https://www.linkedin.com/in/dhruv-dubey-b5a379272/" class="text-center" target="_blank"><img src="{{url_for('static',filename='images/linkedin.svg')}}" alt=""></a>
+                <a href="https://github.com/simplycode07" target="_blank"><img src="{{url_for('static',filename='images/github.svg')}}" alt="" class="w-10"></a>
+              </div>
             </div>
+            <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
           </div>
-          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
         </div>
-      </div>
-      
-      
-      <!-- Developer 3 -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
-        <img src="https://via.placeholder.com/300" alt="Developer 3" class="w-full h-48 object-cover object-center">
-        <div class="p-4">
-          <h2 class="text-xl font-semibold mb-2 text-purple-600">Developer 3</h2>
-          <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
+        
+        
+        <!-- Developer 3 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden developer-card hover:shadow-xl">
+          <img src="https://via.placeholder.com/300" alt="Developer 3" class="w-full h-48 object-cover object-center">
+          <div class="p-4">
+            <h2 class="text-xl font-semibold mb-2 text-purple-600">Developer 3</h2>
+            <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis suscipit dui nec velit eleifend, et luctus nulla commodo.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
 {% endblock %}

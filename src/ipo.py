@@ -6,6 +6,11 @@ class Ipo:
         self.file = file
         self.database_manager = database_manager
 
+    def get_requested_ipos(self, user_id:str):
+        with open(self.file, "r") as file:
+            requested_lots = json.load(file)
+        return {x: y[user_id] for x, y in requested_lots.items() if user_id in y}
+
     def request_ipo(self, user_id:str, ipo:str, amount:int):
         with open(self.file, "r") as file:
             requested_lots = json.load(file)

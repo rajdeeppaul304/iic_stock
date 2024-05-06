@@ -75,9 +75,9 @@
                     </div>
                     <div class="flex sm:flex bg-blue-200 px-4 justify-between pt-2">
                         <div class="inline font-bold item-head rounded-md px-1">
-                            currently requested:
+                            currently requested Lots:
                         </div>
-                        <div class="inline font-bold item-head rounded-md px-1 bg-orange-300">{{ requested_ipos[key] }}
+                        <div id="requested-{{key}}" class="inline font-bold item-head rounded-md px-1 bg-orange-300">{{ requested_ipos[key] }}
                         </div>
                     </div>
                 </div>
@@ -106,12 +106,9 @@
                     <div class="flex p-4 justify-between">
                         <div>
                             <button type="button" name="buy" value="{{ key }}" id="buy-{{ key }}"
-                                class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
+                                class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">APPLY</button>
                         </div>
-                        <div>
-                            <button type="button" name="sell" value="{{ key }}" id="sell-{{ key }}"
-                                class="btn-confirm focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -281,7 +278,7 @@
         for (let i = 0; i < elements_stock_number.length; i++) {
             const inputField = elements_stock_number[i];
             const buttonBuy = document.getElementById(`buy-${inputField.name}`);
-            const buttonSell = document.getElementById(`sell-${inputField.name}`);
+            // const buttonSell = document.getElementById(`sell-${inputField.name}`);
             buttonBuy.addEventListener('click', function () {
                 console.log(inputField.value < 1, !inputField.value, !/^\d+$/.test(inputField.value))
 
@@ -300,20 +297,20 @@
 
             });
 
-            buttonSell.addEventListener('click', function () {
-                if (inputField.value < 1 || !inputField.value || !/^\d+$/.test(inputField.value)) {
-                    console.log(inputField.value);
-                    showError("Please enter a valid amount")
-                }
-                else {
-                    console.log(`Value from Button ${inputField.name}:`, inputField.value);
-                    var itemId = this.getAttribute('value');
-                    var itemName = "sell"
-                    showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Sell ${inputField.value} of this Stock?`);
+            // buttonSell.addEventListener('click', function () {
+            //     if (inputField.value < 1 || !inputField.value || !/^\d+$/.test(inputField.value)) {
+            //         console.log(inputField.value);
+            //         showError("Please enter a valid amount")
+            //     }
+            //     else {
+            //         console.log(`Value from Button ${inputField.name}:`, inputField.value);
+            //         var itemId = this.getAttribute('value');
+            //         var itemName = "sell"
+            //         showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Sell ${inputField.value} of this Stock?`);
 
-                }
+            //     }
 
-            });
+            // });
 
         }
 
@@ -336,6 +333,8 @@
             if (data.success === true) {
                 console.log(data.message);
                 hideConfirmation();
+                document.getElementById(`requested-${itemId}`).innerHTML = `${data.currentHoldingofThisIPO[itemId]}`;
+
                 balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
                 if (itemName === "buy") {
                     showSuccess("Successfully Bought The Stock Unit(s).");

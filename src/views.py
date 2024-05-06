@@ -202,6 +202,8 @@ def ipo():
         print(f"success: {success}, message: {message}")
         return jsonify({
             "success":success,
+            "remaining_balance": manager.get_users()[current_user.id]["balance"],
+            "currentHoldingofThisIPO":ipo_manager.get_requested_ipos(current_user.id),
             "message":message
         })
     user_data = manager.get_users()[current_user.id]

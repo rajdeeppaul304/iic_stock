@@ -94,14 +94,13 @@ class Database():
         return stocks_dict
 
     def get_users(self, no_pass=True) -> dict:
-        with open(self.file) as stocks:
-            user_data_dict = json.load(stocks)
+        with open(self.file) as file:
+            user_data_dict = json.load(file)
 
         if no_pass:
             for user_data in user_data_dict.values():
                 user_data.pop("password", None)
                 # del user_data["password"]
-
         return user_data_dict
 
     def dump_data(self):

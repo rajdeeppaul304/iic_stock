@@ -181,9 +181,10 @@ def ipo():
     if request.method == "POST":
         req = request.get_json()
         if req.get("ipo"):
+            print("lol")
             success, message = ipo_manager.request_ipo(current_user.id, req["itemId"], int(req["number_of_stocks"]))
         else:
-            amount = request.form.get("amount")
+            amount = req.get('amount')
             if amount: amount = int(amount)
             success, message = fd_manager.buy(current_user.id, amount, manager)
         
@@ -196,18 +197,18 @@ def ipo():
     return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
 
 
-@routes.route("/buy_fd", methods=['POST'])
-@login_required
-def buy_fd():
-    reqe = request.form['amount']
-    print(reqe)
+# @routes.route("/buy_fd", methods=['POST'])
+# @login_required
+# def buy_fd():
+#     data = request.get_json()
+#     amount = data.get("amount")
+#     if amount: 
+#         amount = int(amount)
+#     success, message = fd_manager.buy(current_user.id, amount, manager)
 
-    amount = request.form.get("amount")
-    if amount: amount = int(amount)
-    success, message = fd_manager.buy(current_user.id, amount, manager)
+#     # Return a JSON response
+#     return jsonify({'success': success, 'message': message})
 
-    print(f"success: {success}, message: {message}")
-    return redirect(url_for('views.ipo'))
 
 
 

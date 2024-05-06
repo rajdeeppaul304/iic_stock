@@ -48,7 +48,7 @@ class Ipo:
                 user_data_dict[user]["stocks"][ipo] = amount * stocks.get(ipo, {}).get("shares_per_lot", 0)
 
         with open(self.file, "w") as file:
-            json.dump({}, file)
+            json.dump({"1019":{}, "1020":{}, "1021":{}}, file)
 
         with open(self.database_manager.file, "w") as file:
             json.dump(user_data_dict, file)

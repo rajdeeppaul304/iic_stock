@@ -77,7 +77,8 @@
                         <div class="inline font-bold item-head rounded-md px-1">
                             currently requested Lots:
                         </div>
-                        <div id="requested-{{key}}" class="inline font-bold item-head rounded-md px-1 bg-orange-300">{{ requested_ipos[key] }}
+                        <div id="requested-{{key}}" class="inline font-bold item-head rounded-md px-1 bg-orange-300">{{
+                            requested_ipos[key] }}
                         </div>
                     </div>
                 </div>
@@ -117,55 +118,59 @@
             <div class="items-class rounded-md overflow-hidden bg-pink-200 flex flex-col justify-between">
                 <form id="fd-submit" method="post">
 
-			
 
-                <div>
-                    <div class="flex justify-center  p-4">
-                        <div class="font-bold item-head">Fixed Deposit</div>
+
+                    <div>
+                        <div class="flex justify-center  p-4">
+                            <div class="font-bold item-head">Fixed Deposit</div>
+                        </div>
+                        <div class="flex justify-between  p-4">
+                            <div class="font-bold item-head">Currently Holding: </div>
+                            <div id="fixed-deposit-currently-owned" class="inline font-bold item-head rounded-md px-1 bg-orange-300">₹{{ current_fd_count|round(2) }}</div>
+                        </div>
+
+
                     </div>
 
+                    <div class="flex flex-col items-center pt-4 ">
+                        <hr class="border-t border-gray-400 w-full">
 
-                </div>
+                        <div class="flex p-4 justify-center mb-2">
+                            <div class="custom-number-input h-10 w-32">
 
-                <div class="flex flex-col items-center pt-4 ">
-                    <hr class="border-t border-gray-400 w-full">
-
-                    <div class="flex p-4 justify-center mb-2">
-                        <div class="custom-number-input h-10 w-32">
-
-                            <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                                <button data-action="decrement" type="button"
-                                    class=" bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe]  h-full w-20 rounded-l cursor-pointer ">
-                                    <span class="m-auto text-2xl font-thin">-</span>
-                                </button>
-                                <input type="number" 
-                                    class="border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
-                                    name="amount" value="0"></input>
-                                <button data-action="increment" type="button"
-                                    class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
-                                    <span class="m-auto text-2xl font-thin">+</span>
-                                </button>
+                                <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                    <button data-action="decrement" type="button"
+                                        class=" bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe]  h-full w-20 rounded-l cursor-pointer ">
+                                        <span class="m-auto text-2xl font-thin">-</span>
+                                    </button>
+                                    <input type="number"
+                                        class="border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
+                                        name="amount" value="0"></input>
+                                    <button data-action="increment" type="button"
+                                        class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
+                                        <span class="m-auto text-2xl font-thin">+</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex p-4 justify-between">
-                        <div>
-                            <button type="submit" name="buy-fd"
-                                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
-                        </div>
+                        <div class="flex p-4 justify-between">
+                            <div>
+                                <button type="submit" name="buy-fd" id="buy-fd"
+                                    class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </div>
 
-			<div>
+            <div>
 
 
 
 
 
-			</div>
+            </div>
         </div>
     </div>
 
@@ -290,7 +295,7 @@
                     console.log(`Value from Button ${inputField.name}:`, inputField.value);
                     var itemId = this.getAttribute('value');
                     var itemName = "buy"
-                    showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Buy ${inputField.value} of this Stock?`);
+                    showConfirmation(itemId, itemName, inputField.value, `Are you sure you want to Buy ${inputField.value} Lot(s) of this Stock?`);
 
                 }
 
@@ -326,42 +331,61 @@
         console.log("this works")
         var itemId = this.getAttribute('value');
         var itemName = this.getAttribute('name');
-        let number_of_stocks = document.getElementById(`number-stock-${itemId}`)
-        console.log(itemId, itemName, number_of_stocks.value)
+        console.log(itemName)
+        let number_of_stocks = 0
+        if (itemName != "FD") {
+            number_of_stocks = document.getElementById(`number-stock-${itemId}`)
+        }
 
         const handleResponse = (data) => {
             if (data.success === true) {
                 console.log(data.message);
                 hideConfirmation();
-                document.getElementById(`requested-${itemId}`).innerHTML = `${data.currentHoldingofThisIPO[itemId]}`;
-
+                if (itemName != "FD") {
+                    document.getElementById(`requested-${itemId}`).innerHTML = `${data.currentHoldingofThisIPO[itemId]}`;
+                }else{
+                    
+                    document.getElementById(`fixed-deposit-currently-owned`).innerHTML = `${data.currentHoldingFD.toFixed(2)}`;
+                }
                 balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
+
                 if (itemName === "buy") {
-                    showSuccess("Successfully Bought The Stock Unit(s).");
-                } else if (itemName === "sell") {
-                    showSuccess("Successfully Sold The Stock Unit(s).");
+                    showSuccess("Successfully Bought The Stock Lot(s).");
+                } else if (itemName === "FD") {
+                    showSuccess(`Successfully bought FD worth of ₹${itemId}.`);
                 }
             } else {
                 console.log(data.message);
                 hideConfirmation();
-                if (itemName === "buy") {
-                    showError("Error: Not enough Balance");
-
-                } else if (itemName === "sell") {
-                    showError("Error: selling more than owned.");
-
-                }
-                showError("Error: Not enough Balance");
+                showError(data.message);
             }
+
         };
 
-        if (itemName === "buy" || itemName === "sell") {
+        if (itemName === "buy") {
+
             fetch('/ipo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value, ipo:true }),
+                body: JSON.stringify({ itemId, action: itemName, number_of_stocks: number_of_stocks.value, ipo: true }),
+            })
+                .then(response => response.json())
+                .then(handleResponse)
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            console.log(itemName)
+
+            fetch('/ipo', {
+
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: itemId }),
             })
                 .then(response => response.json())
                 .then(handleResponse)
@@ -377,44 +401,71 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('fd-submit');
-    form.addEventListener('submit', function (event) {
+
+    form.addEventListener('submit', function () {
         event.preventDefault(); // Prevent default form submission
 
         // Create an object with form data
-        const formData = {
+        let formData = {
             amount: document.querySelector('[name="amount"]').value
         };
+        console.log(formData.amount)
 
-        // Send a POST request to the backend with JSON data
-        fetch('/ipo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json()) // Parse the JSON response
-        .then(data => {
-            // Handle the response from the backend
-            console.log(data); // Log the response for debugging
 
-            // You can handle the success and message here and update the UI accordingly
-            if (data.success) {
-                showSuccess(data.message)
-                // You can redirect or update the UI as needed
-            } else {
-                showError(data.message)
-                // You can display an error message or handle the error scenario
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Handle any network errors or exceptions
-        });
+        if (formData.amount < 1 || !formData.amount || !/^\d+$/.test(formData.amount)) {
+            showError("Please enter a valid amount")
+        }
+        else {
+            var itemId = this.getAttribute('value');
+            var itemName = "buy"
+            showConfirmation(formData.amount, "FD", formData.amount, `Are you sure you want to Buy ₹${formData.amount} worth of FD?`);
+
+        }
+
+
     });
-});
+
+
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     form.addEventListener('submit', function (event) {
+    //         event.preventDefault(); // Prevent default form submission
+
+    //         // Create an object with form data
+    //         const formData = {
+    //             amount: document.querySelector('[name="amount"]').value
+    //         };
+
+    //         // Send a POST request to the backend with JSON data
+    //         fetch('/ipo', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(formData)
+    //         })
+    //             .then(response => response.json()) // Parse the JSON response
+    //             .then(data => {
+    //                 // Handle the response from the backend
+    //                 console.log(data); // Log the response for debugging
+
+    //                 // You can handle the success and message here and update the UI accordingly
+    //                 if (data.success) {
+    //                     showSuccess(data.message)
+    //                     balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
+
+    //                     // You can redirect or update the UI as needed
+    //                 } else {
+    //                     showError(data.message)
+    //                     // You can display an error message or handle the error scenario
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 // Handle any network errors or exceptions
+    //             });
+    //     });
+    // });
 
 </script>
 

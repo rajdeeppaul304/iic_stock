@@ -76,6 +76,12 @@ class FD:
             json.dump(user_data_dict, file)
 
         return (True, "Success")
+    
+    def get_current_value(self, user_id):
+        with open(self.file, "r") as file:
+            fds = json.load(file)
+        return(fds.get(user_id, "error"))
+
 
 
 

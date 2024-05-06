@@ -27,7 +27,7 @@
     <nav class=" bg-customNavBGcolor text-customNavFGcolor p-4">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">
-                {% if current_balance %}
+                {% if current_balance >= 0 %}
                 <div class="block">
                     <a href="#" id="current-round" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Round: {{ current_round }}</a>
                     <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>

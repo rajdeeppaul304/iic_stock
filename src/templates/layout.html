@@ -27,7 +27,7 @@
     <nav class=" bg-customNavBGcolor text-customNavFGcolor p-4">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">
-                {% if current_balance >= 0 %}
+                {% if current_balance is defined and current_balance >= 0 %}
                 <div class="block">
                     <a href="#" id="current-round" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Round: {{ current_round }}</a>
                     <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
@@ -156,6 +156,28 @@
     <footer>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // Function to prevent value from going below 0
+    function preventNegativeValue(input) {
+        input.addEventListener('input', function () {
+            // Prevent the value from going below 0
+            if (parseInt(this.value) < 0) {
+                this.value = 0;
+            }
+        });
+    }
+
+    // Select all input fields with the class preventnegativevalue
+    const inputs = document.querySelectorAll('.prevent-negative-value');
+
+    // Apply the preventNegativeValue function to each input field
+    inputs.forEach(function(input) {
+        preventNegativeValue(input);
+    });
+});
+
+    </script>
     <script>
                 // Toggle mobile menu visibility
                 const mobileMenu = document.getElementById('mobile-menu');

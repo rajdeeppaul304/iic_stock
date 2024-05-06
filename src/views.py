@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_manager, login_user, logout_user, cu
 
 from .database_manager import Database, User
 from .barter import Barter
-from .ipo_manager import Ipo, FD
+from .ipo import Ipo, FD
 
 from os import path
 import json
@@ -13,9 +13,12 @@ database_file = path.abspath("database.json")
 stocks_file = path.abspath("stocks.json")
 active_trades = path.abspath("active_trades.json")
 fd_file = path.abspath("fds.json")
+round_match_file = path.abspath("round_match_info.json")
+requested_lots = path.abspath("requested_lots.json")
 
 manager = Database(database_file, stocks_file)
 barter_manager = Barter(active_trades, stocks_file)
+ipo_manager = Ipo(requested_lots, manager)
 fd_manager = FD(fd_file)
 
 login_manager = LoginManager()
@@ -29,17 +32,31 @@ def load_user(user_id):
     user_data = manager.get_users().get(user_id)
     if user_data:
         return User(user_id)
-
     return None
+
+@routes.route("/index")
+@login_required
+def index():
+    user_data = manager.get_users()[current_user.id]
+    
+    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
 @routes.route("/")
 @login_required
-def index():
-    # stock_names = [val['name'] for (key, val) in manager.get_stocks().items()]
-    # print(manager.get_stocks())
+def home():
+    curr_round = get_round()
     user_data = manager.get_users()[current_user.id]
 
-    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+    if curr_round == 0:
+        return "match has not started yet"
+
+    if curr_round == 1:
+        return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"])
+    
+    else:
+        return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+
+# @routes.route("/index")
 
 @routes.route("/login", methods=["POST", "GET"])
 def login():
@@ -162,18 +179,27 @@ def delete_current_trade_request():
 @login_required
 def ipo():
     if request.method == "POST":
-        amount = request.form.get("amount")
-        if amount: amount = int(amount)
-        success, message = fd_manager.buy(current_user.id, amount, manager)
+        req = request.get_json()
+        if req.get("ipo"):
+            success, message = ipo_manager.request_ipo(current_user.id, req["itemId"], int(req["number_of_stocks"]))
+        else:
+            amount = request.form.get("amount")
+            if amount: amount = int(amount)
+            success, message = fd_manager.buy(current_user.id, amount, manager)
         
+        print(f"success: {success}, message: {message}")
         return jsonify({
             "success":success,
             "message":message
-            })
+        })
 
     user_data = manager.get_users()[current_user.id]
     return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"])
 
 
 
-
+def get_round():
+    with open(round_match_file, "r") as file:
+        round_match_info = json.load(file)
+        
+    return round_match_info.get("round", 0)

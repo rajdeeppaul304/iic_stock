@@ -35,19 +35,19 @@
                     <a href="#" id="balance-of-user" class="hover:bg-gray-700 px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
                 </div>
                 {% else %}
-                <a href="/" class="hover:bg-gray-700 px-3 py-2 rounded-md">IIC</a>
+				<a href="{{ url_for("views.home") }}" class="hover:bg-gray-700 px-3 py-2 rounded-md">IIC</a>
                 {% endif %}
             </div>
             <div class="hidden md:flex space-x-4">
                 {% if name %}
-                <a href="/" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
+				<a href="{{ url_for("views.home") }}" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
                 {% endif %}
                 {% if show_barter %}
-                <a href="/barter" class="hover:bg-gray-700 px-4 py-2 rounded-md">Barter</a>
+				<a href="{{ url_for("views.barter") }}" class="hover:bg-gray-700 px-4 py-2 rounded-md">Barter</a>
                 {% endif %}
-                <a href="/owned_stocks" class="hover:bg-gray-700 px-3 py-2 rounded-md">owned stocks</a>
-                <a href="/about" class="hover:bg-gray-700 px-3 py-2 rounded-md">about us</a>
-                <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md">trade notification</a>
+				<a href="{{ url_for("views.owned_stocks") }}" class="hover:bg-gray-700 px-3 py-2 rounded-md">owned stocks</a>
+				<a href="{{ url_for("views.about") }}" class="hover:bg-gray-700 px-3 py-2 rounded-md">about us</a>
+				<a href="{{ url_for("views.barter") }}" class="hover:bg-gray-700 px-3 py-2 rounded-md">trade notification</a>
             </div>
             <!-- Mobile menu button -->
             <button class="md:hidden block text-gray-500 hover:text-white focus:text-white focus:outline-none" id="mobile-menu-btn">
@@ -56,14 +56,16 @@
                 </svg>
             </button>
         </div>
+
         <!-- Mobile menu -->
         <div class="hidden md:hidden" id="mobile-menu">
             {% if name %}
-            <a href="/" class="block px-4 py-2 text-sm hover:bg-gray-700">{{name}}</a>
+			<a href="{{ url_for("views.home") }}" class="hover:bg-gray-700 px-4 py-2 rounded-md">{{name}}</a>
             {% endif %}
-            <a href="/owned_stocks" class="block px-4 py-2 text-sm hover:bg-gray-700">Owned Stocks</a>
-            <a href="/about" class="block px-4 py-2 text-sm hover:bg-gray-700">About Us</a>
-            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700">Trade Notification</a>
+			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:bg-gray-700">Owned Stocks</a>
+			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:bg-gray-700">About Us</a>
+			
+			<a href="{{ url_for("views.barter") }}" class="block px-4 py-2 text-sm hover:bg-gray-700">Trade Notification</a>
         </div>
     </nav>
     

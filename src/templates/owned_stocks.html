@@ -8,6 +8,7 @@
 
 {% block modals %}
 {% endblock modals %}
+<script src="{{url_for('static', filename='js/flowbite.min.js')}}"></script>
 
 <section class="">
     <div class="w-full flex justify-center">
@@ -46,16 +47,7 @@
                         <div class="flex bg-blue-200 px-4 justify-end">
                             <div class="font-bold item-head rounded-md bg-red-300 px-2">{{ stock.sector }}</div>
                         </div>
-                        <div class="bg-blue-200 p-4">
-                            {% if stock.description | length > 100 %}
-                            <div class="description-truncate">{{ stock.description | truncate(30, True, '...') }}</div>
-
-                            <a href="#" class="text-[#F98A06] mt-2 read-more">Read more</a>
-                            <div class="description-full hidden">{{ stock.description }}</div>
-                            {% else %}
-                            {{ stock.description }}
-                            {% endif %}
-                        </div>                    </div>
+                              </div>
 
                     <div class="block justify-center">
 
@@ -63,10 +55,20 @@
 
 
                         <div class="w-full justify-center">
-                            <div class="w-10/12 md:w-9/12 flex bg-blue-200 p-4 justify-between mb-2">
+                            <div class="w-full flex bg-blue-200 px-4 pt-4 justify-between mb-2">
 
-                                <p class="font-bold">Owned :</p>
-                                <p>{{ stock.owned }}</p>
+                                <p class="font-bold">Owned stocks:</p>
+                                <p class="font-bold item-head rounded-md bg-green-300 px-2 text-center">{{ stock.owned }}</p>
+                            </div>
+                            <div class="w-full flex bg-blue-200 px-4 justify-between mb-2">
+
+                                <p class="font-bold">stocks price:</p>
+                                <p class="font-bold item-head rounded-md bg-green-300 px-2 text-center">₹{{ stock.amount }}</p>
+                            </div>
+                            <div class="w-full flex bg-blue-200 px-4 justify-between mb-2">
+
+                                <p class="font-bold">total price:</p>
+                                <p class="font-bold item-head rounded-md bg-orange-300 px-2 text-center" >₹{{ stock.amount * stock.owned }}</p>
                             </div>
                         </div>
 
@@ -121,12 +123,6 @@
     filterItems()
     document.getElementById('searchInput').addEventListener('input', filterItems);
 </script>
-
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 
 {% endblock %}

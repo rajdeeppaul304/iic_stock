@@ -11,6 +11,11 @@ stocks_manager = stocks_manager.Stocks("stocks.json")
 manager_fd = fd_manager.FD("fds.json", 0.06)
 lock_file = os.path.abspath("transaction.lock")
 
+for i in range(20):
+    print(f"mail{i}@gmail.com")
+    manager.add_user("your_name", f"mail{i}@gmail.com", "pass", 10_00_000)
+
+
 def change_lock_state(file, new_state):
     if os.path.exists(file) and new_state:
         print("lock released")
@@ -39,6 +44,7 @@ def admin():
 def stock_submit():
     data = request.get_json()
     print(data)
+    manager.update_stocks(data["stock_id"], float(data["price"]))
     return jsonify({"message": "Form submitted successfully"})
 
 # updation of round and match

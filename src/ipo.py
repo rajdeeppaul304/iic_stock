@@ -25,10 +25,10 @@ class Ipo:
             return (False, "You do not have enough balance")
 
         print(f"spending {money_required} on {ipo} by {user_id}")
-        if requested_lots.get(ipo, {}).get(user_id):
+        if requested_lots[ipo].get(user_id):
+            print("user found")
             requested_lots[ipo][user_id] += amount
         else:
-            requested_lots[ipo] = {}
             requested_lots[ipo][user_id] = amount
 
         user_data_dict[user_id]["balance"] -= money_required

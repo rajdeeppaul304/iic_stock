@@ -51,10 +51,10 @@ def home():
         return "match has not started yet"
 
     if curr_round == 1:
-        return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"])
+        return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
     
     else:
-        return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+        return render_template('index.html',current_round = get_round(), stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
 # @routes.route("/index")
 
@@ -73,7 +73,7 @@ def login():
 
             return redirect(url_for("views.index"))
 
-    return render_template("login.html")
+    return render_template("login.html", current_round = get_round())
 
 @routes.route("/about")
 def about():

@@ -34,27 +34,38 @@ def load_user(user_id):
         return User(user_id)
     return None
 
-@routes.route("/index")
-@login_required
-def index():
-    user_data = manager.get_users()[current_user.id]
-    
-    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
-
 @routes.route("/")
 @login_required
-def home():
+def index():
     curr_round = get_round()
     user_data = manager.get_users()[current_user.id]
 
-    if curr_round == 0:
-        return "match has not started yet"
-
+    # ipo
     if curr_round == 1:
         return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
     
-    else:
+    # regular buy and sell
+    if curr_round == 2:
         return render_template('index.html',current_round = get_round(), stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+
+    # barter
+    if curr_round == 3:
+        current_active_trades = barter_manager.get_active_trades(current_user.id)
+        stocks_data=manager.get_stocks()
+        transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
+        sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
+
+        return render_template("barter.html", stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+
+    else:
+        return "match has not started yet"
+
+@routes.route("/index")
+@login_required
+def home():
+    user_data = manager.get_users()[current_user.id]
+    
+    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
 # @routes.route("/index")
 

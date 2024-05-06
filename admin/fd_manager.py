@@ -65,6 +65,7 @@ class FD:
         for user, amount in fds.items():
             fds[user] += amount * self.interest
 
-
         with open(self.file, "w") as file:
             json.dump(fds, file)
+
+

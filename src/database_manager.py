@@ -87,6 +87,11 @@ class Database():
         else:
             stocks[stock_id]["net_bought"] = amount
 
+        if stocks[stock_id].get("total_bought"):
+            stocks[stock_id]["total_bought"] += amount
+        else:
+            stocks[stock_id]["total_bought"] = amount
+
         with open(self.stocks_file, "w") as file:
             json.dump(stocks, file)
 

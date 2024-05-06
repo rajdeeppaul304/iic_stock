@@ -137,7 +137,6 @@ class Barter:
                 user_data_dict[trader]["balance"] -= int(trader_active_trade["money"])
                 user_data_dict[current_user]["balance"] += int(trader_active_trade["money"])
 
-            print("user_data_dict", user_data_dict)
             print("trader_info", trader_info)
             print("current_user_info", current_user_info)
 

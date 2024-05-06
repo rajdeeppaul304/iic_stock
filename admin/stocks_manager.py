@@ -1,6 +1,6 @@
 import json
 import random
-
+import csv
 # all the values are in percent
 stagnant_random = 5
 downhill_random = 5
@@ -17,7 +17,7 @@ class Stocks:
 
         # update value of stocks by "cutting edge backend algorithm"
         if current_match >= 1:
-            self.update_price(stocks)
+            self.update_price(stocks, current_match)
 
         # reset net_bought stocks
         for stock_id, data in stocks.items():
@@ -33,17 +33,27 @@ class Stocks:
             json.dump(stocks, file)
 
 
-    def update_price(self, stocks=None):
+    def update_price(self, stocks=None, current_match=0):
         if not stocks:
             with open(self.file, "r") as file:
                 stocks = json.load(file)
 
         changes = self.get_market_sentiment(stocks)
-        news_changes = self.get_news_changes()
+        news_changes = self.get_news_changes(current_match)
 
     # rajdeep 
-    def get_news_changes(self):
-        pass
+    def get_news_changes(self, current_match):
+        result_dict = {}
+        file_path = "./admin/news_change.csv"
+        with open(file_path, 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            next(csv_reader)  # Skip the header row
+            for row in csv_reader:
+                row_dict = {}
+                for index, value in enumerate(row[1:], start=1):
+                    row_dict[str(index +1000)] = int(value)
+                result_dict[row[0]] = row_dict
+        return result_dict[str(current_match)]
 
     # this returns stockwise percent change due to market sentiment
     def get_market_sentiment(self, stocks=None):

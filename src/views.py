@@ -46,7 +46,7 @@ def index():
     
     # regular buy and sell
     if curr_round == 2:
-        return render_template('index.html',current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
     # barter
     if curr_round == 3:
@@ -213,17 +213,24 @@ def ipo():
     return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_fd_count = fd_manager.get_current_value(current_user.id),  current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
 
 
-# @routes.route("/buy_fd", methods=['POST'])
-# @login_required
-# def buy_fd():
-#     data = request.get_json()
-#     amount = data.get("amount")
-#     if amount: 
-#         amount = int(amount)
-#     success, message = fd_manager.buy(current_user.id, amount, manager)
+@routes.route("/sell_fd", methods=['POST'])
+@login_required
+def sell_fd():
+    data = request.get_json()
+    amount = data.get("amount")
+    print(amount)
+    if amount: 
+        amount = int(amount)
+    success, message = fd_manager.sell_fd(current_user.id, amount, manager, get_round(), get_match() )
 
-#     # Return a JSON response
-#     return jsonify({'success': success, 'message': message})
+    # Return a JSON response
+    return jsonify({
+        'success': success, 
+        'message': message,
+        "remaining_balance": manager.get_users()[current_user.id]["balance"],
+        "currentHoldingFD":fd_manager.get_current_value(current_user.id),
+
+                    })
 
 
 def get_round():
@@ -231,3 +238,8 @@ def get_round():
         round_match_info = json.load(file)
         
     return round_match_info.get("round", 0)
+def get_match():
+    with open(round_match_file, "r") as file:
+        round_match_info = json.load(file)
+        
+    return round_match_info.get("match", 0)

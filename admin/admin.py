@@ -11,6 +11,10 @@ stocks_manager = stocks_manager.Stocks("stocks.json", manager)
 manager_fd = fd_manager.FD("fds.json", 0.06)
 lock_file = os.path.abspath("transaction.lock")
 
+
+
+print(stocks_manager.get_news_changes(2))
+
 for i in range(20):
     print(f"mail{i}@gmail.com")
     manager.add_user("your_name", f"mail{i}@gmail.com", "pass", 10_00_000)

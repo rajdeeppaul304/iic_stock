@@ -11,7 +11,7 @@
                 <button id="dropdown-button" data-dropdown-toggle="searchInputSector"
                     class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                     type="button">All categories <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                         fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 1 4 4 4-4" />
                     </svg></button>
@@ -117,7 +117,47 @@
                     </div>
                 </div>
                 {% endfor %}
+                <div class="items-class rounded-md overflow-hidden bg-pink-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-center  p-4">
+                            <div class="font-bold item-head">Fixed Deposit</div>
+                        </div>
+                        <div class="flex justify-between  p-4">
+                            <div class="font-bold item-head">Currently Holding: </div>
+                            <div id="fixed-deposit-currently-owned" class="inline font-bold item-head rounded-md px-1 bg-orange-300">₹{{ current_fd_count|round(2) }}</div>
+                        </div>
+                    </div>
 
+                    <div class="flex flex-col items-center pt-4">
+                        <hr class="border-t border-gray-400 w-full">
+
+                        <div class="flex p-4 justify-center mb-2">
+                            <div class="custom-number-input h-10 w-32">
+
+                                <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                    <button data-action="decrement"
+                                        class=" bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe]  h-full w-20 rounded-l cursor-pointer ">
+                                        <span class="m-auto text-2xl font-thin">−</span>
+                                    </button>
+                                    <input type="number" 
+                                        class=" prevent-negative-value border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
+                                        name="amount" value="0"></input>
+                                    <button data-action="increment"
+                                        class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
+                                        <span class="m-auto text-2xl font-thin">+</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex  p-4 justify-between">
+
+                            <div>
+                                <button type="button" name="sell" id="sell-fd"
+                                    class=" focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -242,6 +282,7 @@
         });
     });
 </script>
+
 
 <!-- <script>
     // read more in description
@@ -372,11 +413,13 @@
         console.log("this works")
         var itemId = this.getAttribute('value');
         var itemName = this.getAttribute('name');
-        let number_of_stocks = document.getElementById(`number-stock-${itemId}`)
-        console.log(itemId, itemName, number_of_stocks.value)
+        let number_of_stocks = 0
+        if (itemName != "FD") {
+            number_of_stocks = document.getElementById(`number-stock-${itemId}`)
+        }
 
         const handleResponse = (data) => {
-            if (data.success === 1) {
+            if (data.success === 1 || data.success === true) {
                 console.log(data.message);
                 hideConfirmation();
                 balance_of_user.innerHTML = `Current Balance: ${data.remaining_balance.toFixed(2)}`;
@@ -384,18 +427,23 @@
                     showSuccess("Successfully Bought The Stock Unit(s).");
                 } else if (itemName === "sell") {
                     showSuccess("Successfully Sold The Stock Unit(s).");
+                } else if (itemName === "FD") {
+                    document.getElementById(`fixed-deposit-currently-owned`).innerHTML = `${data.currentHoldingFD.toFixed(2)}`;
+
+                    showSuccess("Successfully Sold The FD Unit(s).");
                 }
             } else {
                 console.log(data.message);
+
                 hideConfirmation();
                 if (itemName === "buy") {
                     showError("Error: Not enough Balance");
-
                 } else if (itemName === "sell") {
-                    showError("Error: selling more than owned.");
-
+                    showError(`Error: You Do not own ${number_of_stocks.value} stock Units to sell.`);
+                } else if (itemName === "FD") {
+                    showError(`Error: ${data.message}.`);
                 }
-                showError("Error: Not enough Balance");
+
             }
         };
 
@@ -412,6 +460,22 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        } else if(itemName==="FD"){
+            console.log(itemId)
+            console.log("itemId")
+
+            fetch('/sell_fd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount:itemId }),
+            })
+                .then(response => response.json())
+                .then(handleResponse)
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
     });
@@ -419,6 +483,32 @@
 
 </script>
 
+
+<script>
+    const button_fd_sell = document.getElementById("sell-fd")
+
+    button_fd_sell.addEventListener('click', function () {
+    event.preventDefault(); // Prevent default form submission
+
+    // Create an object with form data
+    let formData = {
+        amount: document.querySelector('[name="amount"]').value
+    };
+    console.log(formData.amount)
+
+
+    if (formData.amount < 1 || !formData.amount || !/^\d+$/.test(formData.amount)) {
+        showError("Please enter a valid amount")
+    }
+    else {
+        var itemName = "sell"
+        showConfirmation(formData.amount, "FD", formData.amount, `Are you sure you want to Sell ₹${formData.amount} worth of FD?`);
+
+    }
+
+
+});
+</script>
 
 
 {% endblock %}

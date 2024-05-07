@@ -12,12 +12,6 @@ manager_fd = fd_manager.FD("fds.json")
 lock_file = os.path.abspath("transaction.lock")
 
 
-# only for testing
-for i in range(20):
-    print(f"mail{i}@gmail.com")
-    manager.add_user(f"your_name-{i}", f"mail{i}@gmail.com", "pass", 10_00_000)
-
-
 def change_lock_state(file, new_state):
     if os.path.exists(file) and new_state:
         print("lock released")

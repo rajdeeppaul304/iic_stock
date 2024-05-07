@@ -7,6 +7,8 @@ from .ipo import Ipo, FD
 
 from os import path
 import json
+import random
+
 routes = Blueprint("views", __name__)
 
 database_file = path.abspath("database.json")
@@ -23,6 +25,12 @@ fd_manager = FD(fd_file)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
+
+# randomize stocks list
+stocks_data = manager.get_stocks()
+shuffled_keys = list(stocks_data.keys())
+random.shuffle(shuffled_keys)
+shuffled_stocks = {key: stocks_data[key] for key in shuffled_keys}
 
 def initialize_login(app):
     login_manager.init_app(app)
@@ -46,7 +54,9 @@ def index():
     
     # regular buy and sell
     if curr_round == 2:
-        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+        
+
+        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data= shuffled_stocks, current_balance=user_data["balance"], name=user_data["name"])
 
     # barter
     if curr_round == 3:
@@ -217,11 +227,9 @@ def ipo():
 @login_required
 def sell_fd():
     data = request.get_json()
-    amount = data.get("amount")
-    print(amount)
-    if amount: 
-        amount = int(amount)
-    success, message = fd_manager.sell_fd(current_user.id, amount, manager, get_round(), get_match() )
+
+    print(f"selling fd of {current_user.id}")
+    success, message = fd_manager.sell_fd(current_user.id, manager, get_round(), get_match() )
 
     # Return a JSON response
     return jsonify({
@@ -229,8 +237,7 @@ def sell_fd():
         'message': message,
         "remaining_balance": manager.get_users()[current_user.id]["balance"],
         "currentHoldingFD":fd_manager.get_current_value(current_user.id),
-
-                    })
+        })
 
 
 def get_round():

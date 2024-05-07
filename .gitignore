@@ -1,3 +1,5 @@
 src/__pycache__
 admin/__pycache__
 node_modules
+cert.pem
+key.pem

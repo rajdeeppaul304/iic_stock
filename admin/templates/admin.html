@@ -121,7 +121,7 @@ function fetchCurrentValues() {
                     class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                     <option value="">Choose an option</option>
                     {% for key, stock in stocks_data.items() %}
-                    <option value="{{key}}">{{stock.name}}</option>
+                    <option value="{{key}}">{{stock.name}} - {{stock.amount}}</option>
                     {% endfor %}
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -181,6 +181,9 @@ function fetchCurrentValues() {
         </form>
         {% endfor %}
     </section>
+    <section>
+
+    </section>
     <script>
         document.getElementById('stockForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
@@ -217,6 +220,8 @@ function fetchCurrentValues() {
                     }
                     // Optionally, you can handle the response here
                     console.log('Form submitted successfully');
+                    window.location = window.location.href;
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -273,10 +278,12 @@ function fetchCurrentValues() {
                     // Handle the response
                     console.log(data); // Log the response to the console
                     // You can update the UI or show a message to the user based on the response
-                    alert(data.message); // Example: Show an alert with the message from the server
+                    window.location = window.location.href;
+
                 })
                 .catch((error) => {
                     console.error('Error:', error);
+
                     // Handle error as needed
                 });
         }

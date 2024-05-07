@@ -7,7 +7,7 @@ module.exports = {
 
     extend: {
       colors: {
-        customBackgroundcolor: "#A5B4FC",
+        customBackgroundcolor: "#003C43",
         customNavBGcolor: colors.gray[800],
         customNavFGcolor: "#fff",
         customNavBGHovercolor: colors.gray[700],

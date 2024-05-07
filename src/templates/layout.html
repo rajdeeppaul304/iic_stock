@@ -30,8 +30,8 @@
                 {% if current_balance is defined and current_balance >= 0 %}
                 <div class="block">
                     <a href="#" id="current-round" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Round: {{ current_round }}</a>
-                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance }}</a>
-                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Net Worth: {{ portfolio }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Net Worth: {{ portfolio|round(2) }}</a>
 
                 </div>
                 {% else %}
@@ -42,12 +42,9 @@
                 {% if name %}
 				<a href="{{ url_for("views.index") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
                 {% endif %}
-                {% if show_barter %}
-				<a href="{{ url_for("views.barter") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">Barter</a>
-                {% endif %}
 				<a href="{{ url_for("views.owned_stocks") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">Portfolio</a>
 				<a href="{{ url_for("views.about") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">about us</a>
-				<a href="{{ url_for("views.logout") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">LOGOUT</a>
+				<a href="{{ url_for("views.logout") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">Log out</a>
             </div>
             <!-- Mobile menu button -->
             <button class="md:hidden block text-customNavMobileHamcolor hover:text-white focus:text-white focus:outline-none" id="mobile-menu-btn">
@@ -65,7 +62,7 @@
 			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Portfolio</a>
 			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">About Us</a>
 			
-			<a href="{{ url_for("views.logout") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">LOGOUT</a>
+			<a href="{{ url_for("views.logout") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Log out</a>
         </div>
     </nav>
     

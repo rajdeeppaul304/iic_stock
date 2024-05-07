@@ -430,7 +430,7 @@
                 } else if (itemName === "FD") {
                     document.getElementById(`fixed-deposit-currently-owned`).innerHTML = `${data.currentHoldingFD.toFixed(2)}`;
 
-                    showSuccess("Successfully Sold The FD Unit(s).");
+                    showSuccess("Successfully Liquidated The FD.");
                 }
             } else {
                 console.log(data.message);
@@ -502,7 +502,7 @@
     }
     else {
         var itemName = "sell"
-        showConfirmation(formData.amount, "FD", formData.amount, `Are you sure you want to Sell ₹${formData.amount} worth of FD?`);
+        showConfirmation(formData.amount, "FD", formData.amount, `Are you sure you want to liquidate your FD?`);
 
     }
 

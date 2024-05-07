@@ -80,7 +80,7 @@ class FD:
         return (True, "Success")
     
 
-    def sell_fd(self, user_id, amount, manager, current_round, current_match):
+    def sell_fd(self, user_id, manager, current_round, current_match):
         print(f"round {current_round} match {current_match}")
         if current_round < 1 or current_match < 2:
 
@@ -93,6 +93,7 @@ class FD:
             return (False, "User does not have a FD")
         user_data_dict[user_id]["balance"] += holding + (holding * interest / 2)
 
+        print(f"breaking fd for {user_id}")
         with open(self.file, "r") as file:
             fds = json.load(file)
 

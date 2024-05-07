@@ -52,7 +52,7 @@ class Ipo:
         for ipo, remaining_lots in requested_lots.items():
             for user, amount_lots in remaining_lots.items():
                 print(f"refunding {amount_lots} of {ipo} to {user}")
-                user_data_dict[user]["balance"] = amount_lots * stocks.get(ipo, {}).get("amount", 0) * stocks.get(ipo, {}).get("shares_per_lot", 0)
+                user_data_dict[user]["balance"] += amount_lots * stocks.get(ipo, {}).get("amount", 0) * stocks.get(ipo, {}).get("shares_per_lot", 0)
                 
 
         with open(self.file, "w") as file:

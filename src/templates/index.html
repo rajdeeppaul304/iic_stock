@@ -9,49 +9,49 @@
         <div class="container mt-5 mb-3 w-11/12">
             <div class="flex px-2 mb-10 md:px-10">
                 <button id="dropdown-button" data-dropdown-toggle="searchInputSector"
-                    class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100"
                     type="button">All categories <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true"
                          fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 1 4 4 4-4" />
                     </svg></button>
                 <div id="searchInputSector"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                    <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
                         <li>
                             <button type="button" name="All categories"
-                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All
+                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 ">All
                                 categories</button>
                         </li>
                         <li>
                             <button type="button" name="Banking"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Banking</button>
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 ">Banking</button>
                         </li>
                         <li>
                             <button type="button" name="FMCG"
-                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">FMCG</button>
+                                class=" inline-flex w-full px-4 py-2 hover:bg-gray-100 ">FMCG</button>
                         </li>
                         <li>
                             <button type="button" name="IT"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">IT</button>
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 ">IT</button>
                         </li>
                         <li>
                             <button type="button" name="Logistics and Freight"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logistics and Freight</button>
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 ">Logistics and Freight</button>
                         </li>
                         <li>
                             <button type="button" name="Media & Entertainment"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Media & Entertain...</button>
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 ">Media & Entertain...</button>
                         </li>
                         <li>
                             <button type="button" name="Healthcare"
-                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Healthcare</button>
+                                class="  inline-flex w-full px-4 py-2 hover:bg-gray-100 ">Healthcare</button>
                         </li>
                     </ul>
                 </div>
                 <div class="flex items-center w-full">
                     <input id="searchInputName" type="search"
-                        class="flex-1  w-7/12 p-2.5 text-sm text-gray-900 bg-gray-50  focus:ring-0 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
+                        class="flex-1  w-7/12 p-2.5 text-sm text-gray-900 bg-gray-50  focus:ring-0"
                         placeholder="Search Stocks..." />
                     <div
                         class="bg-gray-700 h-full w-8 rounded-r-lg overflow-hidden text-center items-center flex justify-center ">
@@ -107,11 +107,11 @@
                         <div class="flex bg-blue-200 p-4 justify-between">
                             <div>
                                 <button type="button" name="buy" value="{{ key }}" id="buy-{{ key }}"
-                                    class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-[#08a045] dark:hover:bg-[#ob6e4f] dark:focus:ring-green-800">BUY</button>
+                                    class="btn-confirm focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 ">BUY</button>
                             </div>
                             <div>
                                 <button type="button" name="sell" value="{{ key }}" id="sell-{{ key }}"
-                                    class="btn-confirm focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">SELL</button>
+                                    class="btn-confirm focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 ">SELL</button>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                                     </button>
                                     <input type="number" 
                                         class=" prevent-negative-value border-0 focus:border-0 focus:ring-0 text-center w-full bg-[#fee2bf] text-gray-600 hover:text-[#fff] font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 "
-                                        name="amount" value="0"></input>
+                                        name="amount" value="1"></input>
                                     <button data-action="increment"
                                         class="bg-[#fee2bf] text-gray-600 hover:text-[#fff] hover:bg-[#e2bffe] h-full w-20 rounded-r cursor-pointer">
                                         <span class="m-auto text-2xl font-thin">+</span>
@@ -153,7 +153,7 @@
 
                             <div>
                                 <button type="button" name="sell" id="sell-fd"
-                                    class=" focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 dark:bg-red-500 dark:hover:bg-red-700 dark:focus:ring-red-900">BREAK FD</button>
+                                    class=" focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 md:px-5 py-2.5 me-1 mb-2 ">BREAK FD</button>
                             </div>
                         </div>
                     </div>

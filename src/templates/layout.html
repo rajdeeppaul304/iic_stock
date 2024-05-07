@@ -30,8 +30,8 @@
                 {% if current_balance is defined and current_balance >= 0 %}
                 <div class="block">
                     <a href="#" id="current-round" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Round: {{ current_round }}</a>
-                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
-                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Portfolio: {{ portfolio|round(2) }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Net Worth: {{ portfolio }}</a>
 
                 </div>
                 {% else %}
@@ -45,7 +45,7 @@
                 {% if show_barter %}
 				<a href="{{ url_for("views.barter") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">Barter</a>
                 {% endif %}
-				<a href="{{ url_for("views.owned_stocks") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">owned stocks</a>
+				<a href="{{ url_for("views.owned_stocks") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">Portfolio</a>
 				<a href="{{ url_for("views.about") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">about us</a>
 				<a href="{{ url_for("views.logout") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">LOGOUT</a>
             </div>

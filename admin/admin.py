@@ -15,7 +15,7 @@ lock_file = os.path.abspath("transaction.lock")
 # only for testing
 for i in range(20):
     print(f"mail{i}@gmail.com")
-    manager.add_user("your_name", f"mail{i}@gmail.com", "pass", 10_00_000)
+    manager.add_user(f"your_name-{i}", f"mail{i}@gmail.com", "pass", 10_00_000)
 
 
 def change_lock_state(file, new_state):

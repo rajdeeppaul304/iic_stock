@@ -33,12 +33,12 @@
                     <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
                 </div>
                 {% else %}
-				<a href="{{ url_for("views.home") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">IIC</a>
+				<a href="{{ url_for("views.index") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">IIC</a>
                 {% endif %}
             </div>
             <div class="hidden md:flex space-x-4">
                 {% if name %}
-				<a href="{{ url_for("views.home") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
+				<a href="{{ url_for("views.index") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
                 {% endif %}
                 {% if show_barter %}
 				<a href="{{ url_for("views.barter") }}" class="hover:bg-customNavBGHovercolor px-4 py-2 rounded-md">Barter</a>
@@ -58,7 +58,7 @@
         <!-- Mobile menu -->
         <div class="hidden md:hidden" id="mobile-menu">
             {% if name %}
-			<a href="{{ url_for("views.home") }}" class="hover:customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
+			<a href="{{ url_for("views.index") }}" class="hover:customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
             {% endif %}
 			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Owned Stocks</a>
 			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">About Us</a>

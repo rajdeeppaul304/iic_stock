@@ -64,8 +64,11 @@ def index():
 @login_required
 def home():
     user_data = manager.get_users()[current_user.id]
-    
-    return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+    curr_round = get_round()
+
+    return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+
+    # return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
 # @routes.route("/index")
 
@@ -74,8 +77,9 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        user_pass = manager.get_users(no_pass=False)[email]["password"]
+        # user_pass = manager.get_users(no_pass=False)[email]["password"]
 
+        user_pass = manager.get_users(no_pass=False).get(email, {}).get("password")
         # print(f"email: {email}, password: {password}, user_pass: {user_pass}")
         
         if user_pass == password:

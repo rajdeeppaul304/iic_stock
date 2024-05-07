@@ -38,7 +38,6 @@ for i in users:
     manager.add_user(i.get('name'), i.get('email'), generate_pass(length_pass), init_balance)
 
 
-
 def change_lock_state(file, new_state):
     if os.path.exists(file) and new_state:
         print("lock released")
@@ -83,6 +82,7 @@ def update_round_match():
         if manager.round() == 1:
             print("distributing lots")
             ipo_manager.distribute_lots()
+            manager_fd.increase_interest()
         
         if manager.round() == 2:
             print("distributing fds")

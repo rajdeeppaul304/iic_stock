@@ -47,7 +47,7 @@
                 {% endif %}
 				<a href="{{ url_for("views.owned_stocks") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">owned stocks</a>
 				<a href="{{ url_for("views.about") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">about us</a>
-				<a href="{{ url_for("views.barter") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">trade notification</a>
+				<a href="{{ url_for("views.logout") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">LOGOUT</a>
             </div>
             <!-- Mobile menu button -->
             <button class="md:hidden block text-customNavMobileHamcolor hover:text-white focus:text-white focus:outline-none" id="mobile-menu-btn">
@@ -62,10 +62,10 @@
             {% if name %}
 			<a href="{{ url_for("views.index") }}" class="hover:customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
             {% endif %}
-			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Owned Stocks</a>
+			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Portfolio</a>
 			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">About Us</a>
 			
-			<a href="{{ url_for("views.barter") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Trade Notification</a>
+			<a href="{{ url_for("views.logout") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">LOGOUT</a>
         </div>
     </nav>
     

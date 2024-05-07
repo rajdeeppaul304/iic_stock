@@ -47,16 +47,17 @@ def load_user(user_id):
 def index():
     curr_round = get_round()
     user_data = manager.get_users()[current_user.id]
+    # current_user_stocks=current_user.data(manager).get("stocks")
+    current_balance=user_data["balance"]
+    pf = manager.get_user_pf(current_user.id) + current_balance
 
     # ipo
     if curr_round == 1:
-        return render_template("ipo.html",current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(only_ipos=True), current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
+        return render_template("ipo.html",current_fd_count = fd_manager.get_current_value(current_user.id), portfolio = pf, current_round = curr_round, stocks_data=manager.get_stocks(only_ipos=True), current_balance=current_balance, name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
     
     # regular buy and sell
     if curr_round == 2:
-        
-
-        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data= shuffled_stocks, current_balance=user_data["balance"], name=user_data["name"])
+        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), portfolio = pf, current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=current_balance, name=user_data["name"])
 
     # barter
     if curr_round == 3:
@@ -65,7 +66,7 @@ def index():
         transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
         sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
 
-        return render_template("barter.html",current_round = curr_round,current_balance=user_data["balance"], stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+        return render_template("barter.html",current_round = curr_round,current_balance=current_balance, portfolio = pf, stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
 
     else:
         return "match has not started yet"
@@ -252,5 +253,5 @@ def get_round():
 def get_match():
     with open(round_match_file, "r") as file:
         round_match_info = json.load(file)
-        
+    
     return round_match_info.get("match", 0)

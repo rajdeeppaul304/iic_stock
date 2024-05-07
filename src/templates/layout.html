@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
-
+    <link rel="shortcut icon" href="{{url_for('static',filename='images/favicon.png')}}" type="image/x-icon">
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> -->
     <style>
         /* Custom styles for fixed navbar */
@@ -31,9 +31,11 @@
                 <div class="block">
                     <a href="#" id="current-round" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Round: {{ current_round }}</a>
                     <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Balance: {{ current_balance|round(2) }}</a>
+                    <a href="#" id="balance-of-user" class="hover:bg-customNavBGHovercolor px-3  rounded-md block">Current Portfolio: {{ portfolio|round(2) }}</a>
+
                 </div>
                 {% else %}
-				<a href="{{ url_for("views.index") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md">IIC</a>
+				<a href="{{ url_for("views.index") }}" class="hover:bg-customNavBGHovercolor px-3 py-2 rounded-md"><img src="{{url_for('static',filename='images/LOGO_IIC.png')}}" class="h-12" alt=""></a>
                 {% endif %}
             </div>
             <div class="hidden md:flex space-x-4">

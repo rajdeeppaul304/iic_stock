@@ -118,6 +118,18 @@ class Database():
 
         return stocks_dict
 
+    def get_user_pf(self, user_id:str):
+        
+        newvariable = self.get_stocks()
+        newestvariable = self.get_users()[user_id].get("stocks")
+        pf = 0
+
+        for stock_id, val in newestvariable.items():
+            amd = newvariable.get(stock_id, {}).get("amount",{})
+            pf += val*amd
+        return pf
+
+
     def get_users(self, no_pass=True) -> dict:
         with open(self.file) as stocks:
             user_data_dict = json.load(stocks)
@@ -143,4 +155,4 @@ class User(UserMixin):
         self.id = id
 
     def data(self, manager: Database) -> dict:
-        return manager.get_users()[self.id]
+        return manager.get_users(no_pass=False)[self.id]

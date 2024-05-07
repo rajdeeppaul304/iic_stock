@@ -43,7 +43,7 @@ class Database():
 
         return True
 
-    def sell_stocks(self, email:str, stock_id:int, amount:int) -> bool:
+    def sell_stocks(self, email:str, stock_id:int, amount:int):
         stock_id_str = str(stock_id)
         
         with open(self.stocks_file, "r") as stocks:
@@ -56,7 +56,7 @@ class Database():
             # print("stocks and amount",user_data_dict[email]["stocks"][stock_id_str], amount)
             if not user_data_dict[email]["stocks"].get(stock_id_str):
                 print("no stocks owned")
-                return False
+                return (False, "No Stocks Owned")
 
             else:
                 user_data_dict[email]["stocks"][stock_id_str] -= amount
@@ -65,7 +65,7 @@ class Database():
 
             if user_data_dict[email]["stocks"][stock_id_str] < 0:
                 print("not enought stocks")
-                return False
+                return (False, "Not Enough Stock")
 
             if not os.path.exists("transaction.lock"):
                 open("transaction.lock", "w").close()
@@ -74,10 +74,10 @@ class Database():
                 os.remove("transaction.lock")
 
             else:
-                return False
+                return (False, "Could not Process your Request")
 
         self.update_bought_stocks(stock_id_str, -amount)
-        return True
+        return (True, "Success")
     
     def update_bought_stocks(self, stock_id:str, amount:int):
         stocks = self.get_stocks()

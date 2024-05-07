@@ -8,6 +8,10 @@ class Ipo:
         self.file = file
         self.database_manager = manager
 
+    # def get_stats(self):
+    #     with open(self.file, "r") as file:
+    #         requested_lots = json.load(file)
+
     def distribute_lots(self):
         with open(self.file, "r") as file:
             requested_lots = json.load(file)
@@ -15,9 +19,10 @@ class Ipo:
         stocks = self.database_manager.get_stocks(only_ipos=True)
         distributed_lots = {ipo:{} for ipo in requested_lots.keys()}
 
+        return_list = {}
+
         for ipo, requests in requested_lots.items():
             lots_remaining = stocks.get(ipo, {}).get("lots")
-
             distributed = False
             while not distributed:
                 distributed = True
@@ -34,6 +39,7 @@ class Ipo:
                             distributed_lots[ipo][user] += num
                         else: 
                             distributed_lots[ipo][user] = num
+                return_list[ipo] = (stocks.get(ipo, {}).get("lots"), lots_remaining)
 
         print("------------------------------------")
         print(requested_lots)
@@ -60,6 +66,12 @@ class Ipo:
 
         with open(self.database_manager.file, "w") as file:
             json.dump(user_data_dict, file)
+
+        print("---------------------------------")
+        print(return_list)
+        print("---------------------------------")
+        return return_list
+
 class FD:
     def __init__(self, file) -> None:
         self.file = file

@@ -53,11 +53,22 @@ def index():
 
     # ipo
     if curr_round == 1:
-        return render_template("ipo.html",current_fd_count = fd_manager.get_current_value(current_user.id), portfolio = pf, current_round = curr_round, stocks_data=manager.get_stocks(only_ipos=True), current_balance=current_balance, name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
+        return render_template("ipo.html",current_fd_count = fd_manager.get_current_value(current_user.id),
+                               portfolio = pf,
+                               current_round = curr_round,
+                               stocks_data=manager.get_stocks(only_ipos=True),
+                               current_balance=current_balance,
+                               name=user_data["name"],
+                               requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
     
     # regular buy and sell
     if curr_round == 2:
-        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), portfolio = pf, current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=current_balance, name=user_data["name"])
+        return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id),
+                               portfolio = pf,
+                               current_round = curr_round,
+                               stocks_data=manager.get_stocks(),
+                               current_balance=current_balance,
+                               name=user_data["name"])
 
     # barter
     if curr_round == 3:
@@ -66,18 +77,27 @@ def index():
         transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
         sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
 
-        return render_template("barter.html",current_round = curr_round,current_balance=current_balance, portfolio = pf, stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+        return render_template("barter.html",current_round = curr_round,
+                               current_balance=current_balance,
+                               portfolio = pf,
+                               stocks_data=stocks_data,
+                               transformed_stocks=transformed_stocks,
+                               current_active_trades=current_active_trades,
+                               current_user=current_user.id,
+                               sent_trade=sent_trade,
+                               name=user_data["name"]) 
 
     else:
         return "match has not started yet"
 
-@routes.route("/index")
-@login_required
-def home():
-    user_data = manager.get_users()[current_user.id]
-    curr_round = get_round()
-
-    return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
+# not allowed
+# @routes.route("/index")
+# @login_required
+# def home():
+#     user_data = manager.get_users()[current_user.id]
+#     curr_round = get_round()
+#
+#     return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id), current_round = curr_round, stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
     # return render_template('index.html', stocks_data=manager.get_stocks(), current_balance=user_data["balance"], name=user_data["name"])
 
@@ -171,37 +191,42 @@ def barter_start_trade():
     current_balance=user_data["balance"]
     pf = manager.get_user_pf(current_user.id) + current_balance + fd_manager.get_current_value(current_user.id)
 
-    return render_template("tradebarter.html", portfolio = pf, stocks_data=manager.get_stocks(),current_balance=user_data["balance"], current_user_stocks=current_user.data(manager).get("stocks"))
+    return render_template("tradebarter.html", portfolio = pf,
+                           stocks_data=manager.get_stocks(),
+                           current_balance=user_data["balance"],
+                           current_user_stocks=current_user.data(manager).get("stocks"),
+                           name=user_data["name"])
 
-@routes.route("/barter", methods=['GET','POST'])
+@routes.route("/barter", methods=['POST'])
+# @routes.route("/barter", methods=['GET','POST'])
 @login_required
 def barter():
-    if request.method == "POST":
-        returned_request = request.get_json()
-        confirmation = returned_request['confirmation']
-        trade_status = [False, ""]
+    # if request.method == "POST":
+    returned_request = request.get_json()
+    confirmation = returned_request['confirmation']
+    trade_status = [False, ""]
 
-        if confirmation == "Yes":
-            trade_status = barter_manager.confirm_trade(current_user.id, returned_request["trader"], manager)
+    if confirmation == "Yes":
+        trade_status = barter_manager.confirm_trade(current_user.id, returned_request["trader"], manager)
 
-        else:
-            trade_status = barter_manager.deny_trade(current_user.id, returned_request["trader"])
+    else:
+        trade_status = barter_manager.deny_trade(current_user.id, returned_request["trader"])
 
-        return jsonify({
-            "success": trade_status[0],
-            "message": trade_status[1]
-        })
+    return jsonify({
+        "success": trade_status[0],
+        "message": trade_status[1]
+    })
 
-    current_active_trades = barter_manager.get_active_trades(current_user.id)
-    stocks_data=manager.get_stocks()
-    transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
-    sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
-    user_data = manager.get_users()[current_user.id]
-    current_balance=user_data["balance"]
-    pf = manager.get_user_pf(current_user.id) + current_balance + fd_manager.get_current_value(current_user.id)
-
-
-    return render_template("barter.html",portfolio = pf, stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
+    # current_active_trades = barter_manager.get_active_trades(current_user.id)
+    # stocks_data=manager.get_stocks()
+    # transformed_stocks = {key: value['name'] for key, value in stocks_data.items()}
+    # sent_trade = barter_manager.get_active_trades(current_user.id, current_user.id)
+    # user_data = manager.get_users()[current_user.id]
+    # current_balance=user_data["balance"]
+    # pf = manager.get_user_pf(current_user.id) + current_balance + fd_manager.get_current_value(current_user.id)
+    #
+    #
+    # return render_template("barter.html",portfolio = pf, stocks_data=stocks_data,transformed_stocks=transformed_stocks, current_active_trades=current_active_trades, current_user=current_user.id, sent_trade=sent_trade) 
 
 @routes.route("/delete_current_trade_request", methods=['POST'])
 @login_required
@@ -212,29 +237,31 @@ def delete_current_trade_request():
     print(request.form['deletion-current-request'], trade_status)
     return redirect('/barter')
 
-@routes.route("/ipo", methods=['GET','POST'])
+# @routes.route("/ipo", methods=['GET','POST'])
+@routes.route("/ipo", methods=['POST'])
 @login_required
 def ipo():
-    if request.method == "POST":
-        req = request.get_json()
-        if req.get("ipo"):
-            print("lol")
-            success, message = ipo_manager.request_ipo(current_user.id, req["itemId"], int(req["number_of_stocks"]))
-        else:
-            amount = req.get('amount')
-            if amount: amount = int(amount)
-            success, message = fd_manager.buy(current_user.id, amount, manager)
-        print(fd_manager.get_current_value(current_user.id))
-        print(f"success: {success}, message: {message}")
-        return jsonify({
-            "success":success,
-            "remaining_balance": manager.get_users()[current_user.id]["balance"],
-            "currentHoldingofThisIPO":ipo_manager.get_requested_ipos(current_user.id),
-            "currentHoldingFD":fd_manager.get_current_value(current_user.id),
-            "message":message
-        })
-    user_data = manager.get_users()[current_user.id]
-    return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_fd_count = fd_manager.get_current_value(current_user.id),  current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
+    # if request.method == "POST":
+    req = request.get_json()
+    if req.get("ipo"):
+        print("lol")
+        success, message = ipo_manager.request_ipo(current_user.id, req["itemId"], int(req["number_of_stocks"]))
+    else:
+        amount = req.get('amount')
+        if amount: amount = int(amount)
+        success, message = fd_manager.buy(current_user.id, amount, manager)
+    print(fd_manager.get_current_value(current_user.id))
+    print(f"success: {success}, message: {message}")
+    return jsonify({
+        "success":success,
+        "remaining_balance": manager.get_users()[current_user.id]["balance"],
+        "currentHoldingofThisIPO":ipo_manager.get_requested_ipos(current_user.id),
+        "currentHoldingFD":fd_manager.get_current_value(current_user.id),
+        "message":message
+    })
+
+    # user_data = manager.get_users()[current_user.id]
+    # return render_template("ipo.html", stocks_data=manager.get_stocks(only_ipos=True), current_fd_count = fd_manager.get_current_value(current_user.id),  current_balance=user_data["balance"], name=user_data["name"], requested_ipos = ipo_manager.get_requested_ipos(current_user.id))
 
 
 @routes.route("/sell_fd", methods=['POST'])

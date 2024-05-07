@@ -107,29 +107,29 @@ class Stocks:
         stocks_change = {}
 
         # random change for stagnant stock
-        stagnant_stocks = {stock: val for stock, val in stocks_filtered.items() if val == (0, 0)}
-        stagnant_keys = list(stagnant_stocks.keys())
-        # random.choice does not work with empty lists
-        if len(stagnant_keys):
-            stagnant_key = random.choice(list(stagnant_stocks.keys()))
-            stocks_filtered.pop(stagnant_key)
-            choosen_stagnant_stock = {stagnant_key: stagnant_stocks[stagnant_key]}
-            print(f"choosen stagnant {choosen_stagnant_stock}")
-            # add stagnant stock to change list
-            stocks_change[stagnant_key] = random.randint(-stagnant_random, stagnant_random)
-        
-        # random chaneg for downhill stocks
-        downhill_stocks = {stock:val for stock, val in stocks_filtered.items() if val[0] < 0 and val[1] < 0}
-        downhill_keys = list(downhill_stocks.keys())
-        # random.choice does not work with empty lists
-        if len(downhill_keys):
-            downhill_key = random.choice(list(downhill_stocks.keys()))
-            stocks_filtered.pop(downhill_key)
-            choosen_downhill_stock = {downhill_key: downhill_stocks[downhill_key]}
-            print(f"downhill {downhill_stocks}, choosen {choosen_downhill_stock}")
-        
-            # add downhill stock to change list
-            stocks_change[downhill_key] = random.randint(0, downhill_random)
+        # stagnant_stocks = {stock: val for stock, val in stocks_filtered.items() if val == (0, 0)}
+        # stagnant_keys = list(stagnant_stocks.keys())
+        # # random.choice does not work with empty lists
+        # if len(stagnant_keys):
+        #     stagnant_key = random.choice(list(stagnant_stocks.keys()))
+        #     stocks_filtered.pop(stagnant_key)
+        #     choosen_stagnant_stock = {stagnant_key: stagnant_stocks[stagnant_key]}
+        #     print(f"choosen stagnant {choosen_stagnant_stock}")
+        #     # add stagnant stock to change list
+        #     stocks_change[stagnant_key] = random.randint(-stagnant_random, stagnant_random)
+        #
+        # # random chaneg for downhill stocks
+        # downhill_stocks = {stock:val for stock, val in stocks_filtered.items() if val[0] < 0 and val[1] < 0}
+        # downhill_keys = list(downhill_stocks.keys())
+        # # random.choice does not work with empty lists
+        # if len(downhill_keys):
+        #     downhill_key = random.choice(list(downhill_stocks.keys()))
+        #     stocks_filtered.pop(downhill_key)
+        #     choosen_downhill_stock = {downhill_key: downhill_stocks[downhill_key]}
+        #     print(f"downhill {downhill_stocks}, choosen {choosen_downhill_stock}")
+        #
+        #     # add downhill stock to change list
+        #     stocks_change[downhill_key] = random.randint(0, downhill_random)
 
         for stock, val in stocks_filtered.items():
             # val[0] is net_bought

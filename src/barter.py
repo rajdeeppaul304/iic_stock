@@ -153,8 +153,10 @@ class Barter:
         print("trader_info", trader_info)
         print("current_user_info", current_user_info)
 
+        print(user_data_dict)
+
         # manager.save_data(user_data_dict)
-        with open(self.file, "w") as file:
+        with open(manager.file, "w") as file:
             json.dump(user_data_dict, file)
 
         # clear the trade from active_trades

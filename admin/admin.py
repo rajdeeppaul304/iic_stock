@@ -8,7 +8,7 @@ manager = database_manager.Database("database.json", "stocks.json", "round_match
 ipo_manager = fd_manager.Ipo("requested_lots.json", manager)
 stocks_manager = stocks_manager.Stocks("stocks.json", manager)
 # interest is in fraction
-manager_fd = fd_manager.FD("fds.json", 0.06)
+manager_fd = fd_manager.FD("fds.json")
 lock_file = os.path.abspath("transaction.lock")
 
 
@@ -62,6 +62,10 @@ def update_round_match():
         if manager.round() == 1:
             print("distributing lots")
             ipo_manager.distribute_lots()
+        
+        if manager.round() == 2:
+            print("distributing fds")
+            manager_fd.distribute_fds(manager)
 
         manager.round(increment=True)
 

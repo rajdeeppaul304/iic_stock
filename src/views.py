@@ -7,6 +7,8 @@ from .ipo import Ipo, FD
 
 from os import path
 import json
+import random
+
 routes = Blueprint("views", __name__)
 
 database_file = path.abspath("database.json")
@@ -23,6 +25,12 @@ fd_manager = FD(fd_file)
 
 login_manager = LoginManager()
 login_manager.login_view = 'views.login'
+
+# randomize stocks list
+stocks_data = manager.get_stocks()
+shuffled_keys = list(stocks_data.keys())
+random.shuffle(shuffled_keys)
+shuffled_stocks = {key: stocks_data[key] for key in shuffled_keys}
 
 def initialize_login(app):
     login_manager.init_app(app)
@@ -224,11 +232,9 @@ def ipo():
 @login_required
 def sell_fd():
     data = request.get_json()
-    amount = data.get("amount")
-    print(amount)
-    if amount: 
-        amount = int(amount)
-    success, message = fd_manager.sell_fd(current_user.id, amount, manager, get_round(), get_match() )
+
+    print(f"selling fd of {current_user.id}")
+    success, message = fd_manager.sell_fd(current_user.id, manager, get_round(), get_match() )
 
     # Return a JSON response
     return jsonify({
@@ -236,8 +242,7 @@ def sell_fd():
         'message': message,
         "remaining_balance": manager.get_users()[current_user.id]["balance"],
         "currentHoldingFD":fd_manager.get_current_value(current_user.id),
-
-                    })
+        })
 
 
 def get_round():

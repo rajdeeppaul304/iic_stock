@@ -1,6 +1,8 @@
 import json
 import random
 
+interest = 0.06
+
 class Ipo:
     def __init__(self, file, manager) -> None:
         self.file = file
@@ -46,6 +48,12 @@ class Ipo:
                 if not user_data_dict[user].get("stocks"):
                     user_data_dict[user]["stocks"]={}
                 user_data_dict[user]["stocks"][ipo] = amount * stocks.get(ipo, {}).get("shares_per_lot", 0)
+        
+        for ipo, remaining_lots in requested_lots.items():
+            for user, amount_lots in remaining_lots.items():
+                print(f"refunding {amount_lots} of {ipo} to {user}")
+                user_data_dict[user]["balance"] = amount_lots * stocks.get(ipo, {}).get("amount", 0) * stocks.get(ipo, {}).get("shares_per_lot", 0)
+                
 
         with open(self.file, "w") as file:
             json.dump({"1019":{}, "1020":{}, "1021":{}}, file)
@@ -53,17 +61,29 @@ class Ipo:
         with open(self.database_manager.file, "w") as file:
             json.dump(user_data_dict, file)
 class FD:
-    def __init__(self, file, interest) -> None:
+    def __init__(self, file) -> None:
         self.file = file
-        self.interest = interest
+    
+    def distribute_fds(self, manager):
+        with open(self.file, "r") as file:
+            fds = json.load(file)
 
+        user_data_dict = manager.get_users(no_pass=False)
+        for user, amount in fds.items():
+            user_data_dict[user]["balance"] += amount + (amount * interest)
+        
+        with open(manager.file, "w") as file:
+            json.dump(user_data_dict, file)
+
+        with open(self.file, "w") as file:
+            json.dump({}, file)
 
     def increase_interest(self):
         with open(self.file, "r") as file:
             fds = json.load(file)
 
         for user, amount in fds.items():
-            fds[user] += amount * self.interest
+            fds[user] += amount * interest
 
         with open(self.file, "w") as file:
             json.dump(fds, file)

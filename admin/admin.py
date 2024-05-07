@@ -3,13 +3,40 @@ import database_manager
 import fd_manager
 import stocks_manager
 import os
+import csv
+import random
 
 manager = database_manager.Database("database.json", "stocks.json", "round_match_info.json")
 ipo_manager = fd_manager.Ipo("requested_lots.json", manager)
 stocks_manager = stocks_manager.Stocks("stocks.json", manager)
-# interest is in fraction
 manager_fd = fd_manager.FD("fds.json")
 lock_file = os.path.abspath("transaction.lock")
+
+# create new users
+length_pass = 8
+init_balance = 10_00_000
+
+def generate_pass(len):
+    password = []
+    for _ in range(len):
+        password.append(random.randint(0, 9))
+
+    password = list(map(str, password))
+    return "".join(password)
+
+def read_users_csv(file_path):
+    filtered_data = []
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            filtered_data.append({'email': row['Email Address'], 'name': row['Name of Team']})
+    return filtered_data
+
+file_path = 'registrations.csv'
+users = read_users_csv(file_path)
+for i in users:
+    manager.add_user(i.get('name'), i.get('email'), generate_pass(length_pass), init_balance)
+
 
 
 def change_lock_state(file, new_state):

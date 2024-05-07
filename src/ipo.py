@@ -1,7 +1,7 @@
 import json
 import random
 
-interest = 0.06
+interest = 0.03
 
 class Ipo:
     def __init__(self, file, database_manager) -> None:
@@ -82,7 +82,7 @@ class FD:
 
     def sell_fd(self, user_id, manager, current_round, current_match):
         print(f"round {current_round} match {current_match}")
-        if current_round < 1 or current_match < 2:
+        if current_round < 1:
 
             return (False, "Please Wait for 2nd news flash before selling FD")
         

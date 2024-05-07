@@ -1,7 +1,7 @@
 import json
 import random
 
-interest = 0.06
+interest = 0.03
 
 class Ipo:
     def __init__(self, file, manager) -> None:

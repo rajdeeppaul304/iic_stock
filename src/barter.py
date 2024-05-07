@@ -76,24 +76,14 @@ class Barter:
         stocks_to_give = trader_active_trade.get("stocks_to_give")
         stocks_to_get = trader_active_trade.get("stocks_to_get")
 
+        print(stocks_to_give, stocks_to_get)
+
         trader_info = manager.get_users().get(trader)
         current_user_info = manager.get_users().get(current_user)
 
         # return False if user or trader was not found in database.json
         if not (trader_info or current_user_info):
             return (False, "User or Trader not Found")
-        
-        # before the and statement stuff is to avoid the case where the user does not own the stock trader wants
-        # the not is to just return False if the trade is not possible
-        if not (current_user_info.get("stocks").get(stocks_to_get[0]) and current_user_info.get("stocks").get(stocks_to_get[0]) >= int(stocks_to_get[1])):
-            print("user cannot trade")
-            return (False, "You do not have enough requested stocks")
-        
-        # before the and statement stuff is to avoid the case where the trader does not own the stock user wants
-        # same logic for using not 
-        if not (trader_info.get("stocks").get(stocks_to_give[0]) and trader_info.get("stocks").get(stocks_to_give[0]) >= int(stocks_to_give[1])):
-            print("trader cannot trade")
-            return (False, "Trader does not have enough stocks")
 
         # bartnorm -> normal barter without money
         # take-bart -> trader gets money from current_user
@@ -102,53 +92,77 @@ class Barter:
             if not current_user_info.get("balance") >= int(trader_active_trade["money"]):
                 print("current user does not have enough balance")
                 return (False, "You do not have enough Balance")
+            
+            if not (stocks_to_give[1] or stocks_to_get[1]):
+                print("trade not allowed")
+                return (False, "Trade Not Allowed")
+
 
         if trader_active_trade["trade_type"] == "give-bart":
             if not trader_info.get("balance") >= int(trader_active_trade["money"]):
                 print("trader does not have enough balance")
                 return (False, "Trader does not have enough Balance")
 
-        else:
-            user_data_dict = manager.get_users()
+            if not (stocks_to_give[1] or stocks_to_get[1]):
+                print("trade not allowed")
+                return (False, "Trade Not Allowed")
+        
+        # before the and statement stuff is to avoid the case where the user does not own the stock trader wants
+        # the not is to just return False if the trade is not possible
+        if not (current_user_info.get("stocks").get(stocks_to_get[0]) and current_user_info.get("stocks").get(stocks_to_get[0]) >= int(stocks_to_get[1])):
+            if stocks_to_get[0]:
+                print("user cannot trade")
+                return (False, "You do not have enough requested stocks")
+        
+        # before the and statement stuff is to avoid the case where the trader does not own the stock user wants
+        # same logic for using not 
+        if not (trader_info.get("stocks").get(stocks_to_give[0]) and trader_info.get("stocks").get(stocks_to_give[0]) >= int(stocks_to_give[1])):
+            if stocks_to_give[0]:
+                print("trader cannot trade")
+                return (False, "Trader does not have enough stocks")
 
+        user_data_dict = manager.get_users()
+
+        if stocks_to_give[0] and stocks_to_give[1]:
             trader_info["stocks"][stocks_to_give[0]] -= int(stocks_to_give[1])
-            current_user_info["stocks"][stocks_to_get[0]] -= int(stocks_to_get[1])
-
             # add stocks trader want to give to current_user_info
             if current_user_info["stocks"].get(stocks_to_give[0]):
                 current_user_info["stocks"][stocks_to_give[0]] += int(stocks_to_give[1])
             else:
                 current_user_info["stocks"][stocks_to_give[0]] = int(stocks_to_give[1])
 
+        if stocks_to_get[0] and stocks_to_get[1]:
+            current_user_info["stocks"][stocks_to_get[0]] -= int(stocks_to_get[1])
             if trader_info["stocks"].get(stocks_to_get[0]):
                 trader_info["stocks"][stocks_to_get[0]] += int(stocks_to_get[1])
             else:
                 trader_info["stocks"][stocks_to_get[0]] = int(stocks_to_get[1])
 
-            user_data_dict[trader]["stocks"] = trader_info["stocks"]
-            user_data_dict[current_user]["stocks"] = current_user_info["stocks"]
+        user_data_dict[trader]["stocks"] = trader_info["stocks"]
+        user_data_dict[current_user]["stocks"] = current_user_info["stocks"]
 
-            # handle giving or taking of money
-            if trader_active_trade["trade_type"] == "take-bart":
-                user_data_dict[current_user]["balance"] -= int(trader_active_trade["money"])
-                user_data_dict[trader]["balance"] += int(trader_active_trade["money"])
+        # handle giving or taking of money
+        if trader_active_trade["trade_type"] == "take-bart":
+            user_data_dict[current_user]["balance"] -= int(trader_active_trade["money"])
+            user_data_dict[trader]["balance"] += int(trader_active_trade["money"])
 
-            if trader_active_trade["trade_type"] == "give-bart":
-                user_data_dict[trader]["balance"] -= int(trader_active_trade["money"])
-                user_data_dict[current_user]["balance"] += int(trader_active_trade["money"])
+        if trader_active_trade["trade_type"] == "give-bart":
+            user_data_dict[trader]["balance"] -= int(trader_active_trade["money"])
+            user_data_dict[current_user]["balance"] += int(trader_active_trade["money"])
 
-            print("trader_info", trader_info)
-            print("current_user_info", current_user_info)
+        print("trader_info", trader_info)
+        print("current_user_info", current_user_info)
 
-            # manager.save_data(user_data_dict)
-            with open(self.file, "w") as file:
-                json.dump(user_data_dict, file)
+        # manager.save_data(user_data_dict)
+        with open(self.file, "w") as file:
+            json.dump(user_data_dict, file)
 
-            # clear the trade from active_trades
-            if active_trades.get(trader):
-                del active_trades[trader]
-            with open(self.file, "w") as file:
-                json.dump(active_trades, file)
+        # clear the trade from active_trades
+        if active_trades.get(trader):
+            active_trades.pop(trader)
+            
+        with open(self.file, "w") as file:
+            json.dump(active_trades, file)
 
         print("trade completed")
         return (True, "Trade Complete")

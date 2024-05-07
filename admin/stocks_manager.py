@@ -5,6 +5,7 @@ import csv
 stagnant_random = 5
 downhill_random = 5
 max_multiplier = 300
+market_change_cap = 1/2
 
 class Stocks:
     def __init__(self, file, database_manager) -> None:
@@ -19,7 +20,7 @@ class Stocks:
         if current_match >= 1:
             self.update_price(stocks, current_match)
 
-        # reset net_bought stocks
+        # reset net_bought stockss
         for stock_id, data in stocks.items():
             if data.get("net_bought"):
                 data["net_bought_prev"] = data["net_bought"]
@@ -38,8 +39,23 @@ class Stocks:
             with open(self.file, "r") as file:
                 stocks = json.load(file)
 
-        changes = self.get_market_sentiment(stocks)
+        market_changes = self.get_market_sentiment(stocks)
         news_changes = self.get_news_changes(current_match)
+
+        changes = {}
+
+        for stock, change in market_changes.items():
+            if news_changes.get(stock):
+                changes[stock] = min(change, news_changes[stock] * market_change_cap)
+
+        print(changes)
+
+        for stock, data in stocks.items():
+            stocks[stock]["amount"] = (data.get("amount", 0) * changes.get(stock, 0) / 100) + data.get("amount", 0)
+
+        # write to stocks.json
+        with open(self.file, "w") as file:
+            json.dump(stocks, file)
 
     # rajdeep 
     def get_news_changes(self, current_match):
@@ -69,26 +85,32 @@ class Stocks:
 
         # random change for stagnant stock
         stagnant_stocks = {stock: val for stock, val in stocks_filtered.items() if val == (0, 0)}
-        stagnant_key = random.choice(list(stagnant_stocks.keys()))
-        stocks_filtered.pop(stagnant_key)
-        choosen_stagnant_stock = {stagnant_key: stagnant_stocks[stagnant_key]}
-        print(f"choosen stagnant {choosen_stagnant_stock}")
-        
-        # add stagnant stock to change list
-        stocks_change[stagnant_key] = random.randint(-stagnant_random, stagnant_random)
+        stagnant_keys = list(stagnant_stocks.keys())
+        # random.choice does not work with empty lists
+        if len(stagnant_keys):
+            stagnant_key = random.choice(list(stagnant_stocks.keys()))
+            stocks_filtered.pop(stagnant_key)
+            choosen_stagnant_stock = {stagnant_key: stagnant_stocks[stagnant_key]}
+            print(f"choosen stagnant {choosen_stagnant_stock}")
+            # add stagnant stock to change list
+            stocks_change[stagnant_key] = random.randint(-stagnant_random, stagnant_random)
         
         # random chaneg for downhill stocks
         downhill_stocks = {stock:val for stock, val in stocks_filtered.items() if val[0] < 0 and val[1] < 0}
-        downhill_key = random.choice(list(downhill_stocks.keys()))
-        stocks_filtered.pop(downhill_key)
-        choosen_downhill_stock = {downhill_key: downhill_stocks[downhill_key]}
-        print(f"downhill {downhill_stocks}, choosen {choosen_downhill_stock}")
+        downhill_keys = list(downhill_stocks.keys())
+        # random.choice does not work with empty lists
+        if len(downhill_keys):
+            downhill_key = random.choice(list(downhill_stocks.keys()))
+            stocks_filtered.pop(downhill_key)
+            choosen_downhill_stock = {downhill_key: downhill_stocks[downhill_key]}
+            print(f"downhill {downhill_stocks}, choosen {choosen_downhill_stock}")
         
-        # add downhill stock to change list
-        stocks_change[downhill_key] = random.randint(0, downhill_random)
+            # add downhill stock to change list
+            stocks_change[downhill_key] = random.randint(0, downhill_random)
 
         for stock, val in stocks_filtered.items():
-            stocks_change[stock] = val[0] * max_multiplier / market_cap
+            # val[0] is net_bought
+            stocks_change[stock] = val[0] * max_multiplier * stocks[stock].get("amount", 0) / market_cap
 
         print(stocks_change)
         return stocks_change

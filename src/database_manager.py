@@ -120,12 +120,12 @@ class Database():
 
     def get_user_pf(self, user_id:str):
         
-        newvariable = self.get_stocks()
+        stocks = self.get_stocks()
         newestvariable = self.get_users()[user_id].get("stocks")
         pf = 0
 
         for stock_id, val in newestvariable.items():
-            amd = newvariable.get(stock_id, {}).get("amount",{})
+            amd = stocks.get(stock_id, {}).get("amount",0)
             pf += val*amd
         return pf
 

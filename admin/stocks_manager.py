@@ -1,11 +1,20 @@
 import json
 import random
 import csv
-# all the values are in percent
+from re import S
+
+# all three values are in percent
 stagnant_random = 5
 downhill_random = 5
 max_multiplier = 300
+
 market_change_cap = 1/2
+
+def signum(num):
+    if num == 0:
+        return 1
+
+    return num / abs(num)
 
 class Stocks:
     def __init__(self, file, database_manager) -> None:
@@ -46,12 +55,24 @@ class Stocks:
 
         for stock, change in market_changes.items():
             if news_changes.get(stock):
-                changes[stock] = min(change, news_changes[stock] * market_change_cap)
+                print(f"for {stock} market {change} news {news_changes[stock]}")
+                changes[stock] = signum(change) * signum(news_changes[stock]) * min(abs(change), abs(news_changes[stock]) * market_change_cap)
 
-        print(changes)
+                print("--------------------------")
+                print(f"for {stock} changes {changes[stock]}")
+                changes[stock] += news_changes[stock]
+                print(f"for {stock} changes {changes[stock]}")
+                print("--------------------------")
+
+            else:
+                changes[stock] = change
+
+        # print(changes)
 
         for stock, data in stocks.items():
+            print(f"old value for {stock} is {stocks[stock]['amount']}")
             stocks[stock]["amount"] = (data.get("amount", 0) * changes.get(stock, 0) / 100) + data.get("amount", 0)
+            print(f"new value for stock {stock} is {stocks[stock]['amount']}")
 
         # write to stocks.json
         with open(self.file, "w") as file:
@@ -67,8 +88,10 @@ class Stocks:
             for row in csv_reader:
                 row_dict = {}
                 for index, value in enumerate(row[1:], start=1):
-                    row_dict[str(index +1000)] = int(value)
+                    row_dict[str(index+1000)] = int(value)
                 result_dict[row[0]] = row_dict
+
+        print(f"news change for {current_match}: {result_dict[str(current_match)]}")
         return result_dict[str(current_match)]
 
     # this returns stockwise percent change due to market sentiment

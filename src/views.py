@@ -49,7 +49,7 @@ def index():
     user_data = manager.get_users()[current_user.id]
     # current_user_stocks=current_user.data(manager).get("stocks")
     current_balance=user_data["balance"]
-    pf = manager.get_user_pf(current_user.id) + current_balance
+    pf = manager.get_user_pf(current_user.id) + current_balance + fd_manager.get_current_value(current_user.id)
 
     # ipo
     if curr_round == 1:

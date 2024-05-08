@@ -63,12 +63,12 @@
                             <div class="w-full flex px-4 justify-between mb-2">
 
                                 <p class="font-bold">stocks price:</p>
-                                <p class="font-bold item-head rounded-md bg-green-300 px-2 text-center">₹{{ stock.amount }}</p>
+                                <p class="font-bold item-head rounded-md bg-green-300 px-2 text-center">₹{{ stock.amount|round(2) }}</p>
                             </div>
                             <div class="w-full flex px-4 justify-between mb-2">
 
                                 <p class="font-bold">total price:</p>
-                                <p class="font-bold item-head rounded-md bg-orange-300 px-2 text-center" >₹{{ stock.amount * stock.owned }}</p>
+                                <p class="font-bold item-head rounded-md bg-orange-300 px-2 text-center" >₹{{ (stock.amount * stock.owned)|round(2) }}</p>
                             </div>
                         </div>
 

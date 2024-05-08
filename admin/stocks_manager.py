@@ -56,7 +56,7 @@ class Stocks:
         for stock, change in market_changes.items():
             if news_changes.get(stock):
                 print(f"for {stock} market {change} news {news_changes[stock]}")
-                changes[stock] = signum(change) * signum(news_changes[stock]) * min(abs(change), abs(news_changes[stock]) * market_change_cap)
+                changes[stock] = signum(change) * min(abs(change), abs(news_changes[stock]) * market_change_cap)
 
                 print("--------------------------")
                 print(f"for {stock} changes {changes[stock]}")

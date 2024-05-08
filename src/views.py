@@ -66,7 +66,7 @@ def index():
         return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id),
                                portfolio = pf,
                                current_round = curr_round,
-                               stocks_data=manager.get_stocks(),
+                               stocks_data=shuffled_stocks,
                                current_balance=current_balance,
                                name=user_data["name"])
 

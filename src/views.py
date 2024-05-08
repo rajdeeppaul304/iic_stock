@@ -235,7 +235,7 @@ def delete_current_trade_request():
     trade_status = barter_manager.deny_trade(deletionoftradewith, current_user.id)
 
     print(request.form['deletion-current-request'], trade_status)
-    return redirect('/barter')
+    return redirect(url_for("views.index"))
 
 # @routes.route("/ipo", methods=['GET','POST'])
 @routes.route("/ipo", methods=['POST'])

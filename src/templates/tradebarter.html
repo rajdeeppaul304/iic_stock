@@ -275,8 +275,18 @@
       object_with_pairs[pair[0]] = pair[1]
     }
     console.log(object_with_pairs)
+    
     let hasNoValue = validateForm(object_with_pairs); // Flag to track if any field has "NoValue"
+    for (var pair of formData.entries()) {
+      if(pair[1] === "NoValue"){
+              // Remove a field
+      formData.set(pair[0], '');
 
+      }
+    }
+    for (var pair of formData.entries()) {
+      console.log(pair)
+    }
     // if (object_with_pairs['list-radio'] === "bartnorm") {
 
     //   if (object_with_pairs['give-selected-stock'] === 'NoValue' || object_with_pairs['take-selected-stock'] === 'NoValue') {

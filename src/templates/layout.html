@@ -20,10 +20,41 @@
             z-index: 999; /* Ensure the navbar is on top of other elements */
             width: 100%;
         }
+
+        .custom-shadow {
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition for smooth scaling and shadow */
+    box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2); /* Light shadow */
+}
+.custom-shadow:hover {
+    transform: scale(1.05); /* Make it bigger on hover */
+    box-shadow: 3px 5px 7px rgba(255, 255, 255, 0.5); /* Even lighter shadow on hover */
+
+
+
+}
+@media (hover: none) {
+  .focus-only-touch:focus {
+    border-color: transparent;
+  }
+
+
+}
+
+
+.custom-gradient {
+background: hsla(187, 69%, 24%, 1);
+
+background: radial-gradient(circle, hsla(187, 69%, 24%, 1) 0%, hsla(186, 100%, 13%, 1) 66%);
+
+background: -moz-radial-gradient(circle, hsla(187, 69%, 24%, 1) 0%, hsla(186, 100%, 13%, 1) 66%);
+
+background: -webkit-radial-gradient(circle, hsla(187, 69%, 24%, 1) 0%, hsla(186, 100%, 13%, 1) 66%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#135D66", endColorstr="#003C43", GradientType=1 );}
     </style>
 </head>
 
-<body class="bg-customBackgroundcolor">
+<body class="custom-gradient">
     <nav class=" bg-customNavBGcolor text-customNavFGcolor p-4">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">

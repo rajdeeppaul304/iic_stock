@@ -3,6 +3,8 @@
 {% block content %}
 <script src="{{ url_for('static', filename='js/qrcode.min.js') }}">
 </script>
+<section class="text-white">
+
 
 <div>
 
@@ -63,7 +65,7 @@
   <div>
     <div class="flex justify-center w-full p-3 text-2xl ">Current Sent Requests</div>
     {% if sent_trade is not none %}
-    <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+    <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
 
       <div class="font-bold pl-1 text-xl">{{ sent_trade[1]['trade_with'] }}</div>
       <div class="block">
@@ -145,7 +147,7 @@
       </div>
     </div>
     {% else %}
-    <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+    <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
 
       <div class=" pl-1 text-xl flex justify-center">No current Sent Trade Requests... </br> Send a Trade Request to start </div>
       
@@ -205,7 +207,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
     {% for trade in current_active_trades %}
     <div>
-      <div class="mx-2 bg-pink-200 p-4 rounded shadow mb-2">
+      <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
         <form action="barter" class="barterForms" method="post">
           <input type="hidden" value="{{ trade[0] }}" name="trader" />
 
@@ -386,4 +388,7 @@
   // Event listener for form submit event
   generateQrCode("{{ current_user }}")
 </script>
+
+</section>
+
 {% endblock %}

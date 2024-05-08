@@ -3,19 +3,21 @@
 {% block content %}
 
 <style>
-
-#qr-reader a{
-  font-size: 18px;
-    color: #007BFF; /* Bright blue */
-    text-decoration: none; /* Removes underline */
-    padding: 10px 15px; 
-    display: inline-block; /* Allows padding and width/height */
+  #qr-reader a {
+    font-size: 18px;
+    color: #007BFF;
+    /* Bright blue */
+    text-decoration: none;
+    /* Removes underline */
+    padding: 10px 15px;
+    display: inline-block;
+    /* Allows padding and width/height */
     cursor: pointer;
     margin-top: 2px;
 
-}
+  }
 
-#qr-reader button {
+  #qr-reader button {
     padding: 10px 20px;
     font-size: 16px;
     color: #FFFFFF;
@@ -26,7 +28,7 @@
     outline: none;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin-top: 2px;
-}
+  }
 </style>
 <div class="flex flex-col items-center justify-center h-full md:min-h-screen pt-10 md:pt-0 overflow-hidden ">
   <div class="border border-green-600 flex flex-col items-center justify-center w-10/12 md:w-5/12">
@@ -38,13 +40,13 @@
 
 
 
-<form action="" id="form-for-barter">
+<form action="" id="form-for-barter" class="text-white">
   <div>
     <h1 class="text-3xl font-bold mb-8 text-center pt-5">Or input it Manually</h1>
     <div class=" flex justify-center">
       <div class="w-11/12">
         <input type="text" name="manual-input-qr" id="manual-input-qr" aria-describedby="manual-input-qr-explanation"
-          class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
           placeholder="input code from friend..." required>
       </div>
     </div>
@@ -56,7 +58,7 @@
     <div class="relative p-4 w-7/12 md:w-4/12">
       <select id="stockSelect" name="give-selected-stock"
         class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-        <option value="">Choose an option</option>
+        <option value="NoValue">Choose an option</option>
 
         {% for key, stock in current_user_stocks.items() %}
 
@@ -66,7 +68,7 @@
     </div>
     <div class="w-5/12 md:w-4/12 p-4">
       <div class="relative">
-        <input id="quantityInput" type="number"  name="give-value-stock"
+        <input id="quantityInput" type="number" name="give-value-stock"
           class="block prevent-negative-value appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Value">
       </div>
@@ -79,7 +81,7 @@
     <div class="relative p-4 w-7/12 md:w-4/12">
       <select id="stockSelect2" name="take-selected-stock"
         class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-        <option value="">Choose an option</option>
+        <option value="NoValue">Choose an option</option>
         {% for key, stock in stocks_data.items() %}
         <option value="{{key}}">{{stock.name}}</option>
         {% endfor %}
@@ -97,52 +99,56 @@
 
 
   <div class="flex justify-center">
-  <div class="w-10/12 md:w-7/12">
-    <ul
-      class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-        <div class="flex items-center ps-3">
-          <input id="horizontal-list-radio-bartnorm" type="radio" value="bartnorm" name="list-radio" onchange="handleRadioChange()"
-            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked>
-          <label for="horizontal-list-radio-bartnorm"
-            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Barter Normally</label>
-        </div>
-      </li>
-      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-        <div class="flex items-center ps-3">
-          <input id="horizontal-list-radio-give" type="radio" value="give-bart" name="list-radio" onchange="handleRadioChange()"
-            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-          <label for="horizontal-list-radio-give"
-            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Give money instead of stock</label>
-        </div>
-      </li>
-      <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-        <div class="flex items-center ps-3">
-          <input id="horizontal-list-radio-take" type="radio" value="take-bart" name="list-radio" onchange="handleRadioChange()"
-            class="w-4 h-4 text-violet-600 focus:ring-violet-500 dark:focus:ring-violet-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-          <label for="horizontal-list-radio-take"
-            class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Take money instead of stock</label>
-        </div>
-      </li>
-    </ul>
+    <div class="w-10/12 md:w-7/12">
+      <ul
+        class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex ">
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-bartnorm" type="radio" value="bartnorm" name="list-radio"
+              onchange="handleRadioChange()"
+              class="w-4 h-4 text-violet-600 focus:ring-violet-500  bg-gray-100 border-gray-300 focus:ring-2 " checked>
+            <label for="horizontal-list-radio-bartnorm"
+              class="w-full py-3 ms-2 text-sm font-medium text-gray-900 ">Barter Normally</label>
+          </div>
+        </li>
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-give" type="radio" value="give-bart" name="list-radio"
+              onchange="handleRadioChange()"
+              class="w-4 h-4 text-violet-600 focus:ring-violet-500  bg-gray-100 border-gray-300 focus:ring-2">
+            <label for="horizontal-list-radio-give" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 ">Give
+              money and stock both</label>
+          </div>
+        </li>
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r ">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-take" type="radio" value="take-bart" name="list-radio"
+              onchange="handleRadioChange()"
+              class="w-4 h-4 text-violet-600 focus:ring-violet-500 600 bg-gray-100 border-gray-300 focus:ring-2 ">
+            <label for="horizontal-list-radio-take" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 ">Take
+              money and stock both</label>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="flex justify-center ">
+  <div class="flex justify-center ">
     <div class="w-10/12 md:w-4/12 p-4">
       <div class="relative">
         <input id="quantityInput3" type="number" name="money-barter-stock"
           class="block appearance-none w-full prevent-negative-value bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           placeholder="Amount To give/take">
       </div>
+    </div>
   </div>
-</div>
 
 
-<div class="flex justify-center mb-6">
-  <button type="submit"
-  class="submitButton px-4 py-2 w-9/12 md:w-3/12 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Send Trade request
-  </button>
-</div>
+  <div class="flex justify-center mb-6">
+    <button type="submit"
+      class="submitButton px-4 py-2 w-9/12 md:w-3/12 text-affirmationFgColor bg-affirmationBgColor hover:bg-affirmationBgHoverColor focus:ring-4 focus:ring-affirmationFocusRingColor rounded-md focus:outline-none ">Send
+      Trade request
+    </button>
+  </div>
 </form>
 
 
@@ -187,88 +193,223 @@
 </script>
 
 <script>
-document.getElementById("form-for-barter").addEventListener("submit", function(event) {
-  event.preventDefault(); 
-  
-  var formData = new FormData(this); 
-  
-  fetch("/barter/start_trade", { 
-    method: "POST",
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+  function validateForm(object_with_pairs) {
+  if (object_with_pairs['list-radio'] === "bartnorm") {
+
+    if (object_with_pairs['give-selected-stock'] === 'NoValue' || object_with_pairs['take-selected-stock'] === 'NoValue') {
+      showError("Error: please fill the form correctly. Check Entered Stock Names.");
+      return true;
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log(data); // Handle response data
-    // Example: Show success message to the user
-    if (data.success) {
-      showSuccess(data.message)
-    } else {
-      showError(data.message)
+
+    if (object_with_pairs['give-value-stock'] === '' || object_with_pairs['take-value-stock'] === '') {
+      showError("Error: please fill the form correctly. Check Entered Stock Values.");
+      return true;
+    }
+  } 
+  else if (object_with_pairs['list-radio'] === "give-bart") {
+
+    if (object_with_pairs['money-barter-stock'] === '' || object_with_pairs['money-barter-stock'] === '0') {
+      showError("Error: please use Barter Normally. If Amount is zero/Not given.");
+      return true;
+    }
+
+    if (object_with_pairs['take-selected-stock'] === 'NoValue') {
+      showError("Error: please fill the form correctly. Check Entered Stock Names.");
+      return true;
+    }
+    if (object_with_pairs['take-value-stock'] === '') {
+      showError("Error: please fill the form correctly. Check Entered Stock Values.");
+      return true;
+    }
+    if (object_with_pairs['give-selected-stock'] === 'NoValue' && !(object_with_pairs['give-value-stock'] === '')) {
+      showError("Error: please make the Give stock Value empty. Check Entered Stock Values.");
+      return true;
+    }
+    if (!(object_with_pairs['give-selected-stock'] === 'NoValue')) {
+      if (object_with_pairs['give-value-stock'] === ''){
+        showError("Error: If you select a Stock to give, you have to provide a value for it.");
+        return true;
+      }
+      }
+  } 
+  else if (object_with_pairs['list-radio'] === "take-bart") {
+
+    if (object_with_pairs['money-barter-stock'] === '' || object_with_pairs['money-barter-stock'] === '0') {
+      showError("Error: please use Barter Normally. If Amount is zero/Not given.");
+      return true;
+    }
+
+    if (object_with_pairs['give-selected-stock'] === 'NoValue') {
+      showError("Error: please fill the form correctly. Check Entered Stock Names.");
+      return true;
+    }
+
+    if (object_with_pairs['give-value-stock'] === '') {
+      showError("Error: please fill the form correctly. Check Entered Stock Values.");
+      return true;
+    }
+    if (object_with_pairs['take-selected-stock'] === 'NoValue' && !(object_with_pairs['take-value-stock'] === '')) {
+      showError("Error: please make the Take stock Value empty. Check Entered Stock Values.");
+      return true;
+    }
+    if (!(object_with_pairs['take-selected-stock'] === 'NoValue')) {
+      if (object_with_pairs['take-value-stock'] === ''){
+        showError("Error: If you select a Stock to take, you have to provide a value for it.");
+        return true;
+
+      }
 
     }
-  })
-  .catch(error => {
-    console.error("There was a problem with your fetch operation:", error);
+  }
+  return false; // Return false if no validation error occurred
+}
+
+
+  document.getElementById("form-for-barter").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var formData = new FormData(this);
+    let object_with_pairs = {}
+    // let list_radio = formData.entries()
+    for (var pair of formData.entries()) {
+      object_with_pairs[pair[0]] = pair[1]
+    }
+    console.log(object_with_pairs)
+    let hasNoValue = validateForm(object_with_pairs); // Flag to track if any field has "NoValue"
+
+    // if (object_with_pairs['list-radio'] === "bartnorm") {
+
+    //   if (object_with_pairs['give-selected-stock'] === 'NoValue' || object_with_pairs['take-selected-stock'] === 'NoValue') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Names.");
+    //     hasNoValue = true;
+    //   }
+
+    //   if (object_with_pairs['give-value-stock'] === '' || object_with_pairs['take-value-stock'] === '') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Values.");
+    //     hasNoValue = true;
+    //   }
+    // } 
+    // else if (object_with_pairs['list-radio'] === "give-bart") {
+
+    //   if (object_with_pairs['money-barter-stock'] === '' || object_with_pairs['money-barter-stock'] === '0') {
+    //     showError("Error: please use Barter Normally. If Amount is zero/Not given.");
+    //     hasNoValue = true;
+    //   }
+
+    //   if (object_with_pairs['take-selected-stock'] === 'NoValue') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Names.");
+    //     hasNoValue = true;
+    //   }
+    //   if (object_with_pairs['take-value-stock'] === '') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Values.");
+    //     hasNoValue = true;
+    //   }
+    //   if (object_with_pairs['give-value-stock'] === 'NoValue' || !(object_with_pairs['give-value-stock'] === '')) {
+    //     showError("Error: please make the Give stock Value empty. Check Entered Stock Values.");
+    //     hasNoValue = true;
+    //   }
+    // } 
+    // else if (object_with_pairs['list-radio'] === "take-bart") {
+
+    //   if (object_with_pairs['money-barter-stock'] === '' || object_with_pairs['money-barter-stock'] === '0') {
+    //     showError("Error: please use Barter Normally. If Amount is zero/Not given.");
+    //     hasNoValue = true;
+    //   }
+
+    //   if (object_with_pairs['give-selected-stock'] === 'NoValue') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Names.");
+    //     hasNoValue = true;
+    //   }
+    //   if (object_with_pairs['give-value-stock'] === '') {
+    //     showError("Error: please fill the form correctly. Check Entered Stock Values.");
+    //     hasNoValue = true;
+    //   }
+    //   if (object_with_pairs['take-value-stock'] === 'NoValue' || !(object_with_pairs['take-value-stock'] === '')) {
+    //     showError("Error: please make the Take stock Value empty. Check Entered Stock Values.");
+    //     hasNoValue = true;
+    //   }
+    // }
+
+    // If no "NoValue" is found, proceed with the fetch request
+    if (!hasNoValue) {
+      fetch("/barter/start_trade", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data); // Handle response data
+          // Example: Show success message to the user
+          if (data.success) {
+            showSuccess(data.message)
+          } else {
+            showError(data.message)
+          }
+        })
+        .catch(error => {
+          console.error("There was a problem with your fetch operation:", error);
+        });
+    }
   });
-});
+
 
 </script>
 
 <script>
   function handleRadioChange() {
-  // var input1 = document.getElementById("quantityInput");
-  // var input1_ = document.getElementById("stockSelect");
+    // var input1 = document.getElementById("quantityInput");
+    // var input1_ = document.getElementById("stockSelect");
 
-  // var input2 = document.getElementById("quantityInput2");
-  // var input2_ = document.getElementById("stockSelect2");
+    // var input2 = document.getElementById("quantityInput2");
+    // var input2_ = document.getElementById("stockSelect2");
 
-  var input3 = document.getElementById("quantityInput3");
+    var input3 = document.getElementById("quantityInput3");
 
-  var option1 = document.getElementById("horizontal-list-radio-bartnorm");
-  var option2 = document.getElementById("horizontal-list-radio-take");
-  var option3 = document.getElementById("horizontal-list-radio-give");
-  
-  if (option1.checked) {
-  input3.disabled = true;
+    var option1 = document.getElementById("horizontal-list-radio-bartnorm");
+    var option2 = document.getElementById("horizontal-list-radio-take");
+    var option3 = document.getElementById("horizontal-list-radio-give");
 
-} else if (option2.checked) {
-  input3.disabled = false;
+    if (option1.checked) {
+      input3.disabled = true;
 
-} else if (option3.checked) {
-  input3.disabled = false;
+    } else if (option2.checked) {
+      input3.disabled = false;
 
-}
-}
-handleRadioChange()
+    } else if (option3.checked) {
+      input3.disabled = false;
+
+    }
+  }
+  handleRadioChange()
 </script>
 
 <script>
   // Function to handle QR code 
-  
+
 
   var resultContainer = document.getElementById('qr-reader-results');
-var lastResult, countResults = 0;
+  var lastResult, countResults = 0;
 
-function onScanSuccess(decodedText, decodedResult) {
+  function onScanSuccess(decodedText, decodedResult) {
     if (decodedText !== lastResult) {
-        ++countResults;
-        lastResult = decodedText;
-        // Handle on success condition with the decoded message.
-        alert(`Scan result ${decodedText} ${decodedResult}`)
-        document.getElementById('manual-input-qr').value = decodedText;
+      ++countResults;
+      lastResult = decodedText;
+      // Handle on success condition with the decoded message.
+      alert(`Scan result ${decodedText} ${decodedResult}`)
+      document.getElementById('manual-input-qr').value = decodedText;
 
-        console.log(`Scan result ${decodedText}`, decodedResult);
+      console.log(`Scan result ${decodedText}`, decodedResult);
     }
-}
+  }
 
-var html5QrcodeScanner = new Html5QrcodeScanner(
+  var html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
+  html5QrcodeScanner.render(onScanSuccess);
 
 </script>
 

@@ -164,7 +164,7 @@
     "1019": {
         "name": "ND",
         "full_name": "NutriDelight",
-        "amount": 1440,
+        "amount": 1312.50,
         "shares_per_lot": 8,
         "lots": 200,
         "sector": "FMCG",
@@ -176,7 +176,7 @@
     "1020": {
         "name": "ZF",
         "full_name": "Zenith Fintech",
-        "amount": 1170,
+        "amount": 1000,
         "shares_per_lot": 10,
         "lots": 140,
         "sector": "Banking",
@@ -188,7 +188,7 @@
     "1021": {
         "name": "SRSS",
         "full_name": "Stellar robotics and solar solution",
-        "amount": 300,
+        "amount": 400,
         "shares_per_lot": 25,
         "lots": 70,
         "sector": "IT",

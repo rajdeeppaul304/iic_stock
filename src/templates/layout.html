@@ -39,7 +39,10 @@
 
 
 }
-
+.newstyle{
+                    background: rgb(0,60,67);
+                    background: radial-gradient(circle, rgb(0,60,67) 0%, rgb(20,80,87) 25%, rgb(40,100,107) 50%, rgb(60,120,127) 100%)
+}  
 
 .custom-gradient {
 background: hsla(187, 69%, 24%, 1);
@@ -87,13 +90,14 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#135D66", en
 
         <!-- Mobile menu -->
         <div class="hidden md:hidden" id="mobile-menu">
+            <hr class="w-full my-2">
             {% if name %}
-			<a href="{{ url_for("views.index") }}" class="hover:customNavBGHovercolor px-4 py-2 rounded-md">{{name}}</a>
+			<a href="{{ url_for("views.index") }}" class="hover:customNavBGHovercolor px-4 py-2 block font-bold font-mono underline">{{name}}</a>
             {% endif %}
-			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Portfolio</a>
-			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">About Us</a>
+			<a href="{{ url_for("views.owned_stocks") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor underline">Portfolio</a>
+			<a href="{{ url_for("views.about") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor underline">About Us</a>
 			
-			<a href="{{ url_for("views.logout") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor">Log out</a>
+			<a href="{{ url_for("views.logout") }}" class="block px-4 py-2 text-sm hover:customNavBGHovercolor underline">Log out</a>
         </div>
     </nav>
     

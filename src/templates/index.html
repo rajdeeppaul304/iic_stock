@@ -16,7 +16,7 @@
                             d="m1 1 4 4 4-4" />
                     </svg></button>
                 <div id="searchInputSector"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                    class="z-30 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                     <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
                         <li>
                             <button type="button" name="All categories"
@@ -63,14 +63,10 @@
                 </div>
 
             </div>
-            <style>
-                .newstyle{
-                    background: rgb(0,60,67);
-                    background: radial-gradient(circle, rgb(0,60,67) 0%, rgb(20,80,87) 25%, rgb(40,100,107) 50%, rgb(60,120,127) 100%)
-}            </style>
+
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 " id="itemsContainer">
                 {% for key, stock in stocks_data.items() %}
-                <div class="items-class custom-shadow rounded-md overflow-hidden bg-cardBgColor flex flex-col justify-between">
+                <div class="items-class custom-shadow rounded-md overflow-hidden  bg-cardBgColor flex flex-col justify-between">
                     <div>
                         <div class="flex justify-center p-4">
                             <div class="font-bold item-head">{{ stock.name }}</div>
@@ -122,14 +118,14 @@
                     </div>
                 </div>
                 {% endfor %}
-                <div class="items-class rounded-md overflow-hidden custom-shadow bg-FDCardBgColor flex flex-col justify-between">
+                <div class="items-class rounded-md overflow-hidden custom-shadow bg-FDCardBgColor newstyle text-white flex flex-col justify-between">
                     <div>
                         <div class="flex justify-center  p-4">
                             <div class="font-bold item-head">Fixed Deposit</div>
                         </div>
                         <div class="flex justify-between  p-4">
                             <div class="font-bold item-head">Currently Holding: </div>
-                            <div id="fixed-deposit-currently-owned" class="inline font-bold item-head rounded-md px-1 bg-orange-300">₹{{ current_fd_count|round(2) }}</div>
+                            <div id="fixed-deposit-currently-owned" class="inline font-bold item-head rounded-md px-1 bg-orange-500">₹{{ current_fd_count|round(2) }}</div>
                         </div>
                     </div>
 

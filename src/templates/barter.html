@@ -65,93 +65,100 @@
   <div>
     <div class="flex justify-center w-full p-3 text-2xl ">Current Sent Requests</div>
     {% if sent_trade is not none %}
-    <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
+    <div class="flex justify-center">
+      <div class="mx-2 bg-cardBgColor newstyle text-white p-4 rounded shadow mb-2 md:w-4/12">
 
-      <div class="font-bold pl-1 text-xl">{{ sent_trade[1]['trade_with'] }}</div>
-      <div class="block">
-
-
-        <div class="flex justify-between">
-          <div>
-            <div class="font-bold pl-2">
-              You Give
-            </div>
+        <div class="font-bold pl-1 text-xl">{{ sent_trade[1]['trade_with'] }}</div>
+        <div class="block">
+  
+  
+          <div class="flex justify-between">
             <div>
-              <div class=" flex justify-start mt-2">
-                <div class="inline font-bold item-head rounded-md bg-red-300 px-2">
-                  {{transformed_stocks[sent_trade[1]['stocks_to_give'][0]]}}
-
-                </div>
-
+              <div class="font-bold pl-2">
+                You Give
               </div>
-              <div class="mt-2">
-                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
-                  {{sent_trade[1]['stocks_to_give'][1]}}
-
+              <div>
+                <div class=" flex justify-start mt-2">
+                  <div class="inline font-bold item-head rounded-md bg-red-500 px-2">
+                    {{transformed_stocks[sent_trade[1]['stocks_to_give'][0]]}}
+  
+                  </div>
+  
                 </div>
-
-              </div>
-              {% if
-              sent_trade[1]['trade_type'] == 'give-bart'
-              %}
-              <div class="my-2">
-                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
-                  Also Give ₹{{sent_trade[1]["money"]}}
+                <div class="mt-2">
+                  <div class=" inline font-bold item-head rounded-md bg-orange-500 px-2 ">
+                    {{sent_trade[1]['stocks_to_give'][1]}}
+  
+                  </div>
+  
                 </div>
+                {% if
+                sent_trade[1]['trade_type'] == 'give-bart'
+                %}
+                <div class="my-2">
+                  <div class=" inline font-bold item-head rounded-md bg-green-500 px-2 ">
+                    Also Give ₹{{sent_trade[1]["money"]}}
+                  </div>
+                </div>
+                {% endif %}
+  
               </div>
-              {% endif %}
-
+  
             </div>
-
+  
+            <div>
+              <div class="font-bold flex justify-end pr-2">
+                You Get
+              </div>
+              <div class="">
+                <div class=" flex justify-end mt-2">
+                  <div class="inline font-bold item-head rounded-md bg-blue-500 px-2">
+                    {{transformed_stocks[sent_trade[1]['stocks_to_get'][0]]}}
+  
+                  </div>
+  
+                </div>
+                <div class="mt-2 flex justify-end">
+                  <div class=" inline font-bold item-head rounded-md bg-orange-500 px-2  item-sector ">
+                    {{sent_trade[1]['stocks_to_get'][1]}}
+  
+                  </div>
+                </div>
+                {% if
+                sent_trade[1]['trade_type'] == 'take-bart'
+                %}
+                <div class="my-2 flex justify-end">
+                  <div class=" inline font-bold item-head rounded-md bg-green-500 px-2  item-sector">
+                    Also Get ₹{{sent_trade[1]["money"]}}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+  
+            </div>
           </div>
-
-          <div>
-            <div class="font-bold flex justify-end pr-2">
-              You Get
-            </div>
-            <div class="">
-              <div class=" flex justify-end mt-2">
-                <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
-                  {{transformed_stocks[sent_trade[1]['stocks_to_get'][0]]}}
-
-                </div>
-
-              </div>
-              <div class="mt-2 flex justify-end">
-                <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector ">
-                  {{sent_trade[1]['stocks_to_get'][1]}}
-
-                </div>
-              </div>
-              {% if
-              sent_trade[1]['trade_type'] == 'take-bart'
-              %}
-              <div class="my-2 flex justify-end">
-                <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
-                  Also Get ₹{{sent_trade[1]["money"]}}
-                </div>
-              </div>
-              {% endif %}
-            </div>
-
+          <div class="flex justify-center space-x-2">
+            <form action="/delete_current_trade_request" method="POST">
+              <input type="hidden" name="deletion-current-request" value="{{sent_trade[1]['trade_with']}}">
+              <button type="submit"
+                class="focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 ">Delete
+                current Request</button>
+            </form>
           </div>
-        </div>
-        <div class="flex justify-center space-x-2">
-          <form action="/delete_current_trade_request" method="POST">
-            <input type="hidden" name="deletion-current-request" value="{{sent_trade[1]['trade_with']}}">
-            <button type="submit"
-              class="focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 md:px-7 py-2.5 me-1 mb-2 ">Delete
-              current Request</button>
-          </form>
         </div>
       </div>
     </div>
-    {% else %}
-    <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
 
-      <div class=" pl-1 text-xl flex justify-center">No current Sent Trade Requests... </br> Send a Trade Request to start </div>
-      
+    {% else %}
+    <div class="flex justify-center">
+      <div class="mx-2 bg-cardBgColor newstyle text-white p-4 rounded shadow mb-2 md:w-4/12">
+
+        <div class=" pl-1 text-xl flex justify-center">No current Sent Trade Requests... </br> Send a Trade Request to start </div>
+        
+      </div>
+
     </div>
+
     {% endif %}
   </div>
 
@@ -207,7 +214,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
     {% for trade in current_active_trades %}
     <div>
-      <div class="mx-2 bg-cardBgColor text-black p-4 rounded shadow mb-2">
+      <div class="mx-2 bg-cardBgColor newstyle text-white p-4 rounded shadow mb-2">
         <form action="barter" class="barterForms" method="post">
           <input type="hidden" value="{{ trade[0] }}" name="trader" />
 
@@ -222,14 +229,14 @@
                 </div>
                 <div>
                   <div class=" flex justify-start mt-2">
-                    <div class="inline font-bold item-head rounded-md bg-red-300 px-2">
+                    <div class="inline font-bold item-head rounded-md bg-red-500 px-2">
                       {{transformed_stocks[trade[1]['stocks_to_get'][0]]}}
 
                     </div>
 
                   </div>
                   <div class="mt-2">
-                    <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2 ">
+                    <div class=" inline font-bold item-head rounded-md bg-orange-500 px-2 ">
                       {{trade[1]['stocks_to_get'][1]}}
 
                     </div>
@@ -239,7 +246,7 @@
                   trade[1]['trade_type'] == 'take-bart'
                   %}
                   <div class="mt-2">
-                    <div class=" inline font-bold item-head rounded-md bg-green-300 px-2 ">
+                    <div class=" inline font-bold item-head rounded-md bg-green-500 px-2 ">
                       Also Give ₹{{trade[1]["money"]}}
                     </div>
                   </div>
@@ -255,14 +262,14 @@
                 </div>
                 <div class="">
                   <div class=" flex justify-end mt-2">
-                    <div class="inline font-bold item-head rounded-md bg-blue-300 px-2">
+                    <div class="inline font-bold item-head rounded-md bg-blue-500 px-2">
                       {{transformed_stocks[trade[1]['stocks_to_give'][0]]}}
 
                     </div>
 
                   </div>
                   <div class="mt-2 flex justify-end">
-                    <div class=" inline font-bold item-head rounded-md bg-orange-300 px-2  item-sector ">
+                    <div class=" inline font-bold item-head rounded-md bg-orange-500 px-2  item-sector ">
                       {{trade[1]['stocks_to_give'][1]}}
 
                     </div>
@@ -271,7 +278,7 @@
                   trade[1]['trade_type'] == 'give-bart'
                   %}
                   <div class="my-2 flex justify-end">
-                    <div class=" inline font-bold item-head rounded-md bg-green-300 px-2  item-sector">
+                    <div class=" inline font-bold item-head rounded-md bg-green-500 px-2  item-sector">
                       Also Get ₹{{trade[1]["money"]}}
                     </div>
                   </div>

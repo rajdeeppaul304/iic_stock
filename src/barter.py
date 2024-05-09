@@ -78,8 +78,8 @@ class Barter:
 
         print(stocks_to_give, stocks_to_get)
 
-        trader_info = manager.get_users().get(trader)
-        current_user_info = manager.get_users().get(current_user)
+        trader_info = manager.get_users(no_pass=False).get(trader)
+        current_user_info = manager.get_users(no_pass=False).get(current_user)
 
         # return False if user or trader was not found in database.json
         if not (trader_info or current_user_info):
@@ -121,7 +121,7 @@ class Barter:
                 print("trader cannot trade")
                 return (False, "Trader does not have enough stocks")
 
-        user_data_dict = manager.get_users()
+        user_data_dict = manager.get_users(no_pass=False)
 
         if stocks_to_give[0] and stocks_to_give[1]:
             trader_info["stocks"][stocks_to_give[0]] -= int(stocks_to_give[1])

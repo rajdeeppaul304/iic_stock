@@ -34,9 +34,11 @@ def read_users_csv(file_path):
 
 file_path = 'registrations.csv'
 users = read_users_csv(file_path)
+# users = [{"email":"test1@gmail.com", "name":"test1"}, {"email":"test2@gmail.com", "name":"test2"}]
 for i in users:
-    manager.add_user(i.get('name'), i.get('email'), generate_pass(length_pass), init_balance)
+    manager.add_user(i.get('name'), i.get('email').strip(), generate_pass(length_pass), init_balance)
 
+manager.add_user("Admin", "admin@iic.co", "112233", 0)
 
 def change_lock_state(file, new_state):
     if os.path.exists(file) and new_state:

@@ -88,7 +88,8 @@ class Stocks:
             for row in csv_reader:
                 row_dict = {}
                 for index, value in enumerate(row[1:], start=1):
-                    row_dict[str(index+1000)] = int(value)
+                    if value:
+                        row_dict[str(index+1000)] = float(value)
                 result_dict[row[0]] = row_dict
 
         print(f"news change for {current_match}: {result_dict[str(current_match)]}")

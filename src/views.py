@@ -66,7 +66,7 @@ def index():
         return render_template('index.html',current_fd_count = fd_manager.get_current_value(current_user.id),
                                portfolio = pf,
                                current_round = curr_round,
-                               stocks_data=shuffled_stocks,
+                               stocks_data=manager.get_stocks(),
                                current_balance=current_balance,
                                name=user_data["name"])
 
@@ -88,7 +88,18 @@ def index():
                                name=user_data["name"]) 
 
     else:
-        return "match has not started yet"
+        user_data = manager.get_users()[current_user.id]
+        items=user_data["stocks"]
+        stocks_data=manager.get_stocks()
+        dict_to_return = {}
+        for i,y in items.items():
+            dict_to_return[i] = stocks_data[i]
+            dict_to_return[i].update({"owned":y})
+        current_balance=user_data["balance"]
+        pf = manager.get_user_pf(current_user.id) + current_balance + fd_manager.get_current_value(current_user.id)
+
+
+        return render_template("owned_stocks.html",portfolio = pf, stocks_data=dict_to_return, current_balance=user_data["balance"], name=user_data["name"])
 
 # not allowed
 # @routes.route("/index")
